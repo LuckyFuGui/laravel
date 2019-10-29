@@ -19,3 +19,9 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api'], function(){
     Route::get('index', 'IndexController@index');
 });
+/**
+ * 测试
+ */
+Route::group(['namespace' => 'Api'], function(){
+    Route::get('test', 'IndexController@test');
+});
