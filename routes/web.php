@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//测试文件上传
+Route::get('/file/upload', 'Test@fileUpload');
