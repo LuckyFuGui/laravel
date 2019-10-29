@@ -14,11 +14,11 @@ class CreateUserTable extends Migration
     public function up()
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('用户id');
+            $table->Increments('id')->comment('用户id');
             $table->string('openid', 64)->comment('用户openid');
             $table->string('nickname', 32)->comment('昵称');
             $table->string('phone', 16)->comment('手机');
-            $table->string('sex', 2)->comment('1男');
+            $table->integer('sex')->unsigned()->default(1)->comment('1男');
             $table->string('country', 32)->comment('国家');
             $table->string('province', 32)->comment('省');
             $table->string('city', 32)->comment('市');
