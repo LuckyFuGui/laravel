@@ -18,10 +18,10 @@ use Illuminate\Http\Request;
  */
 Route::group(['namespace' => 'Api'], function(){
     Route::get('index', 'IndexController@index');
+    //文件上传
+    Route::post('file/upload', 'Upload@upload')->name('upload.file');
 });
-/**
- * 测试
- */
-Route::group(['namespace' => 'Api'], function(){
-    Route::get('test', 'IndexController@test');
-});
+
+
+
+
