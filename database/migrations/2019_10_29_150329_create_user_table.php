@@ -18,7 +18,7 @@ class CreateUserTable extends Migration
             $table->string('openid', 64)->comment('用户openid');
             $table->string('nickname', 32)->comment('昵称');
             $table->string('phone', 16)->comment('手机');
-            $table->smallInteger('sex', 2)->comment('1男');
+            $table->string('sex', 2)->comment('1男');
             $table->string('country', 32)->comment('国家');
             $table->string('province', 32)->comment('省');
             $table->string('city', 32)->comment('市');
