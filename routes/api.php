@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 */
 
 /**
- * https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2b4c22f8c889787&redirect_uri=http%3a%2f%2fad.smalllucky.com%2foauth.php&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect
  * 前台接口
  */
 Route::group(['namespace' => 'Api'], function(){
