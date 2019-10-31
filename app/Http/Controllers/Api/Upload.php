@@ -28,15 +28,15 @@ class Upload extends Controller
 
                 Storage::disk('uploads')->put($filename, file_get_contents($path));
 
-                //$url = public_path().'/uploads/'. $filename;
                 $url = 'uploads/'. $filename;
 
-                return response()->json([
-                    'status'=>200,
-                    'url'=>$url
-                ]);
+                //dd($_SERVER['HTTP_ORIGIN']);
+
+                return response()->json(['status'=>200,'url'=>$url]);
             }
         }
+
+        //return view('test.index',['url'=>$url]);
 
         return response()->json(['status'=>500,'url'=>'']);
     }
