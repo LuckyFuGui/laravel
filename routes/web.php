@@ -11,9 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 //测试文件上传
-Route::get('/file/upload', 'Test@fileUpload');
+// Route::get('/file/upload', 'Test@fileUpload');
+
+/**
+ * 分组
+ * 后台接口
+ */
+Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
+	// 登陆
+    Route::post('admin/create', 'AdminController@create');
+    Route::post('admin/login', 'AdminController@login');
+    Route::post('admin/outLogin', 'AdminController@outLogin');
+    // 轮播图
+    Route::post('banner/create', 'BannerController@create');
+    Route::post('banner/destroy', 'BannerController@destroy');
+    Route::post('banner/show', 'BannerController@show');
+
+    Route::get('index', 'IndexController@index');
+});
