@@ -17,7 +17,7 @@ class Upload extends Controller
             $fileCharater = $request->file('file');
 
             if(!$fileCharater){
-                return $this->success('请上传文件');
+                return $this->error('请上传文件');
             }
 
             if ($fileCharater->isValid()) {
