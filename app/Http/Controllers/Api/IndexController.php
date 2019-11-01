@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +22,18 @@ class IndexController extends Controller
             $code = $_GET['code'];
             $data = $this->get_access_token($code);
             $data_all = $this->get_user_info($data['access_token'],$data['openid']);
-            return $data_all;
+            $res = User::create([
+            	'openid' => "$data_all['openid']",
+            	'nickname' => "$data_all['nickname']",
+            	'phone' => !empty($data_all['phone']) ? "$data_all['phone']" : '',
+            	'sex' => "$data_all['sex']",
+            	'country' => "$data_all['country']",
+            	'province' => "$data_all['province']",
+            	'city' => "$data_all['city']",
+            	'language' => "$data_all['language']",
+            	'headimgurl' => "$data_all['headimgurl']"
+            ]);
+            return $res;
         }
     }
     public function get_code($callback){
