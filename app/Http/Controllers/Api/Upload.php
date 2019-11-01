@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-
 class Upload extends Controller
 {
 
@@ -30,14 +29,9 @@ class Upload extends Controller
 
                 $url = 'uploads/'. $filename;
 
-                //dd($_SERVER['HTTP_ORIGIN']);
-
-                return response()->json(['status'=>200,'url'=>$url]);
+                return $this->success();
             }
         }
-
-        //return view('test.index',['url'=>$url]);
-
-        return response()->json(['status'=>500,'url'=>'']);
+        return $this->error(['url'=>'',201,'请求方式有误']);
     }
 }
