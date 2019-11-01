@@ -17,7 +17,7 @@ class Upload extends Controller
             $fileCharater = $request->file('file');
 
             if(!$fileCharater){
-                return response()->json('请上传文件');
+                return $this->success('请上传文件');
             }
 
             if ($fileCharater->isValid()) {
@@ -25,7 +25,7 @@ class Upload extends Controller
                 $ext = $fileCharater->getClientOriginalExtension();
 
                 if(!in_array($ext,['jpg','png','gif','jpeg'])){
-                    return response()->json(['文件格式受限']);
+                    return $this->error('文件格式受限');
                 }
 
                 //获取文件的绝对路径
@@ -37,7 +37,8 @@ class Upload extends Controller
 
                 $url = 'uploads/'. $filename;
 
-                return response()->json(['url'=>$url]);
+                return $this->success($url);
+
             }
         }
     }
