@@ -42,5 +42,21 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     	Route::post('save', 'BannerController@save');
 	});
 
+    // 员工管理
+    Route::group(['prefix'=>'worker'], function(){
+        // 列表
+        Route::post('index', 'Worker@index')->name('worker.index');
+        // 查看
+        Route::post('cat', 'Worker@cat')->name('worker.cat');
+        // 创建用户
+        Route::post('create', 'Worker@create')->name('worker.create');
+        // 手机号查询用户id
+        Route::post('getUserBYTel', 'Worker@getUserBYTel')->name('worker.getUserBYTel');
+        // 修改
+        Route::post('update', 'Worker@update')->name('worker.update');
+    });
+
     Route::get('index', 'IndexController@index');
+
+
 });
