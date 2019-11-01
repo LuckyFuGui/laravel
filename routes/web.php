@@ -20,13 +20,27 @@
  */
 Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 	// 登陆
-    Route::post('admin/create', 'AdminController@create');
-    Route::post('admin/login', 'AdminController@login');
-    Route::post('admin/outLogin', 'AdminController@outLogin');
+	Route::group(['prefix'=>'admin'], function (){
+		// 注册
+	    Route::post('story', 'AdminController@story');
+	    // 登陆
+	    Route::post('login', 'AdminController@login');
+	    // 退出
+	    Route::post('outLogin', 'AdminController@outLogin');
+	    // 删除
+	    Route::post('destroy', 'AdminController@destroy');
+	});
     // 轮播图
-    Route::post('banner/create', 'BannerController@create');
-    Route::post('banner/destroy', 'BannerController@destroy');
-    Route::post('banner/show', 'BannerController@show');
+	Route::group(['prefix'=>'banner'], function(){
+		// 注册
+	    Route::post('store', 'BannerController@store');
+	    // 查询
+	    Route::post('index', 'BannerController@index');
+	    // 删除
+	    Route::post('destroy', 'BannerController@destroy');
+	    // 修改
+    	Route::post('save', 'BannerController@save');
+	});
 
     Route::get('index', 'IndexController@index');
 });

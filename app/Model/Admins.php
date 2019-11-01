@@ -10,8 +10,4 @@ class Admins extends Model
     protected $table  = 'admin';
     // 屏蔽字段
   	protected $guarded=[];
-  	public function ab()
-  	{
-  		return 1;
-  	}
 }

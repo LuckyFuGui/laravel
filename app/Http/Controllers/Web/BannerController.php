@@ -2,48 +2,62 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Model\Banner;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BannerController extends Controller
 {
-	/**
-	 * 添加轮播图
-	 * [create description]
-	 * @param  Request $Request [description]
-	 * @return [type]           [description]
-	 */
-    public function create(Request $Request)
-    {
-    	$data['img'] = $Request->img;
-    	$res = Banner::create($data);
-    	if ($res) return $this->success();
-    	return $this->error();
-    }
     /**
-     * 查询
-     * [show description]
-     * @param  Request $Request [description]
+     * 修改
+     * [save description]
+     * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function show(Request $Request)
+    public function save(Request $request)
     {
-    	$page = !empty($Request->page) ?? : 1;
-    	$limit = !empty($Request->limit) ?? : 5;
-    	$data = Banner::orderBy('id', 'DESC')-> offset($page)->limit($limit);
-    	return $this->success($data);
+        $res = Banner::find($request->id)->update(['img' => $request->img]);
+        if ($res) return $this->success();
+        return $this->error();
     }
     /**
-     * 删除数据
+     * 删除
      * [destroy description]
-     * @param  Request $Request [description]
+     * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function destroy(Request $Request)
+    public function destroy(Request $request)
     {
-    	$res = Banner::where('id', $Request->id)->destroy();
-    	if ($res) return $this->success();
-    	return $this->error();
+        $res = Banner::destroy($request->id);
+        if ($res) return $this->success();
+        return $this->error();
+    }
+    /**
+     * 列表
+     * [index description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function index(Request $request)
+    {
+        $data = Banner::select('img')
+            ->orderby('id', 'DESC')
+            ->offset(($request->page - 1) * $request->limit)
+            ->limit($request->limit)
+            ->get();
+        $count = Banner::count();
+        return $this->successPage($data, $count);
+    }
+    /**
+     * 添加
+     * [store description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function store(Request $request)
+    {
+        $res = Banner::create($request->all());
+        if ($res) return $this->success();
+        return $this->error();
     }
 }
