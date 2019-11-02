@@ -23,7 +23,7 @@ class Workers extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'uid');
+        return $this->belongsTo('App\Model\User', 'uid');
     }
 
     /**
@@ -32,6 +32,6 @@ class Workers extends Model
      */
     public function worker_details()
     {
-        return $this->hasOne('App\Models\WorkerDetails', 'worker_id');
+        return $this->hasOne('App\Model\WorkerDetails', 'worker_id');
     }
 }

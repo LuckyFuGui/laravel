@@ -20,10 +20,10 @@ class CreateWorkersTable extends Migration
             $table->string('project_ids')->comment('服务项目ID');
             $table->string('name')->comment('姓名');
             $table->tinyInteger('sex')->comment('性别');
-            $table->integer('phone')->comment('手机号');
+            $table->string('phone')->comment('手机号');
             $table->integer('status')->default(1)->comment('状态 1：在岗 2：离职');
-            $table->date('entry_at')->comment('入职时间');
-            $table->date('quit_at')->comment('离职时间');
+            $table->dateTime('entry_at')->comment('入职时间');
+            $table->dateTime('quit_at')->comment('离职时间');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Model\Workers;
-use App\Models\User;
+use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\UploadServices;
@@ -37,7 +37,7 @@ class Worker extends Controller
             return $this->error();
         }
 
-        $worker = Workers::query()->with('worker_details')->where('id',$request->id)->first();
+        $worker = Workers::query()->with('worker_details')->where('id',$request->worker_id)->first();
         if(!$worker){
             return $this->error('信息不存在');
         }
@@ -50,44 +50,32 @@ class Worker extends Controller
      */
     public function create(Request $request)
     {
-        $uid = $request->uid ?? '';
+        $uid = $request->uid;
         $img = $request->img;
         $name = $request->name;
         $phone = $request->phone;
         $sex = $request->sex;
         $project_ids = $request->project_ids;
         $entry_at = $request->entry_at;
-        if(!$uid){
-            return $this->error('缺少用户ID');
+
+        $this->verification($request);
+
+
+        $user_id = Workers::query()->where('uid',$uid)->first();
+        if($user_id){
+            return $this->error('该用户已被绑定');
         }
 
-        if(!$img){
-            return $this->error('请上传头像');
+
+        $user = User::query()->where('id',$uid)->first();
+
+        if(!$user){
+            return $this->error('要绑定的用户不存在');
         }
 
-        if(!$name){
-            return $this->error('请上传头像');
-        }
 
-        if(!('/^[\u4e00-\u9fa5]+$/'.test($name))) {
-            return $this->error('请输入中文名字');
-        }
 
-        if(!is_numeric($phone) || strlen($phone) < 9){
-            return $this->error('请输入纯数字电话号码');
-        }
 
-        if(!$sex){
-            return $this->error('请输入性别');
-        }
-
-        if(!$project_ids){
-            return $this->error('请选择服务项目');
-        }
-
-        if(!$entry_at){
-            return $this->error('请选择入职时间');
-        }
 
         Workers::query()->create([
             'uid'=>$uid,
@@ -108,14 +96,13 @@ class Worker extends Controller
     public function getUserBYTel(Request $request)
     {
         $phone = $request->phone;
-        if(!$phone){
-            return $this->error();
+        if(!$phone || !is_numeric($phone)){
+            return $this->error('请输入合法手机号');
         }
-
 
         $user = User::query()->where('phone',$phone)->first();
         if(!$user){
-            return $this->error();
+            return $this->error('没有匹配到用户');
         }
 
         return $this->success($user->id);
@@ -127,8 +114,8 @@ class Worker extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id ?? '';
-        $uid = $request->uid ?? '';
+        $id = $request->id;
+        $uid = $request->uid;
         $img = $request->img;
         $name = $request->name;
         $phone = $request->phone;
@@ -140,45 +127,25 @@ class Worker extends Controller
         }
 
         $worker = Workers::query()->where('id',$id)->first();
-
-
         if(!$worker){
-            return $this->error();
+            return $this->error('员工信息不存在');
         }
 
 
-        if(!$uid){
-            return $this->error('缺少用户ID');
+        $wid = Workers::query()->where('uid',$uid)->first();
+        if($wid && $worker->uid != $uid){
+            return $this->error('该用户已被绑定');
         }
 
-        if(!$img){
-            return $this->error('请上传头像');
+
+        $user = User::query()->where('id',$uid)->first();
+        if(!$user){
+            return $this->error('用户不存在');
         }
 
-        if(!$name){
-            return $this->error('请上传头像');
-        }
 
-        if(!('/^[\u4e00-\u9fa5]+$/'.test($name))) {
-            return $this->error('请输入中文名字');
-        }
 
-        if(!is_numeric($phone) || strlen($phone) < 9){
-            return $this->error('请输入纯数字电话号码');
-        }
-
-        if(!$sex){
-            return $this->error('请输入性别');
-        }
-
-        if(!$project_ids){
-            return $this->error('请选择服务项目');
-        }
-
-        if(!$entry_at){
-            return $this->error('请选择入职时间');
-        }
-
+        $this->verification($request);
 
         $worker->uid = $uid;
         $worker->img = $img;
@@ -188,8 +155,44 @@ class Worker extends Controller
         $worker->project_ids = $project_ids;
         $worker->entry_at = $entry_at;
         $worker->save();
-
         return $this->success();
+    }
+
+    /*
+     * 校验员工基本信息
+     */
+    public function verification($request)
+    {
+        if(!$request->uid){
+            return $this->error('缺少用户ID');
+        }
+
+        if(!$request->img){
+            return $this->error('请上传头像');
+        }
+
+        if(!preg_match("/^[\u4e00-\u9fa5]+$/",$request->name)) {
+            return $this->error('请输入中文姓名');
+        }
+
+        if(!is_numeric($request->phone) || strlen($request->phone) != 11){
+            return $this->error('请输入11位纯数字电话号码');
+        }
+
+        if(!$request->sex || !in_array($request->sex,[1,2])){
+            return $this->error('请输入性别');
+        }
+
+        $project_ids = implode(',',explode(',',$request->project_ids)) ?? '';
+        if(!$project_ids || empty($project_ids)){
+            return $this->error('请选择合法服务项目');
+        }
+
+
+        if(!$request->entry_at){
+            return $this->error('请选择入职时间');
+        }
+
     }
 
 
