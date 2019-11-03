@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Model\Banner;
+use App\Model\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class BannerController extends Controller
+class AddressController extends Controller
 {
     /**
      * 修改
@@ -16,10 +16,13 @@ class BannerController extends Controller
      */
     public function save(Request $request)
     {
-        $res = Banner::find($request->id)->update(['img' => $request->img]);
+        $data = $request->all();
+    	unset($data['id']);
+        $res = Address::find($request->id)->update($data);
         if ($res) return $this->success();
         return $this->error();
     }
+
     /**
      * 删除
      * [destroy description]
@@ -28,10 +31,11 @@ class BannerController extends Controller
      */
     public function destroy(Request $request)
     {
-        $res = Banner::destroy($request->id);
+        $res = Address::destroy($request->id);
         if ($res) return $this->success();
         return $this->error();
     }
+
     /**
      * 列表
      * [index description]
@@ -42,24 +46,11 @@ class BannerController extends Controller
     {
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Banner::select('img')
-            ->orderby('id', 'DESC')
+        $data = Address::orderby('id', 'DESC')
             ->offset(($page - 1) * $limit)
             ->limit($limit)
             ->get();
-        $count = Banner::count();
+        $count = Address::count();
         return $this->successPage($data, $count);
-    }
-    /**
-     * 添加
-     * [store description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
-    public function store(Request $request)
-    {
-        $res = Banner::create($request->all());
-        if ($res) return $this->success();
-        return $this->error();
     }
 }
