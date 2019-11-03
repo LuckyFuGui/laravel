@@ -40,10 +40,12 @@ class BannerController extends Controller
      */
     public function index(Request $request)
     {
+        $page = $this->newPage($request->page);
+        $limit = $this->newLimit($request->limit);
         $data = Banner::select('img')
             ->orderby('id', 'DESC')
-            ->offset(($request->page - 1) * $request->limit)
-            ->limit($request->limit)
+            ->offset(($page - 1) * $limit)
+            ->limit($limit)
             ->get();
         $count = Banner::count();
         return $this->successPage($data, $count);

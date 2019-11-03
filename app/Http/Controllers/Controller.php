@@ -57,4 +57,20 @@ class Controller extends BaseController
         @unlink($path);
         return true;
     }
+
+    /**
+     * 页码
+     */
+    public function newPage($page)
+    {
+        return !empty($page) ? $page : 1;
+    }
+    
+    /**
+     * 条数
+     */
+    public function newLimit($limit)
+    {
+        return !empty($limit) ? $limit : 10;
+    }
 }

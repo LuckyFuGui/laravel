@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 	    Route::post('outLogin', 'AdminController@outLogin');
 	    // 删除
 	    Route::post('destroy', 'AdminController@destroy');
+	    // 列表
+	    Route::post('index', 'AdminController@index');
 	});
     // 轮播图
 	Route::group(['prefix'=>'banner'], function(){
