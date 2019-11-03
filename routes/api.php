@@ -20,6 +20,8 @@ Route::group(['namespace' => 'Api'], function(){
     Route::get('index', 'IndexController@index');
     //文件上传
     Route::post('/file/upload', 'Upload@upload')->name('upload.file');
+    //获取项目详情
+    Route::post('/getProjectDetails', 'Projects@getProjectDetails')->name('projects.getProjectDetails');
 });
 
 

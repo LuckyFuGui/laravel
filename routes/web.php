@@ -56,6 +56,33 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('update', 'Worker@update')->name('worker.update');
     });
 
+    // 项目管理-日常保洁/新居开荒
+    Route::group(['prefix'=>'projects'], function(){
+        // 日常保洁基础数据
+        Route::post('mainEdit', 'projects@mainEdit')->name('projects.mainEdit');
+
+        // 编辑主服务价格
+        Route::post('daliy', 'projects@daliy')->name('projects.daliy');
+
+        // 附加项目编辑
+        Route::post('servicesEdit', 'projects@servicesEdit')->name('projects.servicesEdit');
+
+        // 新增附加服务
+        Route::post('servicesAdd', 'projects@servicesAdd')->name('projects.servicesAdd');
+
+        // 获取单个项目详情
+        Route::post('getProjectDetails', 'projects@getProjectDetails')->name('projects.getProjectDetails');
+
+        // 新增图片
+        Route::post('addImg', 'projects@addImg')->name('projects.addImg');
+
+        // 删除图片
+        Route::post('delImg', 'projects@delImg')->name('projects.delImg');
+
+    });
+
+
+
     Route::get('index', 'IndexController@index');
 
 

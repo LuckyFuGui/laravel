@@ -30,7 +30,7 @@ class UploadServices
 
             Storage::disk('uploads')->put($filename, file_get_contents($path));
 
-            $url = 'uploads/' . $filename;
+            $url = '/uploads/' . $filename;
 
             return ['status'=>200,'url'=>$url];
         }
