@@ -22,7 +22,7 @@ Route::group(['namespace' => 'Api'], function(){
     // 轮播图查询
     Route::post('banner', 'BannerController@index');
     //文件上传
-    Route::post('file/upload', 'Upload@upload')->name('upload.file');
+    Route::post('/file/upload', 'Upload@upload')->name('upload.file');
 });
 
 
