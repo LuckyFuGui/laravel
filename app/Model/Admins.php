@@ -9,5 +9,5 @@ class Admins extends Model
     // 表名
     protected $table  = 'admin';
     // 屏蔽字段
-  	protected $guarded=[];
+  	protected $guarded = [];
 }
