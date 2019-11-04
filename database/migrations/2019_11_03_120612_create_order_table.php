@@ -15,16 +15,22 @@ class CreateOrderTable extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->comment('名称');
-            $table->string('phone')->comment('手机');
-            $table->string('address')->comment('目标地址');
-            $table->string('comment')->comment('详细标注');
-            $table->string('start_time')->comment('开始时间');
-            $table->string('end_time')->comment('结束时间');
-            $table->integer('cid')->comment('优惠卷id');
-            $table->decimal('coupon', 8, 2)->comment('优惠卷抵扣费用');
-            $table->decimal('special', 8, 2)->comment('特殊费用');
-            $table->decimal('payment', 8, 2)->comment('实际支付');
+            $table->string('order_sn')->comment('订单编号');
+            $table->integer('uid')->comment('用户id');
+            $table->integer('sid')->default(0)->comment('服务id');
+            $table->string('name')->default('')->comment('名称');
+            $table->string('phone')->default('')->comment('手机');
+            $table->string('address')->default('')->comment('目标地址');
+            $table->string('comment')->default('')->comment('详细标注');
+            $table->string('start_time')->default('')->comment('开始时间');
+            $table->string('end_time')->default('')->comment('结束时间');
+            $table->integer('cid')->default(0)->comment('优惠卷id');
+            $table->decimal('coupon', 8, 2)->default(0)->comment('优惠卷抵扣费用');
+            $table->decimal('special', 8, 2)->default(0)->comment('特殊费用');
+            $table->decimal('payment', 8, 2)->default(0)->comment('实际支付');
+            $table->integer('pay_type')->default(0)->comment('支付状态');
+            $table->integer('pl')->default(0)->comment('是否评论');
+            $table->integer('server_type')->comment('服务类型');
             $table->timestamps();
         });
     }

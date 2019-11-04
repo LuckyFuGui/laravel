@@ -17,6 +17,7 @@ class CreateOrderProjectTable extends Migration
             $table->bigIncrements('id');
             $table->integer('pid')->comment('项目id');
             $table->integer('oid')->comment('订单id');
+            $table->integer('num')->default(1)->comment('数量');
             $table->string('name')->comment('项目名称');
             $table->decimal('price', 8, 2)->comment('价格');
             $table->timestamps();

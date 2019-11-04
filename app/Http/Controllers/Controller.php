@@ -11,6 +11,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    // 上架、支付
+    const TYPE = 1;
+    // 下架、未支付
+    const NOTYPE = 0;
+
     /**
      * 返回结果
      */
