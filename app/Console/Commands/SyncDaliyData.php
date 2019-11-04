@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 
+use App\Model\Wasteland;
 use App\Models\PlSpu;
 use App\Model\DailyCleaning;
 use App\Services\Api\PlSpuApiService;
@@ -50,7 +51,7 @@ class SyncDaliyData extends Command
                 'price'=>108
             ],[
                 'hour'=>4,
-                'price'=>128
+                'price'=>166
             ],[
                 'hour'=>5,
                 'price'=>148
@@ -58,8 +59,11 @@ class SyncDaliyData extends Command
         ];
 
         foreach ($data as $item){
-            DailyCleaning::query()->create($item);
+            DailyCleaning::query()->updateOrCreate(['hour'=>$item['hour']],['price'=>$item['price']]);
         }
+
+
+        Wasteland::query()->updateOrCreate(['basics_price'=>80,'increase_price'=>30]);
 
         dump('写入完成');
     }

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web;
 use App\Model\AdditionalServices;
 use App\Model\DailyCleaning;
 use App\Model\ProjectImg;
+use App\Model\Wasteland;
 use App\Model\Workers;
 use App\Model\User;
+use function GuzzleHttp\Promise\is_settled;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\UploadServices;
@@ -25,6 +27,15 @@ class Projects extends Controller
         $arr['services'] = $services;
         $arr['main'] = $data;
         return $this->success($arr);
+    }
+
+    /**
+     * 获取新居开荒项目数据
+     */
+    public function wasteland()
+    {
+        $services = Wasteland::query()->first();
+        return $this->success($services);
     }
 
     /**
@@ -208,6 +219,33 @@ class Projects extends Controller
         ProjectImg::query()->where(['project_id'=>$project_id,'type_id'=>$type_id,'img'=>$img])->update(['deleted_at'=>now()]);
         return $this->success();
 
+    }
+
+    /**
+     * 日常保洁附加服务上下架
+     */
+    public function serviceFrames(Request $request)
+    {
+        if(!isset($request->status) || !isset($request->id)){
+            return $this->error();
+        }
+
+        if(!in_array($request->status,[1,2])){
+            return $this->error();
+        }
+
+        $service = AdditionalServices::query()->where('id',$request->id)->first();
+
+        if(!$service){
+            return $this->error();
+        }
+
+
+
+        $request->status == 1 ? $service->services_status = 2 : $service->services_status = 1;
+        $service->save();
+
+        return $this->success();
     }
 
 }

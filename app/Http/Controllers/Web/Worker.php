@@ -74,9 +74,6 @@ class Worker extends Controller
         }
 
 
-
-
-
         Workers::query()->create([
             'uid'=>$uid,
             'img'=>$img,
@@ -194,6 +191,63 @@ class Worker extends Controller
         }
 
     }
+
+    /**
+     * 在职/离职状态变更
+     */
+    public function updateStatus(Request $request)
+    {
+        if(!isset($request->id) || !isset($request->status)){
+            return $this->error();
+        }
+        $status = $request->status;
+
+        if(!in_array($status,[1,2])){
+            return $this->error('状态不存在');
+        }
+
+        $worker = Workers::query()->where('id',$request->id)->first();
+        if(!$worker){
+            return $this->error('员工信息不存在');
+        }
+
+        $request->status == 1 ? $worker->status = 2 : $worker->status = 1;
+        $worker->save();
+
+        return $this->success();
+    }
+
+    /**
+     * 员工请假
+     */
+    public function leave(Request $request)
+    {
+        if(!isset($request->id)){
+            return $this->error('ID参数缺失');
+        }
+
+        if(!isset($request->begin) || !isset($request->end)){
+            return $this->error('时间字段缺失');
+        }
+
+        if(date('Y-m-d H:i:s',strtotime($request->begin)) != $request->begin ||
+            date('Y-m-d H:i:s',strtotime($request->end)) != $request->end){
+            return $this->error('时间格式错误');
+        }
+
+        if(strtotime($request->begin) > strtotime($request->end)){
+            return $this->error('开始时间不能大于结束时间');
+        }
+
+        
+
+
+
+    }
+
+
+
+
 
 
 }
