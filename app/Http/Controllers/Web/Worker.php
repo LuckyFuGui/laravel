@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Model\LeaveLog;
+use App\Model\Order;
 use App\Model\Workers;
 use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\UploadServices;
 use PhpMyAdmin\MoTranslator\ReaderException;
+use Illuminate\Support\Facades\DB;
 
 class Worker extends Controller
 {
@@ -239,15 +242,34 @@ class Worker extends Controller
             return $this->error('开始时间不能大于结束时间');
         }
 
-        
+        $worker = Workers::query()->where('id',$request->id)->first();
+        if(!$worker){
+            return $this->error('当前员工不存在');
+        }
 
+        //获取当前员工的排班情况
 
+        $scheduling = Order::query()->where('sid',$request->id)->whereBetween('updated_at',[$request->begin,$request->end])->where('pay_type',1)->first();
 
+        if($scheduling){
+            return $this->error('该员工有待服务订单，不可请假');
+        }
+
+        DB::beginTransaction();
+        try{
+            //写入请假记录
+            LeaveLog::query()->create([
+                'worker_id'=>$request->id,
+                'begin_at'=>$request->begin,
+                'end_at'=>$request->end,
+            ]);
+
+            //更新当前请假状态
+            Workers::query()->where('id',$request->id)->update(['is_leave'=>1]);
+            return $this->success();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $this->error($e->getMessage());
+        }
     }
-
-
-
-
-
-
 }
