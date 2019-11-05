@@ -31,10 +31,15 @@ class OrderController extends Controller
     	$data['comment'] = $address['comment'];
     	// 点单号
     	$data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
+    	// 查询数据的条件
+    	$in = [];
+    	foreach ($request->project_ids as $k => $v) {
+    		$in[] = $k;
+    	}
     	// 项目查询
     	$project = Project::where('type', $request->server_type)
     			->where('state', self::TYPE)
-    			->whereIn('id',$request->project_ids)
+    			->whereIn('id',$in)
     			->get();
     	if (!$project) return $this->error();
     	// 开始和结束时间
@@ -53,12 +58,10 @@ class OrderController extends Controller
     	// 服务类型
     	$data['server_type'] = $request->server_type;
     	// 添加获取id
-    	// $oid = Order::create($data);
+    	$oid = Order::create($data);
     	// 更新价格，加入详情单
-    	$price = 0;
-    	dd($project);
+    	$price = $data['special'];
 		foreach ($project as $key => $value) {
-			print_r($value);
 			$OrderProject['pid'] = $value['id'];
 			$OrderProject['oid'] = $oid['id'];
 			$OrderProject['price'] = $value['price'];
@@ -68,10 +71,8 @@ class OrderController extends Controller
 			// 计算总价格
 			if ($rester) {
 				$price = $price + $value['price'] * $request->project_ids[$value['id']];
-				echo $price;
 			}
 		}
-		dd($price,$request->countPrice);
 		if ($price == $request->countPrice) {
 			// 修改订单表
 			$orderInstall = Order::find($oid['id'])->update(['payment'=>$price, 'pay_type'=>self::NOTYPE]);
@@ -80,6 +81,8 @@ class OrderController extends Controller
 				return $this->success();
 			}
 		}
+		Order::destroy($oid['id']);
+		OrderProject::where('oid', $oid['id'])->delete();
         return $this->error();
     }
 }
