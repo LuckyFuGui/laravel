@@ -76,14 +76,21 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('getUserBYTel', 'Worker@getUserBYTel')->name('worker.getUserBYTel');
         // 修改
         Route::post('update', 'Worker@update')->name('worker.update');
+        // 员工状态变更
+        Route::post('updateStatus', 'Worker@updateStatus')->name('worker.updateStatus');
+        // 请假
+        Route::post('leave', 'Worker@leave')->name('worker.leave');
     });
 
     // 项目管理-日常保洁/新居开荒
     Route::group(['prefix'=>'projects'], function(){
-        // 日常保洁基础数据
+        // 编辑主服务价格
         Route::post('mainEdit', 'projects@mainEdit')->name('projects.mainEdit');
 
-        // 编辑主服务价格
+        // 新居开荒基础数据
+        Route::post('wasteland', 'projects@wasteland')->name('projects.wasteland');
+
+        // 日常保洁基础数据
         Route::post('daliy', 'projects@daliy')->name('projects.daliy');
 
         // 附加项目编辑
@@ -94,6 +101,9 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 
         // 获取单个项目详情
         Route::post('getProjectDetails', 'projects@getProjectDetails')->name('projects.getProjectDetails');
+
+        // 附加服务上下架
+        Route::post('serviceFrames', 'projects@serviceFrames')->name('projects.serviceFrames');
 
         // 新增图片
         Route::post('addImg', 'projects@addImg')->name('projects.addImg');

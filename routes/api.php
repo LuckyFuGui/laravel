@@ -50,6 +50,8 @@ Route::group(['namespace' => 'Api'], function(){
     Route::post('/file/upload', 'Upload@upload')->name('upload.file');
     //获取项目详情
     Route::post('/getProjectDetails', 'Projects@getProjectDetails')->name('projects.getProjectDetails');
+    //日常保洁/新居开荒服务数据提供
+    Route::post('/getProjectData', 'Projects@getProjectData')->name('projects.getProjectData');
 });
 
 
