@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    //
-    protected $table  = 'order';
+    // 表
+    protected $table = 'order';
+    // 过滤字段
+    protected $guarded = [];
 }
