@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 /**
  * 前台接口
  */
+
 Route::group(['namespace' => 'Api'], function(){
 	// 用户授权
     Route::get('index', 'IndexController@index');
@@ -44,8 +45,9 @@ Route::group(['namespace' => 'Api'], function(){
 	    Route::post('destroy', 'OrderController@destroy');
 	    // 修改
     	Route::post('save', 'OrderController@save');
+    	////////////////////////
+    	Route::post('timedate', 'TimedateController@index');
 	});
-
     //文件上传
     Route::post('/file/upload', 'Upload@upload')->name('upload.file');
     //获取项目详情
@@ -53,9 +55,4 @@ Route::group(['namespace' => 'Api'], function(){
     //日常保洁/新居开荒服务数据提供
     Route::post('/getProjectData', 'Projects@getProjectData')->name('projects.getProjectData');
 });
-
-
-// 阿姨id
-// 服务类型
-// 支付状态
 

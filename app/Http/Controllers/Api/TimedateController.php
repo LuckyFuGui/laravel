@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\Order;
-use App\Model\LeaveLog;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class TimeController extends Controller
+class TimedateController extends Controller
 {
 	// 计费
 	const PRICE = 5;
