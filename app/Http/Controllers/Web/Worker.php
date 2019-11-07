@@ -238,6 +238,10 @@ class Worker extends Controller
             return $this->error('时间格式错误');
         }
 
+        if(strtotime($request->begin) < time()){
+            return $this->error('开始时间不能小于当前时间');
+        }
+
         if(strtotime($request->begin) > strtotime($request->end)){
             return $this->error('开始时间不能大于结束时间');
         }
@@ -247,8 +251,17 @@ class Worker extends Controller
             return $this->error('当前员工不存在');
         }
 
-        //获取当前员工的排班情况
 
+        //获取当前员工最近的一次请假结束时间判断当前请假是否有时间重复
+        $lastLeave = LeaveLog::query()->where('worker_id',$request->id)->orderBy('end_at','desc')->value('end_at');
+        if($lastLeave){
+            if(strtotime($lastLeave) < $request->begin){
+                return $this->error('请假时间有重复，请重新选择时间段');
+            }
+        }
+
+
+        //获取当前员工的排班情况
         $scheduling = Order::query()->where('sid',$request->id)->whereBetween('updated_at',[$request->begin,$request->end])->where('pay_type',1)->first();
 
         if($scheduling){
@@ -265,11 +278,85 @@ class Worker extends Controller
             ]);
 
             //更新当前请假状态
-            Workers::query()->where('id',$request->id)->update(['is_leave'=>1]);
+            if(time() > strtotime($request->begin)){
+                Workers::query()->where('id',$request->id)->update(['is_leave'=>0]);
+            }
             return $this->success();
         }catch(\Exception $e){
             DB::rollBack();
             return $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * 考勤管理
+     */
+    public function leaveManagement(Request $request)
+    {
+        $request->page < 1 ? 1 : $request->page;
+        $request->limit > 20 ? 20 : $request->page;
+
+        $query = LeaveLog::query()->with('worker');
+
+
+        if(!empty($request->begin)){
+            $query->where('begin_at','>=',$request->begin);
+        }
+
+        if(!empty($request->end)){
+            $query->where('end_at','<=',$request->end);
+        }
+
+
+        $data = $query
+            ->offset(($request->page - 1) * $request->limit)
+            ->limit($request->limit)
+            ->get();
+
+        $count = $query->count();
+        return $this->successPage($data, $count);
+    }
+
+    /**
+     * 请假取消
+     */
+    public function leaveCancel(Request $request)
+    {
+        $id = $request->id;
+        if(!isset($id)){
+            return $this->error('缺少ID参数');
+        }
+
+        $leave = LeaveLog::query()->where('id',$id)->first();
+        if(!$leave){
+            return $this->error('当前请假数据不存在');
+        }
+
+        if(!in_array($leave->status,[0,1])){
+            return $this->error('当前状态不可取消');
+        }
+
+
+        DB::beginTransaction();
+        try{
+            if($leave->status == 0){
+                $leave->status = 3;
+            }else{
+                $leave->status = 2;
+            }
+            $leave->save();
+
+            $status = LeaveLog::query()->where('worker_id',$leave->worker_id)->pluck('status')->toArray();
+            if(in_array(1,$status)){
+                Workers::query()->where('id',$leave->worker_id)->update(['is_leave'=>1]);
+            }else{
+                Workers::query()->where('id',$leave->worker_id)->update(['is_leave'=>0]);
+            }
+            DB::commit();
+            return $this->success();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $this->error();
         }
     }
 }

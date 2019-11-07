@@ -15,4 +15,12 @@ class LeaveLog extends Model
     protected $fillable = [
         'worker_id', 'begin_at','end_at'
     ];
+
+    /**
+     * 员工模型关联
+     */
+    public function worker()
+    {
+        return $this->belongsTo('App\Model\Workers','worker_id');
+    }
 }

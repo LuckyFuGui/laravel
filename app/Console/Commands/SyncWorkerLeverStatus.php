@@ -44,21 +44,43 @@ class SyncWorkerLeverStatus extends Command
      */
     public function handle()
     {
-        $lever = LeaveLog::query()->first();
+        //更新请假状态
         $worker_ids = Workers::query()->pluck('id')->toArray();
-        if($lever){
-            LeaveLog::query()->chunk(10, function ($items) use ($worker_ids) {
-                foreach ($items as $item){
-                    if (in_array($items->worker_id,$worker_ids)) {
-                        if(time() > strtotime($items->end_at)){
-                            continue;
-                        }else{
-                            Workers::query()->where('id',$item->id)->update(['is_lever'=>1]);
-                        }
+        LeaveLog::query()->chunk(100, function ($items) use ($worker_ids) {
+            foreach ($items as $item){
+                if (in_array($item->worker_id,$worker_ids) && !in_array($item->status,[2,3])) {
+                    if(time() > strtotime($item->end_at)){
+                        //请假已结束
+                        $item->status = 4;
+                    }elseif (time() < strtotime($item->begin_at)){
+                        //请假还没开始
+                        $item->status = 0;
+                    }elseif (time() > strtotime($item->begin_at) && time() < strtotime($item->end_at)){
+                        //正在进行中
+                        $item->status = 1;
                     }
+
+                    $item->save();
                 }
-            });
-        }
+            }
+        });
+
+        //修改员工的请假状态
+        //如果员工有请假中的状态，则员工状态为请假中
+        //如果没有请假中的状态，则员工状态为正常
+        Workers::query()->chunk(100,function ($worker){
+            foreach ($worker as $value){
+                $status = LeaveLog::query()->where('worker_id',$value->id)->pluck('status')->toArray();
+                if(in_array(1,$status)){
+                    $value->is_leave = 1;
+                }else{
+                    $value->is_leave = 0;
+                }
+                $value->save();
+            }
+        });
+
+
         info('实时处理');
     }
 }

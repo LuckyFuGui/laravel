@@ -113,6 +113,14 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 
     });
 
+    // 考勤管理
+    Route::group(['prefix'=>'leave'], function(){
+        // 列表
+        Route::post('leaveManagement', 'Worker@leaveManagement')->name('worker.leave_management');
+        // 取消请假
+        Route::post('leaveCancel', 'Worker@leaveCancel')->name('worker.leave_cancel');
+    });
+
 
 
     Route::get('index', 'IndexController@index');
