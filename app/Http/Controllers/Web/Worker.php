@@ -19,8 +19,18 @@ class Worker extends Controller
 	 */
     public function index(Request $request)
     {
-        $request->page < 1 ? 1 : $request->page;
-        $request->limit > 20 ? 20 : $request->page;
+        if(!isset($request->page)){
+            $request->page = 1;
+        }else{
+            isset($request->page) && $request->page < 1 ? 1 : $request->page;
+        }
+
+
+        if(!isset($request->limit)){
+            $request->limit = 1;
+        }else{
+            isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
+        }
 	    $query = Workers::query();
         $data = $query->with('worker_details')
             ->offset(($request->page - 1) * $request->limit)
@@ -293,8 +303,18 @@ class Worker extends Controller
      */
     public function leaveManagement(Request $request)
     {
-        $request->page < 1 ? 1 : $request->page;
-        $request->limit > 20 ? 20 : $request->page;
+        if(!isset($request->page)){
+            $request->page = 1;
+        }else{
+            isset($request->page) && $request->page < 1 ? 1 : $request->page;
+        }
+
+
+        if(!isset($request->limit)){
+            $request->limit = 1;
+        }else{
+            isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
+        }
 
         $query = LeaveLog::query()->with('worker');
 

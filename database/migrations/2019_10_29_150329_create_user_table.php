@@ -22,6 +22,7 @@ class CreateUserTable extends Migration
             $table->string('country', 32)->comment('国家');
             $table->string('province', 32)->comment('省');
             $table->string('city', 32)->comment('市');
+            $table->integer('status')->default(1)->comment('用户状态 1：正常；0：禁用');
             $table->string('language', 16)->comment('语言');
             $table->string('headimgurl', 256)->comment('图片');
             $table->timestamps();

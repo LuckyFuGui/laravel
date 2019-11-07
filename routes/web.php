@@ -121,6 +121,14 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('leaveCancel', 'Worker@leaveCancel')->name('worker.leave_cancel');
     });
 
+    // 用户管理
+    Route::group(['prefix'=>'user'], function(){
+        // 列表
+        Route::post('index', 'User@index')->name('user.index');
+        // 取消请假
+        Route::post('updateStatus', 'User@updateStatus')->name('user.update_status');
+    });
+
 
 
     Route::get('index', 'IndexController@index');
