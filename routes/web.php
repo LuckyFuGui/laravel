@@ -117,6 +117,7 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     Route::group(['prefix'=>'leave'], function(){
         // 列表
         Route::post('leaveManagement', 'Worker@leaveManagement')->name('worker.leave_management');
+
         // 取消请假
         Route::post('leaveCancel', 'Worker@leaveCancel')->name('worker.leave_cancel');
     });
@@ -125,6 +126,7 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     Route::group(['prefix'=>'user'], function(){
         // 列表
         Route::post('index', 'User@index')->name('user.index');
+
         // 取消请假
         Route::post('updateStatus', 'User@updateStatus')->name('user.update_status');
     });
@@ -133,8 +135,15 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     Route::group(['prefix'=>'discount'], function(){
         // 列表
         Route::post('index', 'DiscountActivity@index')->name('discount_activity.index');
-        // 取消请假
-        Route::post('updateStatus', 'User@updateStatus')->name('user.update_status');
+
+        // 新增优惠卷
+        Route::post('add', 'DiscountActivity@add')->name('discount_activity.add');
+
+        // 编辑代金劵活动
+        Route::post('edit', 'DiscountActivity@edit')->name('discount_activity.edit');
+
+        // 取消优惠卷
+        Route::post('cancel', 'DiscountActivity@cancel')->name('discount_activity.cancel');
     });
 
 

@@ -29,6 +29,11 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground();
 
+        $schedule->command('sync_discount_status')
+            ->everyMinute()
+            ->withoutOverlapping()
+            ->runInBackground();
+
     }
 
     /**
