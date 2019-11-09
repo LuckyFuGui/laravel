@@ -129,6 +129,14 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('updateStatus', 'User@updateStatus')->name('user.update_status');
     });
 
+    // 优惠活动管理
+    Route::group(['prefix'=>'discount'], function(){
+        // 列表
+        Route::post('index', 'DiscountActivity@index')->name('discount_activity.index');
+        // 取消请假
+        Route::post('updateStatus', 'User@updateStatus')->name('user.update_status');
+    });
+
 
 
     Route::get('index', 'IndexController@index');
