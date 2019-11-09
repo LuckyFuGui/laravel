@@ -27,7 +27,7 @@ class Worker extends Controller
 
 
         if(!isset($request->limit)){
-            $request->limit = 1;
+            $request->limit = 20;
         }else{
             isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
         }
