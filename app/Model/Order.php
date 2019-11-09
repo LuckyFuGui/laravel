@@ -10,4 +10,9 @@ class Order extends Model
     protected $table = 'order';
     // 过滤字段
     protected $guarded = [];
+    // 关联阿姨表
+    public function workerUser()
+    {
+    	return $this->belongsTo('App\Model\Workers', 'sid');
+    }
 }
