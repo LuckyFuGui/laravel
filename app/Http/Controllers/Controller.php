@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\User;
+use App\Model\Admins;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -11,10 +14,34 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    // 计费
+    const PRICE = 5;
+    // 一小时
+    const HOUR = 3600;
+    // 半小时
+    const MINUTE = 1800;
     // 上架、支付
     const TYPE = 1;
     // 下架、未支付
     const NOTYPE = 0;
+    // 请假异常
+    const STATUS = [1];
+    // 异常订单
+    const ORDERTYPE = [0, 1];
+    // 后端id
+    protected $adminId = 0;
+    // 用户数据
+    protected $user = [];
+
+    public function __construct(Request $Request)
+    {
+        if ($Request->header('token')) {
+            $this->adminId = Admins::where('token', $Request->header('token'))->value('id');
+        }
+        if ($Request->header('openid')) {
+            $this->user = User::where('openid', $Request->header('openid'))->first();
+        }
+    }
 
     /**
      * 返回结果

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Model\Order;
 use App\Model\Address;
+use App\Model\Workers;
 use App\Model\Project;
 use App\Model\OrderProject;
 use Illuminate\Http\Request;
@@ -74,8 +75,11 @@ class OrderController extends Controller
 			}
 		}
 		if ($price == $request->countPrice) {
+            // 匹配阿姨
+            $sid = $this->serverId($request->server_type);
+            if ($sid) $newSid = $sid[0];
 			// 修改订单表
-			$orderInstall = Order::find($oid['id'])->update(['payment'=>$price, 'pay_type'=>self::NOTYPE]);
+			$orderInstall = Order::find($oid['id'])->update(['payment'=>$price, 'pay_type'=>self::NOTYPE, 'sid'=>$newSid]);
 			// 是否添加成功，成功返回数据
 			if ($orderInstall) {
 				return $this->success();
@@ -84,5 +88,24 @@ class OrderController extends Controller
 		Order::destroy($oid['id']);
 		OrderProject::where('oid', $oid['id'])->delete();
         return $this->error();
+    }
+
+    /**
+     * 找阿姨
+     * [serverId description]
+     * @param  [type] $type     [description]
+     * @param  [type] $end_time [description]
+     * @return [type]           [description]
+     */
+    public function serverId($type, $end_time)
+    {
+        // 时间转换
+        $end_time = strtotime($end_time);
+        $wid = Workers::where('is_leave', '!=', 1)
+            ->where('project_ids', 'like', '%'.$type.'%')
+            ->pluck('id')->toArray();
+        $oid = Order::whereIn('pay_type', self::ORDERTYPE)
+            ->pluck('sid')->toArray();
+        return array_unique(array_merge($wid, $oid));
     }
 }

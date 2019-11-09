@@ -22,8 +22,8 @@ class CreateOrderTable extends Migration
             $table->string('phone')->default('')->comment('手机');
             $table->string('address')->default('')->comment('目标地址');
             $table->string('comment')->default('')->comment('详细标注');
-            $table->string('start_time')->default('')->comment('开始时间');
-            $table->string('end_time')->default('')->comment('结束时间');
+            $table->dateTime('start_time')->comment('开始时间');
+            $table->dateTime('end_time')->comment('结束时间');
             $table->integer('cid')->default(0)->comment('优惠卷id');
             $table->decimal('coupon', 8, 2)->default(0)->comment('优惠卷抵扣费用');
             $table->decimal('special', 8, 2)->default(0)->comment('特殊费用');
