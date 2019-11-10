@@ -6,6 +6,7 @@ use App\Model\Order;
 use App\Model\Address;
 use App\Model\Workers;
 use App\Model\Project;
+use App\Model\LeaveLog;
 use App\Model\OrderProject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,12 +21,14 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+
+        $time = strtotime(date('Y-m-d',$request->start_time));
     	// 地址
     	$address = Address::select('name','phone','address','comment')->find($request->aid);
-    	if (!$request->server_type || !$request->start_time || !$request->end_time || !$request->project_ids || !$request->countPrice || !$request->uid) {
+    	if (!$request->server_type || !$request->start_time || !$request->end_time || !$request->project_ids || !$request->countPrice) {
     		return $this->error();
     	}
-    	$data['uid'] = $request->uid;
+    	$data['uid'] = $this->user['id'];
     	$data['name'] = $address['name'];
     	$data['phone'] = $address['phone'];
     	$data['address'] = $address['address'];
@@ -44,8 +47,14 @@ class OrderController extends Controller
     			->get();
     	if (!$project) return $this->error();
     	// 开始和结束时间
-    	$data['start_time'] = $request->start_time;
-    	$data['end_time'] = $request->end_time;
+        $endtime = $request->end_time % (self::MINUTE / 60);
+        if ($endtime) {
+            $request->end_time = $request->start_time + (30 - $endtime) * 60;
+        }else{
+            $request->end_time = $request->start_time + $request->end_time;
+        }
+    	$data['start_time'] = date('Y-m-d H:i', $request->start_time);
+    	$data['end_time'] = date('Y-m-d H:i', $request->end_time);
     	// 优惠卷
     	$coupon = 0;
     	if ($request->cid) {
@@ -55,9 +64,15 @@ class OrderController extends Controller
     	}
     	$data['coupon'] = $coupon;
     	// 特殊时间服务
-    	$data['special'] = !empty($request->special) ? $request->special : 0;
+        $data['special'] = 0;
+        $times = $time + self::HOUR * 19 + self::MINUTE;
+        if ($times < $request->end_time) {
+            $data['special'] = ceil(($request->end_time - $times) / 60) * self::PRICE;
+        }
     	// 服务类型
     	$data['server_type'] = $request->server_type;
+        // 匹配阿姨
+        $sid = $this->serverId($request->server_type,$time);
     	// 添加获取id
     	$oid = Order::create($data);
     	// 更新价格，加入详情单
@@ -75,8 +90,9 @@ class OrderController extends Controller
 			}
 		}
 		if ($price == $request->countPrice) {
-            // 匹配阿姨
-            $sid = $this->serverId($request->server_type);
+
+
+            
             if ($sid) $newSid = $sid[0];
 			// 修改订单表
 			$orderInstall = Order::find($oid['id'])->update(['payment'=>$price, 'pay_type'=>self::NOTYPE, 'sid'=>$newSid]);
@@ -100,12 +116,34 @@ class OrderController extends Controller
     public function serverId($type, $end_time)
     {
         // 时间转换
-        $end_time = strtotime($end_time);
-        $wid = Workers::where('is_leave', '!=', 1)
-            ->where('project_ids', 'like', '%'.$type.'%')
+        $end_time = date('Y-m-d',$end_time);
+        $wid = Workers::where('project_ids', 'like', '%'.$type.'%')
+            ->where('status', 1)
             ->pluck('id')->toArray();
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
+            ->where('start_time','<=',$end_time)
             ->pluck('sid')->toArray();
-        return array_unique(array_merge($wid, $oid));
+
+        $leave = LeaveLog::with('worker')
+            ->whereHas('worker',function($query) use ($type)
+            {
+                $query->where('project_ids','like',"%$type%");
+            })
+            ->where('begin_at', '<=', $end_time)
+            ->where('end_at', '>=', $end_time)
+            ->whereIn('status', self::ORDERTYPE)
+            ->pluck('worker_id')->toArray();
+
+        $oids = [];
+        foreach ($oid as $key => $value) {
+            if(strpos($value, ',')){
+                $oids = array_merge($oids,explode(',', $value));
+            }else{
+                $oids[] = $value;
+            }
+        }
+
+        $all = array_unique(array_merge($leave, $oids));
+        return array_diff($wid, $all);
     }
 }
