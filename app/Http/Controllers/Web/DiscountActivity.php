@@ -182,6 +182,7 @@ class DiscountActivity extends Controller
         $discount->sale_price = $sale_price;
         $discount->voucher_num = $voucher_num;
         $discount->salable_num = $salable_num;
+        $discount->status = $status;
         $discount->begin_at  = $begin_at;
         $discount->end_at  = $end_at;
         $discount->save();

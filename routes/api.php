@@ -48,11 +48,22 @@ Route::group(['namespace' => 'Api'], function(){
     	////////////////////////
     	Route::post('timedate', 'TimedateController@index');
 	});
+
+	// 评论管理
+	Route::group(['prefix'=>'comment'], function(){
+		// 创建评论
+	    Route::post('create', 'Comment@create');
+	});
     //文件上传
     Route::post('/file/upload', 'Upload@upload')->name('upload.file');
+
     //获取项目详情
     Route::post('/getProjectDetails', 'Projects@getProjectDetails')->name('projects.getProjectDetails');
+
     //日常保洁/新居开荒服务数据提供
     Route::post('/getProjectData', 'Projects@getProjectData')->name('projects.getProjectData');
+
+    //获取所有启用状态的枚举数据
+    Route::post('/getDictionaryData', 'Projects@getDictionaryData')->name('projects.getDictionaryData');
 });
 

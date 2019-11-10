@@ -10,9 +10,25 @@ class Order extends Model
     protected $table = 'order';
     // 过滤字段
     protected $guarded = [];
+
     // 关联阿姨表
     public function workerUser()
     {
     	return $this->belongsTo('App\Model\Workers', 'sid');
+    }
+
+
+    //服务关联
+    public function order_comment()
+    {
+        return $this->hasOne('App\Model\Comment','order_id');
+    }
+
+    /**
+     * 订单关联用户
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Model\User','uid');
     }
 }

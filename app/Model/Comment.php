@@ -4,15 +4,23 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Comment extends Model
 {
     // 表
-    protected $table = 'order';
+    protected $table = 'comment';
     // 过滤字段
     protected $guarded = [];
-    // 关联阿姨表
-    public function workerUser()
+
+    public function worker()
     {
-    	return $this->belongsTo('App\Model\Workers', 'sid');
+        return $this->belongsTo('App\Model\Workers', 'worker_id');
+    }
+
+    /**
+     * 评论订单关联
+     */
+    public function orders()
+    {
+        return $this->belongsTo('App\Model\Order','order_id');
     }
 }

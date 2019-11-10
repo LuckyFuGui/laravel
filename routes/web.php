@@ -146,6 +146,12 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('cancel', 'DiscountActivity@cancel')->name('discount_activity.cancel');
     });
 
+    // 评论管理
+    Route::group(['prefix'=>'comment'], function(){
+        // 列表
+        Route::post('index', 'Comment@index')->name('comment.index');
+    });
+
 
 
     Route::get('index', 'IndexController@index');

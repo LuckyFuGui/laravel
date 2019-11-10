@@ -33,8 +33,10 @@ class User extends Controller
             ->get();
 
         foreach ($data as $key=>$val){
-           $val->count = Order::query()->where('uid',$val->id)->where('pay_type',4)->count();
-           $val->payment = Order::query()->where('uid',$val->id)->where('pay_type',4)->sum('payment');
+            $order = Order::query()->where('uid',$val->id)->where('pay_type',4)->get();
+            $val->count = $order->count();
+            $val->payment = $order->sum('payment');
+            $val->discount = $order->sum('coupon');
         }
         $count = $query->count();
         return $this->successPage($data, $count);
