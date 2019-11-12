@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Model\AdditionalServices;
 use App\Model\DailyCleaning;
+use App\Model\Dictionary;
 use App\Model\ProjectImg;
 use App\Model\Wasteland;
 use Illuminate\Http\Request;
@@ -61,5 +62,14 @@ class Projects extends Controller
                 return $this->error('获取数据错误');
                 break;
         }
+    }
+
+    /**
+     * 获取所有启用状态的枚举数据
+     */
+    public function getDictionaryData()
+    {
+        $data = Dictionary::query()->where('status',1)->get()->toArray();
+        return $data;
     }
 }
