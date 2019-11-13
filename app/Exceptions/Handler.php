@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +48,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // 正则验证异常
+        if($exception instanceof ValidationException){
+            return $exception->errors();
+        }
+
+        // HTTP错误
+        if($exception instanceof HttpException){
+            return $exception->getMessage();
+        }
+
+        // 常规错误
+        if($exception instanceof Exception){
+            return $exception->getMessage();
+        }
         return parent::render($request, $exception);
     }
 }
