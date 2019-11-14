@@ -41,12 +41,14 @@ Route::group(['namespace' => 'Api'], function(){
 	    Route::post('store', 'OrderController@store');
 	    // 查询
 	    Route::post('index', 'OrderController@index');
-	    // 删除
-	    Route::post('destroy', 'OrderController@destroy');
-	    // 修改
-    	Route::post('save', 'OrderController@save');
+//	    // 删除
+//	    Route::post('destroy', 'OrderController@destroy');
+//	    // 修改
+//    	Route::post('save', 'OrderController@save');
     	////////////////////////
     	Route::post('timedate', 'TimedateController@index');
+        ////////////////////////
+        Route::post('onlyIndex', 'OrderController@onlyIndex');
 	});
 
 	// 评论管理
