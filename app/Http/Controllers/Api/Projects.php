@@ -6,6 +6,7 @@ use App\Model\AdditionalServices;
 use App\Model\DailyCleaning;
 use App\Model\Dictionary;
 use App\Model\ProjectImg;
+use App\Model\UserOrders;
 use App\Model\Wasteland;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -70,6 +71,38 @@ class Projects extends Controller
     public function getDictionaryData()
     {
         $data = Dictionary::query()->where('status',1)->get()->toArray();
-        return $data;
+        return $this->success($data);
+    }
+
+
+    /**
+     * 保存用户下单数据
+     */
+    public function userOrdersSaves(Request $request)
+    {
+        $uid = $this->user->id ?? '';
+        $json = $request->json;
+        if(!$uid || !$json){
+            return $this->error('用户ID或json数据缺失');
+        }
+
+        if(!json_decode($json,true)){
+            return $this->error('json数据格式有误');
+        }
+
+        $id = UserOrders::query()->insertGetId(
+            [
+                'uid'=>$uid,
+                'json'=>$json,
+                'created_at'=>now(),
+                'updated_at'=>now(),
+            ]
+        );
+
+        if(!$id){
+            return $this->error('数据插入失败');
+        }
+
+        return $this->success($id);
     }
 }

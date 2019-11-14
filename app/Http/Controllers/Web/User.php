@@ -63,11 +63,16 @@ class User extends Controller
             return $this->error('当前用户不存在');
         }
 
-        if($request->status == 1){
+        if(!in_array($request->status,[0,1])){
+            return $this->error('状态不存在');
+        }
+
+        /*if($request->status == 1){
             $user->status = 0;
         }else{
             $user->status = 1;
-        }
+        }*/
+        $user->status = $request->status;
         $user->save();
 
         return $this->success();
