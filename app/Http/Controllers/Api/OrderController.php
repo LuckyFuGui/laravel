@@ -9,11 +9,12 @@ use App\Model\Project;
 use App\Model\LeaveLog;
 use App\Model\OrderProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
-	/**
+    /**
      * 添加
      * [store description]
      * @param  Request $request [description]
@@ -21,93 +22,113 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
-        $time = strtotime(date('Y-m-d',$request->start_time));
-    	// 地址
-    	$address = Address::select('name','phone','address','comment')->find($request->aid);
-    	if (!$request->server_type || !$request->start_time || !$request->end_time || !$request->project_ids || !$request->countPrice) {
-    		return $this->error();
-    	}
-    	$data['uid'] = $this->user['id'];
-    	$data['name'] = $address['name'];
-    	$data['phone'] = $address['phone'];
-    	$data['address'] = $address['address'];
-    	$data['comment'] = $address['comment'];
-    	// 点单号
-    	$data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
-    	// 查询数据的条件
-    	$in = [];
-    	foreach ($request->project_ids as $k => $v) {
-    		$in[] = $k;
-    	}
-    	// 项目查询
-    	$project = Project::where('type', $request->server_type)
-    			->where('state', self::TYPE)
-    			->whereIn('id',$in)
-    			->get();
-    	if (!$project) return $this->error();
-    	// 开始和结束时间
+        $userNum = $request->num;
+        $userNum = !empty($userNum) ? $userNum : 1;
+        // 开始日期当天时间戳
+        $time = strtotime(date('Y-m-d', $request->start_time));
+        // 地址
+        $address = Address::select('name', 'phone', 'address', 'comment')->find($request->aid);
+        if (!$request->server_type || !$request->start_time || !$request->end_time || !$request->project_ids || !$request->countPrice) {
+            return $this->error();
+        }
+        // 插入数据
+        $data['uid'] = $this->user['id'];
+        $data['name'] = $address['name'];
+        $data['phone'] = $address['phone'];
+        $data['address'] = $address['address'];
+        $data['comment'] = $address['comment'];
+        // 点单号
+        $data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
+        // 查询数据的条件
+        $in = [];
+        foreach ($request->project_ids as $k => $v) {
+            $in[] = $k;
+        }
+        // 项目查询
+        $project = Project::where('type', $request->server_type)
+            ->where('state', self::TYPE)
+            ->whereIn('id', $in)
+            ->get();
+        if (!$project) return $this->error();
+        // 开始和结束时间
         $endtime = $request->end_time % (self::MINUTE / 60);
         if ($endtime) {
             $request->end_time = $request->start_time + (30 - $endtime) * 60;
-        }else{
+        } else {
             $request->end_time = $request->start_time + $request->end_time;
         }
-    	$data['start_time'] = date('Y-m-d H:i', $request->start_time);
-    	$data['end_time'] = date('Y-m-d H:i', $request->end_time);
-    	// 优惠卷
-    	$coupon = 0;
-    	if ($request->cid) {
-    		// $coupon = Address::find($request->cid)->value('coupon');
-    	}else{
-    		$data['cid'] = 0;
-    	}
-    	$data['coupon'] = $coupon;
-    	// 特殊时间服务
+        $data['start_time'] = date('Y-m-d H:i', $request->start_time);
+        $data['end_time'] = date('Y-m-d H:i', $request->end_time);
+        // 优惠卷
+        $coupon = 0;
+        if ($request->cid) {
+            // $coupon = Address::find($request->cid)->value('coupon');
+        } else {
+            $data['cid'] = 0;
+        }
+        $data['coupon'] = $coupon;
+        // 特殊时间服务
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
             $data['special'] = ceil(($request->end_time - $times) / 60) * self::PRICE;
         }
-    	// 服务类型
-    	$data['server_type'] = $request->server_type;
-        // 匹配阿姨
-        $sid = $this->serverId($request->server_type,$time);
-    	// 添加获取id
-    	$oid = Order::create($data);
-    	// 更新价格，加入详情单
-    	$price = $data['special'];
-		foreach ($project as $key => $value) {
-			$OrderProject['pid'] = $value['id'];
-			$OrderProject['oid'] = $oid['id'];
-			$OrderProject['price'] = $value['price'];
-			$OrderProject['name'] = $value['serverName'];
-			$OrderProject['num'] = $request->project_ids[$value['id']];
-			$rester = OrderProject::create($OrderProject);
-			// 计算总价格
-			if ($rester) {
-				$price = $price + $value['price'] * $request->project_ids[$value['id']];
-			}
-		}
-		if ($price == $request->countPrice) {
-
-
-            
-            if ($sid) $newSid = $sid[0];
-			// 修改订单表
-			$orderInstall = Order::find($oid['id'])->update(['payment'=>$price, 'pay_type'=>self::NOTYPE, 'sid'=>$newSid]);
-			// 是否添加成功，成功返回数据
-			if ($orderInstall) {
-				return $this->success();
-			}
-		}
-		Order::destroy($oid['id']);
-		OrderProject::where('oid', $oid['id'])->delete();
-        return $this->error();
+        // 服务类型
+        $data['server_type'] = $request->server_type;
+        // 匹配数据
+        $sid = $this->serverId($request->server_type, $time);
+        $num = [];
+        foreach (array_rand($sid, $userNum) as $value) {
+            $num[] = $sid[$value];
+        }
+        $sidStr = implode(',', $num);
+        $data['sid'] = $sidStr;
+        // 创建事务
+        DB::beginTransaction();
+        try {
+            // 添加获取id
+            $oid = Order::create($data);
+            // 更新价格，加入详情单
+            $price = $data['special'];
+            foreach ($project as $key => $value) {
+                $OrderProject['pid'] = $value['id'];
+                $OrderProject['oid'] = $oid['id'];
+                $OrderProject['price'] = $value['price'];
+                $OrderProject['name'] = $value['serverName'];
+                $OrderProject['num'] = $request->project_ids[$value['id']];
+                $rester = OrderProject::create($OrderProject);
+                // 计算总价格
+                if ($rester) {
+                    $price = $price + $value['price'] * $request->project_ids[$value['id']];
+                }
+            }
+            if ($price == $request->countPrice) {
+                // 修改订单表
+                $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
+                // 是否添加成功，成功返回数据
+                if ($orderInstall) {
+                    return $this->success();
+                } else {
+                    DB::rollBack();
+                    return $this->error('修改数据失败');
+                }
+            } else {
+                DB::rollBack();
+                return $this->error('价格产生差异');
+            }
+            DB::commit();
+            return $this->success();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->error('插入异常');
+        }
+//        Order::destroy($oid['id']);
+//        OrderProject::where('oid', $oid['id'])->delete();
+//        return $this->error();
     }
 
     /**
-     * 找阿姨
+     * 找数据
      * [serverId description]
      * @param  [type] $type     [description]
      * @param  [type] $end_time [description]
@@ -116,34 +137,76 @@ class OrderController extends Controller
     public function serverId($type, $end_time)
     {
         // 时间转换
-        $end_time = date('Y-m-d',$end_time);
-        $wid = Workers::where('project_ids', 'like', '%'.$type.'%')
+        $end_time = date('Y-m-d', $end_time);
+        // 符合的数据
+        $wid = Workers::where('project_ids', 'like', '%' . $type . '%')
             ->where('status', 1)
             ->pluck('id')->toArray();
+        // 正在订单的数据
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
-            ->where('start_time','<=',$end_time)
+            ->where('start_time', '<=', $end_time)
             ->pluck('sid')->toArray();
-
+        // 请假的数据
         $leave = LeaveLog::with('worker')
-            ->whereHas('worker',function($query) use ($type)
-            {
-                $query->where('project_ids','like',"%$type%");
+            ->whereHas('worker', function ($query) use ($type) {
+                $query->where('project_ids', 'like', "%$type%");
             })
             ->where('begin_at', '<=', $end_time)
             ->where('end_at', '>=', $end_time)
             ->whereIn('status', self::ORDERTYPE)
             ->pluck('worker_id')->toArray();
-
+        // 准备过滤的数据
         $oids = [];
         foreach ($oid as $key => $value) {
-            if(strpos($value, ',')){
-                $oids = array_merge($oids,explode(',', $value));
-            }else{
+            if (strpos($value, ',')) {
+                $oids = array_merge($oids, explode(',', $value));
+            } else {
                 $oids[] = $value;
             }
         }
-
         $all = array_unique(array_merge($leave, $oids));
+        // 等待中的数据
         return array_diff($wid, $all);
+    }
+
+    /**
+     * 查询数据
+     *
+     * @param Request $request
+     *
+     * @return array
+     * @author  高鹏贵 <gaopenggui@vchangyi.com>
+     * @date    2019/11/14 16:08
+     */
+    public function index(Request $request)
+    {
+        // 数据
+        $where = $request->where;
+        $user = $request->user;
+        $page = $this->newPage($request->page);
+        $limit = $this->newLimit($request->limit);
+        $data = Order::with('order_project')
+            ->where($user, $this->user['id']);
+        if ($where) $data = $data->where('pay_type', $where);
+        $data = $data->offset(($page - 1) * $limit)
+            ->limit($limit)
+            ->get()->toArray();
+        return $this->success($data);
+    }
+
+    /**
+     *
+     * 详情
+     * @param Request $request
+     *
+     * @author  高鹏贵 <gaopenggui@vchangyi.com>
+     * @date    2019/11/14 17:03
+     */
+    public function onlyIndex(Request $request)
+    {
+        $data = Order::with('order_project')
+            ->where('id', $request->id)
+            ->get()->toArray();
+        return $this->success($data);
     }
 }

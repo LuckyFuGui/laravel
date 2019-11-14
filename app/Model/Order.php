@@ -11,17 +11,17 @@ class Order extends Model
     // 过滤字段
     protected $guarded = [];
 
-    // 关联阿姨表
+    // 关联数据
     public function workerUser()
     {
-    	return $this->belongsTo('App\Model\Workers', 'sid');
+        return $this->belongsTo('App\Model\Workers', 'sid');
     }
 
 
     //服务关联
     public function order_comment()
     {
-        return $this->hasOne('App\Model\Comment','order_id');
+        return $this->hasOne('App\Model\Comment', 'order_id');
     }
 
     /**
@@ -29,6 +29,11 @@ class Order extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Model\User','uid');
+        return $this->belongsTo('App\Model\User', 'uid');
+    }
+
+    public function order_project()
+    {
+        return $this->hasMany('App\Model\OrderProject', 'oid');
     }
 }
