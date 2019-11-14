@@ -28,7 +28,7 @@ class Comment extends Controller
         }else{
             isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
         }
-        $query = \App\Model\Comment::query()->with('worker','orders');
+        $query = \App\Model\Comment::query()->with('worker','orders.user');
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)

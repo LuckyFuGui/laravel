@@ -65,5 +65,8 @@ Route::group(['namespace' => 'Api'], function(){
 
     //获取所有启用状态的枚举数据
     Route::post('/getDictionaryData', 'Projects@getDictionaryData')->name('projects.getDictionaryData');
+
+    //保存用户下单信息
+    Route::post('/userOrdersSaves', 'Projects@userOrdersSaves')->name('projects.userOrdersSaves');
 });
 
