@@ -16,8 +16,8 @@ class AddressController extends Controller
      */
     public function save(Request $request)
     {
-    	$data = $request->all();
-    	unset($data['id']);
+        $data = $request->all();
+        unset($data['id']);
         $res = Address::find($request->id)->update($data);
         if ($res) return $this->success();
         return $this->error();
@@ -46,12 +46,12 @@ class AddressController extends Controller
     {
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Address::where('uid', $request->uid)
+        $data = Address::where('uid', $this->user['id'])
             ->orderby('id', 'DESC')
             ->offset(($page - 1) * $limit)
             ->limit($limit)
             ->get();
-        $count = Address::where('uid', $request->uid)->count();
+        $count = Address::where('uid', $this->user['id'])->count();
         return $this->successPage($data, $count);
     }
 
@@ -74,7 +74,9 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        $res = Address::create($request->all());
+        $data = $request->all();
+        $data['uid'] = $this->user['id'];
+        $res = Address::create($data);
         if ($res) return $this->success();
         return $this->error();
     }

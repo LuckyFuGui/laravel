@@ -32,8 +32,21 @@ class Order extends Model
         return $this->belongsTo('App\Model\User', 'uid');
     }
 
+    /**
+     * 查看选中的数据
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function order_project()
     {
         return $this->hasMany('App\Model\OrderProject', 'oid');
+    }
+
+    /**
+     * 查询评论
+     * @return mixed
+     */
+    public function order_comments()
+    {
+        return $this->hasOne('App\Model\Comment', 'order_id');
     }
 }

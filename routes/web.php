@@ -11,9 +11,9 @@
 |
 */
 
-//测试文件上传
-// Route::get('/file/upload', 'Test@fileUpload');
-
+Route::any('/',function (){
+    return view('welcome');
+});
 /**
  * 分组
  * 后台接口

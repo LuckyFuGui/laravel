@@ -185,13 +185,24 @@ class OrderController extends Controller
         $user = $request->user;
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Order::with('order_project')
+        $count = Order::where($user, $this->user['id']);
+        if ($where) $count = $count->where('pay_type', $where);
+        $count = $count->count();
+        $data = Order::with(['order_project', 'order_comment'])
             ->where($user, $this->user['id']);
         if ($where) $data = $data->where('pay_type', $where);
         $data = $data->offset(($page - 1) * $limit)
             ->limit($limit)
             ->get()->toArray();
-        return $this->success($data);
+        foreach ($data as &$value) {
+            if (!empty($value['order_comment']['score'])) {
+                $value['order_comments'] = $value['order_comment']['score'];
+            } else {
+                $value['order_comments'] = 0;
+            }
+            unset($value['order_comment']);
+        }
+        return $this->successPage($data, $count);
     }
 
     /**
@@ -204,9 +215,15 @@ class OrderController extends Controller
      */
     public function onlyIndex(Request $request)
     {
-        $data = Order::with('order_project')
+        $data = Order::with(['order_project', 'order_comment'])
             ->where('id', $request->id)
-            ->get()->toArray();
+            ->where('uid', $this->user['id'])->first()->toArray();
+        if (!empty($data['order_comment']['score'])) {
+            $data['order_comments'] = $data['order_comment']['score'];
+        } else {
+            $data['order_comments'] = 0;
+        }
+        unset($data['order_comment']);
         return $this->success($data);
     }
 }
