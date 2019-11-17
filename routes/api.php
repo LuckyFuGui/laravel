@@ -84,5 +84,8 @@ Route::group(['namespace' => 'Api'], function(){
 
     //我的卡券
     Route::post('/userCoupon', 'DiscountUser@userCoupon')->name('projects.userCoupon');
+
+    //个人中心
+    Route::post('/userCenter', 'DiscountUser@userCenter')->name('projects.userCenter');
 });
 

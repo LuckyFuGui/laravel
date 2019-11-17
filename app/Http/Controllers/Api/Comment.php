@@ -32,7 +32,7 @@ class Comment extends Controller
             return $this->error('当前订单不存在');
         }
 
-        if(!empty($order->order_comment)){
+        if(!empty($order->order_comment->toArray())){
             return $this->error('当前订单已经评价过了');
         }
 
@@ -52,6 +52,7 @@ class Comment extends Controller
         if(!isset($request->attitude)){
             return $this->error('服务态度如何？');
         }
+
 
         DB::beginTransaction();
         try {

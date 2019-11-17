@@ -16,7 +16,7 @@ class CreateCommentTable extends Migration
         Schema::create('comment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_id')->comment('订单ID');
-            $table->integer('worker_id')->comment('员工ID');
+            $table->string('worker_id')->comment('员工ID');
             $table->integer('is_later')->comment('是否迟到');
             $table->integer('is_quiet')->comment('是否安静');
             $table->integer('score')->comment('综合评分');
