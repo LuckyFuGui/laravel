@@ -105,4 +105,22 @@ class Projects extends Controller
 
         return $this->success($id);
     }
+
+    /**
+     * 根据ID查询订单数据信息
+     */
+    public function getOrdersInfo(Request $request)
+    {
+        $id = $request->id;
+        if(!$id){
+            return $this->error('缺失ID');
+        }
+
+        $orders = UserOrders::query()->where('id',$id)->first();
+        if(!$orders){
+            return $this->error('订单数据不存在');
+        }
+
+        return $this->success($orders);
+    }
 }
