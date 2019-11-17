@@ -17,7 +17,7 @@ class CreateDiscountTable extends Migration
             $table->bigIncrements('id');
             $table->integer('status')->default(0)->comment('活动状态 0:待开始 1：进行中 2：已结束 3：已取消');
             $table->integer('type')->default(1)->comment('活动类型 1：代金劵');
-            $table->integer('uid')->comment('管理员ID');
+            $table->integer('admin_id')->comment('管理员ID');
             $table->dateTime('begin_at')->nullable()->comment('开始时间');
             $table->dateTime('end_at')->nullable()->comment('结束时间');
             $table->integer('voucher_type')->comment('代金劵类型 1：全场保洁劵 2：日常保洁劵 3：新居开荒劵 4：电器清洁劵 5：全家除螨劵');

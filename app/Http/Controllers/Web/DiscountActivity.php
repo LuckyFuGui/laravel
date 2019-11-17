@@ -54,7 +54,7 @@ class DiscountActivity extends Controller
         $salable_num = $request->salable_num;
         $begin_at = $request->begin_at;
         $end_at = $request->end_at;
-        $uid = $this->adminId;
+        $admin_id = $this->adminId;
 
         if(!in_array($voucher_type,[1,2,3,4,5])){
             return $this->error('代金劵类型不存在');
@@ -99,7 +99,7 @@ class DiscountActivity extends Controller
         Discount::query()->create([
             'status'=>$status,
             'type'=>1,//代金券
-            'uid'=>$uid,
+            'admin_id'=>$admin_id,
             'begin_at'=>$begin_at,
             'end_at'=>$end_at,
             'voucher_type'=>$voucher_type,

@@ -16,6 +16,7 @@ class CreateDiscountUserTable extends Migration
         Schema::create('discount_user', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('uid')->comment('用户ID');
+            $table->integer('discount_id')->comment('优惠券ID');
             $table->integer('voucher_type')->comment('优惠卷类型 1：全场保洁劵 2：日常保洁劵 3：新居开荒劵 4：电器清洁劵 5：全家除螨劵');
             $table->decimal('voucher_price',8,2)->comment('优惠卷面值');
             $table->dateTime('use_at')->nullable()->comment('使用时间');

@@ -10,8 +10,6 @@ use App\Model\UserOrders;
 use App\Model\Wasteland;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\Api\UploadServices;
-use PharIo\Manifest\RequiresElement;
 
 class Projects extends Controller
 {
