@@ -16,6 +16,7 @@ class CreateDiscountPurchaseRecordTable extends Migration
         Schema::create('discount_purchase_record', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('uid')->comment('用户ID');
+            $table->integer('discount_id')->comment('优惠券ID');
             $table->integer('voucher_type')->comment('优惠卷类型');
             $table->decimal('voucher_price',8,2)->comment('优惠卷面值');
             $table->integer('voucher_num')->comment('每组数量');

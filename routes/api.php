@@ -73,5 +73,14 @@ Route::group(['namespace' => 'Api'], function(){
 
     //查询下单数据
     Route::post('/getOrdersInfo', 'Projects@getOrdersInfo')->name('projects.getOrdersInfo');
+
+    //获取当前用户可用优惠券列表
+    Route::post('/getDiscountByUser', 'DiscountUser@getDiscountByUser')->name('projects.getDiscountByUser');
+
+    //当前发布的优惠券活动
+    Route::post('/getDiscount', 'DiscountUser@getDiscount')->name('projects.getDiscount');
+
+    //我的卡券
+    Route::post('/userCoupon', 'DiscountUser@userCoupon')->name('projects.userCoupon');
 });
 
