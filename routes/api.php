@@ -70,5 +70,8 @@ Route::group(['namespace' => 'Api'], function(){
 
     //保存用户下单信息
     Route::post('/userOrdersSaves', 'Projects@userOrdersSaves')->name('projects.userOrdersSaves');
+
+    //查询下单数据
+    Route::post('/getOrdersInfo', 'Projects@getOrdersInfo')->name('projects.getOrdersInfo');
 });
 
