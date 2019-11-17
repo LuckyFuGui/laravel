@@ -11,10 +11,10 @@ class Comment extends Model
     // 过滤字段
     protected $guarded = [];
 
-    public function worker()
+    /*public function worker()
     {
         return $this->belongsTo('App\Model\Workers', 'worker_id');
-    }
+    }*/
 
     /**
      * 评论订单关联
