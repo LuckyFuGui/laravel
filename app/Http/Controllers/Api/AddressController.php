@@ -22,7 +22,7 @@ class AddressController extends Controller
         if ($res) return $this->success();
         return $this->error();
     }
-    
+
     /**
      * 删除
      * [destroy description]
@@ -53,6 +53,17 @@ class AddressController extends Controller
             ->get();
         $count = Address::where('uid', $request->uid)->count();
         return $this->successPage($data, $count);
+    }
+
+    /**
+     * 单个地址
+     * @param Request $request
+     * @return array
+     */
+    public function onlyIndex(Request $request)
+    {
+        $data = Address::find($request->id)->first();
+        return $this->success($data);
     }
 
     /**
