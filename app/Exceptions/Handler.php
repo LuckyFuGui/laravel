@@ -50,17 +50,17 @@ class Handler extends ExceptionHandler
     {
         // 正则验证异常
         if ($exception instanceof ValidationException) {
-            return response()->json(['code' => '400', 'data' => $exception->getMessage(), 'smg' => '参数错误']);
+            return response()->json(['code' => '400', 'data' => $exception->getMessage(), 'msg' => '参数错误']);
         }
 
         // HTTP错误
         if ($exception instanceof HttpException) {
-            return response()->json(['code' => $exception->getStatusCode(), 'data' => $exception->getMessage(), 'smg' => 'http错误']);
+            return response()->json(['code' => $exception->getStatusCode(), 'data' => $exception->getMessage(), 'msg' => 'http错误']);
         }
 
         // 常规错误
         if ($exception instanceof Exception) {
-            return response()->json(['code' => '400', 'data' => $exception->getMessage(), 'smg' => '异常错误']);
+            return response()->json(['code' => '400', 'data' => $exception->getMessage(), 'msg' => '异常错误']);
         }
         return parent::render($request, $exception);
     }
