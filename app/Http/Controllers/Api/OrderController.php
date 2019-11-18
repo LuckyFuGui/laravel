@@ -23,15 +23,21 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        // 毕传参数
+        $this->validate($request, [
+            'aid' => 'required',
+            'server_type' => 'required',
+            'start_time' => 'required',
+            'project_ids' => 'required',
+            'countPrice' => 'required',
+            'end_time' => 'required',
+        ]);
         $userNum = $request->num;
         $userNum = !empty($userNum) ? $userNum : 1;
         // 开始日期当天时间戳
         $time = strtotime(date('Y-m-d', $request->start_time));
         // 地址
         $address = Address::select('name', 'phone', 'address', 'comment')->find($request->aid);
-        if (!$request->server_type || !$request->start_time || !$request->end_time || !$request->project_ids || !$request->countPrice) {
-            return $this->error();
-        }
         // 插入数据
         $data['uid'] = $this->user['id'];
         $data['name'] = $address['name'];
@@ -63,7 +69,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-             $coupon = DiscountUser::find($request->cid)->value('coupon');
+            $coupon = DiscountUser::find($request->cid)->value('coupon');
         } else {
             $data['cid'] = 0;
         }
