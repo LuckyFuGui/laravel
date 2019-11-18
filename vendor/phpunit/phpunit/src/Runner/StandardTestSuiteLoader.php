@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
  * This file is part of PHPUnit.
  *
@@ -15,9 +15,9 @@ use PHPUnit\Util\Filesystem;
 use ReflectionClass;
 
 /**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ * The standard test suite loader.
  */
-final class StandardTestSuiteLoader implements TestSuiteLoader
+class StandardTestSuiteLoader implements TestSuiteLoader
 {
     /**
      * @throws Exception
@@ -25,7 +25,7 @@ final class StandardTestSuiteLoader implements TestSuiteLoader
      */
     public function load(string $suiteClassName, string $suiteClassFile = ''): ReflectionClass
     {
-        $suiteClassName = \str_replace('.php', '', \basename($suiteClassName));
+        $suiteClassName = \str_replace('.php', '', $suiteClassName);
 
         if (empty($suiteClassFile)) {
             $suiteClassFile = Filesystem::classNameToFilename(
@@ -33,56 +33,76 @@ final class StandardTestSuiteLoader implements TestSuiteLoader
             );
         }
 
-        $loadedClasses = \get_declared_classes();
-        $filename      = FileLoader::checkAndLoad($suiteClassFile);
-        $loadedClasses = \array_values(
-            \array_diff(\get_declared_classes(), $loadedClasses)
-        );
+        if (!\class_exists($suiteClassName, false)) {
+            $loadedClasses = \get_declared_classes();
 
-        $offset = 0 - \strlen($suiteClassName);
-        $class  = null;
+            $filename = FileLoader::checkAndLoad($suiteClassFile);
 
-        foreach ($loadedClasses as $loadedClass) {
-            try {
-                $class = new ReflectionClass($loadedClass);
-            } catch (\ReflectionException $e) {
-                throw new Exception(
-                    $e->getMessage(),
-                    (int) $e->getCode(),
-                    $e
-                );
-            }
-
-            if ($class->isAbstract()) {
-                continue;
-            }
-
-            if (\substr($loadedClass, $offset) === $suiteClassName &&
-                $class->getFileName() == $filename) {
-                $suiteClassName = $loadedClass;
-
-                break;
-            }
-
-            if ($class->isSubclassOf(TestCase::class)) {
-                $suiteClassName = $loadedClass;
-
-                break;
-            }
-        }
-
-        if (!\class_exists($suiteClassName, false) ||
-            !($class instanceof ReflectionClass)) {
-            throw new Exception(
-                \sprintf(
-                    "Class '%s' could not be found in '%s'.",
-                    $suiteClassName,
-                    $suiteClassFile
-                )
+            $loadedClasses = \array_values(
+                \array_diff(\get_declared_classes(), $loadedClasses)
             );
         }
 
-        return $class;
+        if (!\class_exists($suiteClassName, false) && !empty($loadedClasses)) {
+            $offset = 0 - \strlen($suiteClassName);
+
+            foreach ($loadedClasses as $loadedClass) {
+                $class = new ReflectionClass($loadedClass);
+
+                if (\substr($loadedClass, $offset) === $suiteClassName &&
+                    $class->getFileName() == $filename) {
+                    $suiteClassName = $loadedClass;
+
+                    break;
+                }
+            }
+        }
+
+        if (!\class_exists($suiteClassName, false) && !empty($loadedClasses)) {
+            $testCaseClass = TestCase::class;
+
+            foreach ($loadedClasses as $loadedClass) {
+                $class     = new ReflectionClass($loadedClass);
+                $classFile = $class->getFileName();
+
+                if ($class->isSubclassOf($testCaseClass) && !$class->isAbstract()) {
+                    $suiteClassName = $loadedClass;
+                    $testCaseClass  = $loadedClass;
+
+                    if ($classFile == \realpath($suiteClassFile)) {
+                        break;
+                    }
+                }
+
+                if ($class->hasMethod('suite')) {
+                    $method = $class->getMethod('suite');
+
+                    if (!$method->isAbstract() && $method->isPublic() && $method->isStatic()) {
+                        $suiteClassName = $loadedClass;
+
+                        if ($classFile == \realpath($suiteClassFile)) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (\class_exists($suiteClassName, false)) {
+            $class = new ReflectionClass($suiteClassName);
+
+            if ($class->getFileName() == \realpath($suiteClassFile)) {
+                return $class;
+            }
+        }
+
+        throw new Exception(
+            \sprintf(
+                "Class '%s' could not be found in '%s'.",
+                $suiteClassName,
+                $suiteClassFile
+            )
+        );
     }
 
     public function reload(ReflectionClass $aClass): ReflectionClass

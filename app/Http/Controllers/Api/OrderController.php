@@ -8,6 +8,7 @@ use App\Model\Workers;
 use App\Model\Project;
 use App\Model\LeaveLog;
 use App\Model\OrderProject;
+use App\Model\DiscountUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -62,7 +63,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-            // $coupon = Address::find($request->cid)->value('coupon');
+             $coupon = DiscountUser::find($request->cid)->value('coupon');
         } else {
             $data['cid'] = 0;
         }
@@ -122,9 +123,6 @@ class OrderController extends Controller
             DB::rollBack();
             return $this->error('插入异常');
         }
-//        Order::destroy($oid['id']);
-//        OrderProject::where('oid', $oid['id'])->delete();
-//        return $this->error();
     }
 
     /**

@@ -62,7 +62,7 @@
     "repositories": {
         "packagist": {
             "type": "composer",
-            "url": "https://packagist.laravel-china.org4"
+            "url": "https://developer.aliyun.com/composer"
         }
     }
 }

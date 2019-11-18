@@ -4,8 +4,8 @@ namespace Illuminate\Support\Facades;
 
 use Closure;
 use Mockery;
-use Mockery\MockInterface;
 use RuntimeException;
+use Mockery\MockInterface;
 
 abstract class Facade
 {
@@ -71,7 +71,7 @@ abstract class Facade
     /**
      * Create a fresh mock instance for the given class.
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\Expectation
      */
     protected static function createFreshMockInstance()
     {

@@ -6,14 +6,11 @@ addons:
       - libxml2-utils
 
 php:
+  - 7.1
   - 7.2
   - 7.3
-  - 7.4snapshot
-  - nightly
 
 matrix:
-  allow_failures:
-    - php: nightly
   fast_finish: true
 
 env:
