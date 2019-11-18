@@ -22,8 +22,18 @@ class IndexController extends Controller
             $code = $_GET['code'];
             $data = $this->get_access_token($code);
             $data_all = $this->get_user_info($data['access_token'],$data['openid']);
-            $res = User::firstOrCreate(['openid' => $data_all['openid']], $data_all);
-            return $res;
+            $res = User::firstOrCreate(['openid' => $data_all['openid']], [
+                                         'openid' => $data_all['openid'],
+                                         'nickname' => $data_all['nickname'],
+                                         'sex' => $data_all['sex'],
+                                         'language' => $data_all['language'],
+                                         'city' => $data_all['city'],
+                                         'province' => $data_all['province'],
+                                         'country' => $data_all['country'],
+                                         'headimgurl' => $data_all['headimgurl']
+                                       ]);
+         	header("Location:http://localhost:8080/#/home?openid=".$data_all['openid']);
+			return;
         }
     }
     public function get_code($callback){
