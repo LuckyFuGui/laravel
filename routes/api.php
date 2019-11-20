@@ -40,7 +40,9 @@ Route::group(['namespace' => 'Api'], function(){
 	// 订单管理
 	Route::group(['prefix'=>'order'], function(){
 		// 注册
-	    Route::post('store', 'OrderController@store');
+	    Route::post('store1', 'OrderController@store1');
+        Route::post('store23', 'OrderController@store23');
+        Route::post('store4', 'OrderController@store4');
 	    // 查询
 	    Route::post('index', 'OrderController@index');
 //	    // 删除
