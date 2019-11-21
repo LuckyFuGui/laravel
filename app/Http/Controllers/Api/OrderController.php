@@ -18,7 +18,6 @@ use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
-    const PRICE_MEM = 80;
     /**
      *
      * 家电、普通处理
@@ -100,8 +99,8 @@ class OrderController extends Controller
         }
         $data['sid'] = $sidStr;
         // 创建事务
-        DB::beginTransaction();
-        try {
+//        DB::beginTransaction();
+//        try {
             // 添加获取id
             $oid = Order::create($data);
             // 更新价格，加入详情单
@@ -127,19 +126,19 @@ class OrderController extends Controller
                 if ($orderInstall) {
                     return $this->success();
                 } else {
-                    DB::rollBack();
+//                    DB::rollBack();
                     return $this->error('修改数据失败');
                 }
             } else {
                 DB::rollBack();
                 return $this->error('价格产生差异');
             }
-            DB::commit();
-            return $this->success();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->error('插入异常');
-        }
+//            DB::commit();
+//            return $this->success();
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            return $this->error('插入异常');
+//        }
     }
 
     /**
