@@ -95,6 +95,7 @@ class OrderController extends Controller
         // 匹配数据
         $sid = $this->serverId($request->server_type, $time);
         $num = [];
+        dd($sid);
         foreach (array_rand($sid, $userNum) as $value) {
             $num[] = $sid[$value];
         }
