@@ -332,9 +332,9 @@ class OrderController extends Controller
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
             $OrderProject['price'] = self::PRICE_MEM + ($userNum - 1) * 40;
-            $OrderProject['name'] = $value['services_name'];
-            $OrderProject['num'] = $request->project_ids[$value['id']];
-            $rester = OrderProject::create($OrderProject);
+            $OrderProject['name'] = "新居开荒";
+            $OrderProject['num'] = $userNum;
+            OrderProject::create($OrderProject);
             // 计算总价格
             $price = self::PRICE_MEM + ($userNum - 1) * 40 - $data['special'];
             if ($price == $request->countPrice) {

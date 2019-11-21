@@ -9,7 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="welcome" />
     <orderEntry type="module" module-name="investingpudong" />
-    <orderEntry type="module" module-name="shop" />
     <orderEntry type="module" module-name="oa2" />
   </component>
 </module>
