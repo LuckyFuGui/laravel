@@ -130,8 +130,8 @@ class OrderController extends Controller
                     return $this->error('修改数据失败');
                 }
             } else {
-                DB::rollBack();
-                return $this->error('价格产生差异');
+//                DB::rollBack();
+                return $this->error('价格产生差异:'.$price);
             }
 //            DB::commit();
 //            return $this->success();
