@@ -94,12 +94,10 @@ class OrderController extends Controller
         $data['server_type'] = $request->server_type;
         // 匹配数据
         $sid = $this->serverId($request->server_type, $time);
-        $num = [];
-        dd($sid);
-        foreach (array_rand($sid, $userNum) as $value) {
-            $num[] = $sid[$value];
+        $sidStr = '';
+        for ($i=0;$i<=$userNum;$i++){
+            $sidStr .= $sid[$i].',';
         }
-        $sidStr = implode(',', $num);
         $data['sid'] = $sidStr;
         // 创建事务
         DB::beginTransaction();
@@ -219,11 +217,10 @@ class OrderController extends Controller
         $data['server_type'] = $request->server_type;
         // 匹配数据
         $sid = $this->serverId($request->server_type, $time);
-        $num = [];
-        foreach (array_rand($sid, $userNum) as $value) {
-            $num[] = $sid[$value];
+        $sidStr = '';
+        for ($i=0;$i<=$userNum;$i++){
+            $sidStr .= $sid[$i].',';
         }
-        $sidStr = implode(',', $num);
         $data['sid'] = $sidStr;
         // 创建事务
         DB::beginTransaction();
@@ -328,11 +325,10 @@ class OrderController extends Controller
         $data['server_type'] = $request->server_type;
         // 匹配数据
         $sid = $this->serverId($request->server_type, $time);
-        $num = [];
-        foreach (array_rand($sid, $userNum) as $value) {
-            $num[] = $sid[$value];
+        $sidStr = '';
+        for ($i=0;$i<=$userNum;$i++){
+            $sidStr .= $sid[$i].',';
         }
-        $sidStr = implode(',', $num);
         $data['sid'] = $sidStr;
         // 创建事务
         DB::beginTransaction();
