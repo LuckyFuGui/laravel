@@ -7,6 +7,7 @@ use App\Model\Address;
 use App\Model\Workers;
 use App\Model\Project;
 use App\Model\LeaveLog;
+use App\Model\Wasteland;
 use App\Model\OrderProject;
 use App\Model\DiscountUser;
 use App\Model\DailyCleaning;
@@ -74,7 +75,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-            $coupon = DiscountUser::find($request->cid)->value('coupon');
+            $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
         }
@@ -194,7 +195,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-            $coupon = DiscountUser::find($request->cid)->value('coupon');
+            $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
         }
@@ -235,7 +236,8 @@ class OrderController extends Controller
                     $price = $price + $value['services_price'] * $request->project_ids[$value['id']];
                 }
             }
-            $price = $price - $prices;
+            $priceQuery = DailyCleaning::find($request->sid)->value('price');
+            $price = $price - $prices + $priceQuery;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
@@ -302,7 +304,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-            $coupon = DiscountUser::find($request->cid)->value('coupon');
+            $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
         }
@@ -336,7 +338,8 @@ class OrderController extends Controller
             $OrderProject['num'] = $userNum;
             OrderProject::create($OrderProject);
             // 计算总价格
-            $price = self::PRICE_MEM + ($userNum - 1) * 40 - $data['special'];
+            $priceQuery = Wasteland::find($request->sid)->first();
+            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum - $data['special'];
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
