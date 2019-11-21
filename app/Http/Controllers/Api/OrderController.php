@@ -56,7 +56,7 @@ class OrderController extends Controller
         $info = [];
         $dataProject = json_decode($request->project_ids);
         foreach ($dataProject as $k => $v) {
-            $in[] = $k;
+            $in[] = intval($k);
             $info[$k] = $v;
         }
         $request->project_ids = $info;
@@ -65,13 +65,14 @@ class OrderController extends Controller
             ->where('state', self::TYPE)
             ->whereIn('id', $in)
             ->get();
+
         if (!$project) return $this->error();
         // 开始和结束时间
         $endtime = $request->end_time % (self::MINUTE / 60);
         if ($endtime) {
             $request->end_time = $request->start_time + (30 - $endtime) * 60;
         } else {
-            $request->end_time = $request->start_time + $request->end_time;
+            $request->end_time = $request->start_time + $request->end_time * 60;
         }
         $data['start_time'] = date('Y-m-d H:i', $request->start_time);
         $data['end_time'] = date('Y-m-d H:i', $request->end_time);
@@ -87,7 +88,7 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            $data['special'] = ceil(($request->end_time - $times) / 60) * self::PRICE;
+            $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
         $data['server_type'] = $request->server_type;
@@ -99,46 +100,46 @@ class OrderController extends Controller
         }
         $data['sid'] = $sidStr;
         // 创建事务
-//        DB::beginTransaction();
-//        try {
+        DB::beginTransaction();
+        try {
             // 添加获取id
-            $oid = Order::create($data);
-            // 更新价格，加入详情单
-            $price = 0;
-            $prices = $data['special'];
-            foreach ($project as $key => $value) {
-                $OrderProject['pid'] = $value['id'];
-                $OrderProject['oid'] = $oid['id'];
-                $OrderProject['price'] = $value['price'];
-                $OrderProject['name'] = $value['serverName'];
-                $OrderProject['num'] = $request->project_ids[$value['id']];
-                $rester = OrderProject::create($OrderProject);
-                // 计算总价格
-                if ($rester) {
-                    $price = $price + $value['price'] * $request->project_ids[$value['id']];
-                }
+        $oid = Order::create($data);
+        // 更新价格，加入详情单
+        $price = 0;
+        $prices = $data['coupon'];
+        foreach ($project as $key => $value) {
+            $OrderProject['pid'] = $value['id'];
+            $OrderProject['oid'] = $oid['id'];
+            $OrderProject['price'] = $value['price'];
+            $OrderProject['name'] = $value['serverName'];
+            $OrderProject['num'] = $request->project_ids[$value['id']];
+            $rester = OrderProject::create($OrderProject);
+            // 计算总价格
+            if ($rester) {
+                $price = $price + $value['price'] * $request->project_ids[$value['id']];
             }
-            $price = $price - $prices;
+        }
+        $price = $price - $prices + $data['special'];
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-                    return $this->success();
+                    return $this->success($price);
                 } else {
-//                    DB::rollBack();
-                    return $this->error('修改数据失败');
+                    DB::rollBack();
+                    return $this->error('修改数据失败:'.$price);
                 }
             } else {
-//                DB::rollBack();
+                DB::rollBack();
                 return $this->error('价格产生差异:'.$price);
             }
-//            DB::commit();
-//            return $this->success();
-//        } catch (\Exception $e) {
-//            DB::rollBack();
-//            return $this->error('插入异常');
-//        }
+            DB::commit();
+            return $this->success();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->error('插入异常');
+        }
     }
 
     /**
@@ -210,7 +211,7 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            $data['special'] = ceil(($request->end_time - $times) / 60) * self::PRICE;
+            $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
         $data['server_type'] = $request->server_type;
@@ -318,7 +319,7 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            $data['special'] = ceil(($request->end_time - $times) / 60) * self::PRICE;
+            $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
         $data['server_type'] = $request->server_type;
