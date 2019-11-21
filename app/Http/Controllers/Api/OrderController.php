@@ -54,9 +54,13 @@ class OrderController extends Controller
         $data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
         // 查询数据的条件
         $in = [];
-        foreach ($request->project_ids as $k => $v) {
+        $info = [];
+        $dataProject = json_decode($request->project_ids);
+        foreach ($dataProject as $k => $v) {
             $in[] = $k;
+            $info[$k] = $v;
         }
+        $request->project_ids = $info;
         // 项目查询
         $project = Project::where('type', $request->server_type)
             ->where('state', self::TYPE)
@@ -174,9 +178,13 @@ class OrderController extends Controller
         $data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
         // 查询数据的条件
         $in = [];
-        foreach ($request->project_ids as $k => $v) {
+        $info = [];
+        $dataProject = json_decode($request->project_ids);
+        foreach ($dataProject as $k => $v) {
             $in[] = $k;
+            $info[$k] = $v;
         }
+        $request->project_ids = $info;
         // 项目查询
         $project = AdditionalServices::where('project_id', $request->server_type)
             ->where('services_status', self::TYPE)
