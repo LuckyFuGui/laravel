@@ -91,48 +91,53 @@ class OrderController extends Controller
             $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
-        $data['server_type'] = $request->server_type;
+        $data['server_type'] = $request->server_type + 1;
         // 匹配数据
-        $sid = $this->serverId($request->server_type, $time);
+        $sid = $this->serverId($request->server_type + 1, $time);
         $sidStr = '';
-        for ($i=0;$i<=$userNum;$i++){
-            $sidStr .= $sid[$i].',';
+        for ($i = 0; $i <= $userNum; $i++) {
+            $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
         // 创建事务
         DB::beginTransaction();
         try {
             // 添加获取id
-        $oid = Order::create($data);
-        // 更新价格，加入详情单
-        $price = 0;
-        $prices = $data['coupon'];
-        foreach ($project as $key => $value) {
-            $OrderProject['pid'] = $value['id'];
-            $OrderProject['oid'] = $oid['id'];
-            $OrderProject['price'] = $value['price'];
-            $OrderProject['name'] = $value['serverName'];
-            $OrderProject['num'] = $request->project_ids[$value['id']];
-            $rester = OrderProject::create($OrderProject);
-            // 计算总价格
-            if ($rester) {
-                $price = $price + $value['price'] * $request->project_ids[$value['id']];
+            $oid = Order::create($data);
+            // 更新价格，加入详情单
+            $price = 0;
+            $prices = $data['coupon'];
+            foreach ($project as $key => $value) {
+                $OrderProject['pid'] = $value['id'];
+                $OrderProject['oid'] = $oid['id'];
+                $OrderProject['price'] = $value['price'];
+                $OrderProject['name'] = $value['serverName'];
+                $OrderProject['num'] = $request->project_ids[$value['id']];
+                $rester = OrderProject::create($OrderProject);
+                // 计算总价格
+                if ($rester) {
+                    $price = $price + $value['price'] * $request->project_ids[$value['id']];
+                }
             }
-        }
-        $price = $price - $prices + $data['special'];
+            $price = $price - $prices + $data['special'];
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
+                    $dis = [
+                        'status' => 1,
+                        'use_at' => date('Y-m-d H:i:s')
+                    ];
+                    DiscountUser::where('id', $request->cid)->update($dis);
                     return $this->success($price);
                 } else {
                     DB::rollBack();
-                    return $this->error('修改数据失败:'.$price);
+                    return $this->error('修改数据失败:' . $price);
                 }
             } else {
                 DB::rollBack();
-                return $this->error('价格产生差异:'.$price);
+                return $this->error('价格产生差异:' . $price);
             }
             DB::commit();
             return $this->success();
@@ -155,7 +160,6 @@ class OrderController extends Controller
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
-            'server_type' => 'required',
             'start_time' => 'required',
             'project_ids' => 'required',
             'countPrice' => 'required',
@@ -185,7 +189,7 @@ class OrderController extends Controller
         }
         $request->project_ids = $info;
         // 项目查询
-        $project = AdditionalServices::where('project_id', $request->server_type)
+        $project = AdditionalServices::where('project_id', 1)
             ->where('services_status', self::TYPE)
             ->whereIn('id', $in)
             ->get();
@@ -214,12 +218,12 @@ class OrderController extends Controller
             $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
-        $data['server_type'] = $request->server_type;
+        $data['server_type'] = 1;
         // 匹配数据
-        $sid = $this->serverId($request->server_type, $time);
+        $sid = $this->serverId(1, $time);
         $sidStr = '';
-        for ($i=0;$i<=$userNum;$i++){
-            $sidStr .= $sid[$i].',';
+        for ($i = 0; $i <= $userNum; $i++) {
+            $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
         // 创建事务
@@ -249,6 +253,11 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
+                    $dis = [
+                        'status' => 1,
+                        'use_at' => date('Y-m-d H:i:s')
+                    ];
+                    DiscountUser::where('id', $request->cid)->update($dis);
                     return $this->success();
                 } else {
                     DB::rollBack();
@@ -279,7 +288,6 @@ class OrderController extends Controller
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
-            'server_type' => 'required',
             'start_time' => 'required',
             'countPrice' => 'required',
             'end_time' => 'required',
@@ -322,12 +330,12 @@ class OrderController extends Controller
             $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
         }
         // 服务类型
-        $data['server_type'] = $request->server_type;
+        $data['server_type'] = 4;
         // 匹配数据
-        $sid = $this->serverId($request->server_type, $time);
+        $sid = $this->serverId(4, $time);
         $sidStr = '';
-        for ($i=0;$i<=$userNum;$i++){
-            $sidStr .= $sid[$i].',';
+        for ($i = 0; $i <= $userNum; $i++) {
+            $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
         // 创建事务
@@ -350,6 +358,11 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
+                    $dis = [
+                        'status' => 1,
+                        'use_at' => date('Y-m-d H:i:s')
+                    ];
+                    DiscountUser::where('id', $request->cid)->update($dis);
                     return $this->success();
                 } else {
                     DB::rollBack();

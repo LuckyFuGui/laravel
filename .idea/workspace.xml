@@ -19,14 +19,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-745">
-              <caret line="73" column="16" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
+            <state relative-caret-position="207">
+              <caret line="93" column="56" selection-start-line="93" selection-start-column="53" selection-end-line="93" selection-end-column="56" />
               <folding>
                 <element signature="e#44#64#0#PHP" expanded="true" />
+                <element signature="e#4309#4694#0#PHP" />
                 <element signature="e#4740#4887#0#PHP" />
                 <element signature="e#4989#5233#0#PHP" />
                 <element signature="e#9064#9211#0#PHP" />
-                <element signature="e#9313#9516#0#PHP" />
                 <element signature="e#10215#10411#0#PHP" />
                 <element signature="e#10319#10411#0#PHP" />
               </folding>
@@ -54,6 +54,8 @@
       <find>127.0.0.1</find>
       <find>root</find>
       <find>123456</find>
+      <find>server_type</find>
+      <find>+ 1</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2\trunk</dir>
@@ -309,12 +311,12 @@
       <workItem from="1574243871974" duration="3404000" />
       <workItem from="1574253865886" duration="11961000" />
       <workItem from="1574299851047" duration="10269000" />
-      <workItem from="1574340267389" duration="9916000" />
+      <workItem from="1574340267389" duration="11550000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76455000" />
+    <option name="totallyTimeSpent" value="78089000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -710,14 +712,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-745">
-          <caret line="73" column="16" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
+        <state relative-caret-position="207">
+          <caret line="93" column="56" selection-start-line="93" selection-start-column="53" selection-end-line="93" selection-end-column="56" />
           <folding>
             <element signature="e#44#64#0#PHP" expanded="true" />
+            <element signature="e#4309#4694#0#PHP" />
             <element signature="e#4740#4887#0#PHP" />
             <element signature="e#4989#5233#0#PHP" />
             <element signature="e#9064#9211#0#PHP" />
-            <element signature="e#9313#9516#0#PHP" />
             <element signature="e#10215#10411#0#PHP" />
             <element signature="e#10319#10411#0#PHP" />
           </folding>
