@@ -95,7 +95,7 @@ class OrderController extends Controller
         $sid = $this->serverId($request->server_type + 1, $time);
         if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
-        for ($i = 0; $i <= $userNum; $i++) {
+        for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
@@ -223,7 +223,7 @@ class OrderController extends Controller
         $sid = $this->serverId(1, $time);
         if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
-        for ($i = 0; $i <= $userNum; $i++) {
+        for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
@@ -336,7 +336,7 @@ class OrderController extends Controller
         $sid = $this->serverId(4, $time);
         if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
-        for ($i = 0; $i <= $userNum; $i++) {
+        for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
         }
         $data['sid'] = $sidStr;
