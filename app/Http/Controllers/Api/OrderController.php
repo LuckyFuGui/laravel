@@ -130,6 +130,7 @@ class OrderController extends Controller
                         'use_at' => date('Y-m-d H:i:s')
                     ];
                     DiscountUser::where('id', $request->cid)->update($dis);
+                    DB::commit();
                     return $this->success($price);
                 } else {
                     DB::rollBack();
@@ -139,8 +140,6 @@ class OrderController extends Controller
                 DB::rollBack();
                 return $this->error('价格产生差异:' . $price);
             }
-            DB::commit();
-            return $this->success();
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->error('插入异常');
@@ -259,6 +258,7 @@ class OrderController extends Controller
                         'use_at' => date('Y-m-d H:i:s')
                     ];
                     DiscountUser::where('id', $request->cid)->update($dis);
+                    DB::commit();
                     return $this->success();
                 } else {
                     DB::rollBack();
@@ -268,8 +268,6 @@ class OrderController extends Controller
                 DB::rollBack();
                 return $this->error('价格产生差异');
             }
-            DB::commit();
-            return $this->success();
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->error('插入异常');
@@ -365,6 +363,7 @@ class OrderController extends Controller
                         'use_at' => date('Y-m-d H:i:s')
                     ];
                     DiscountUser::where('id', $request->cid)->update($dis);
+                    DB::commit();
                     return $this->success();
                 } else {
                     DB::rollBack();
@@ -374,8 +373,6 @@ class OrderController extends Controller
                 DB::rollBack();
                 return $this->error('价格产生差异');
             }
-            DB::commit();
-            return $this->success();
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->error('插入异常');
