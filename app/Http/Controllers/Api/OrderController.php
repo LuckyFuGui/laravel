@@ -65,7 +65,6 @@ class OrderController extends Controller
             ->where('state', self::TYPE)
             ->whereIn('id', $in)
             ->get();
-
         if (!$project) return $this->error();
         // 开始和结束时间
         $endtime = $request->end_time % (self::MINUTE / 60);
@@ -94,6 +93,7 @@ class OrderController extends Controller
         $data['server_type'] = $request->server_type + 1;
         // 匹配数据
         $sid = $this->serverId($request->server_type + 1, $time);
+        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i <= $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
@@ -221,6 +221,7 @@ class OrderController extends Controller
         $data['server_type'] = 1;
         // 匹配数据
         $sid = $this->serverId(1, $time);
+        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i <= $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
@@ -333,6 +334,7 @@ class OrderController extends Controller
         $data['server_type'] = 4;
         // 匹配数据
         $sid = $this->serverId(4, $time);
+        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i <= $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
