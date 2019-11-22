@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="493" column="29" selection-start-line="493" selection-start-column="20" selection-end-line="493" selection-end-column="29" />
+            <state relative-caret-position="270">
+              <caret line="291" column="46" selection-start-line="291" selection-start-column="46" selection-end-line="291" selection-end-column="46" />
               <folding>
                 <element signature="e#44#64#0#PHP" expanded="true" />
               </folding>
@@ -29,7 +27,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
@@ -79,6 +77,7 @@
       <find>all</find>
       <find>for ($i = 0; $i &lt;</find>
       <find>DB::commit();</find>
+      <find>index</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2</dir>
@@ -150,8 +149,8 @@
         <option value="$PROJECT_DIR$/../oa2/trunk/Contact/Apicp/Controller/Company/DeleteController.class.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
       </list>
     </option>
   </component>
@@ -370,12 +369,12 @@
       <workItem from="1574299851047" duration="10269000" />
       <workItem from="1574340267389" duration="11657000" />
       <workItem from="1574386529936" duration="26485000" />
-      <workItem from="1574433668817" duration="6174000" />
+      <workItem from="1574433668817" duration="7662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110855000" />
+    <option name="totallyTimeSpent" value="112343000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -827,20 +826,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="493" column="29" selection-start-line="493" selection-start-column="20" selection-end-line="493" selection-end-column="29" />
-          <folding>
-            <element signature="e#44#64#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="51" column="59" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="291" column="46" selection-start-line="291" selection-start-column="46" selection-end-line="291" selection-end-column="46" />
+          <folding>
+            <element signature="e#44#64#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

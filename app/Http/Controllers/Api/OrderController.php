@@ -37,6 +37,8 @@ class OrderController extends Controller
             'countPrice' => 'required',
             'end_time' => 'required',
         ]);
+        $resOrder = $this->orderServer();
+        if ($resOrder) $this->error('有待支付订单');
         $userNum = $request->num;
         $userNum = !empty($userNum) ? $userNum : 1;
         // 开始日期当天时间戳
@@ -156,6 +158,8 @@ class OrderController extends Controller
      */
     public function store1(Request $request)
     {
+        $resOrder = $this->orderServer();
+        if ($resOrder) $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -284,6 +288,8 @@ class OrderController extends Controller
      */
     public function store4(Request $request)
     {
+        $resOrder = $this->orderServer();
+        if ($resOrder) $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -444,6 +450,7 @@ class OrderController extends Controller
             ->where($user, $this->user['id']);
         if ($where) $data = $data->where('pay_type', $where);
         $data = $data->offset(($page - 1) * $limit)
+            ->orderBy('id', 'DESC')
             ->limit($limit)
             ->get()->toArray();
         foreach ($data as &$value) {
@@ -483,15 +490,26 @@ class OrderController extends Controller
      * 取消
      * @param Request $request
      */
-    public function cancel(Request $request){
-        Order::where('id', $request->id)->update(['pay_type' => 2]);
+    public function cancel(Request $request)
+    {
+        $res = Order::where('id', $request->id)->update(['pay_type' => 2]);
+        if ($res) return $this->success();
+        return $this->error();
     }
 
     /**
      * 成功
      * @param Request $request
      */
-    public function succOrder(Request $request){
-        Order::where('id', $request->id)->update(['pay_type' => 4]);
+    public function succOrder(Request $request)
+    {
+        $res = Order::where('id', $request->id)->update(['pay_type' => 4]);
+        if ($res) return $this->success();
+        return $this->error();
+    }
+
+    public function orderServer()
+    {
+        return Order::where('uid', $this->user['id'])->where('pay_type', 0)->get();
     }
 }
