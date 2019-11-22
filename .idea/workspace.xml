@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +15,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
-              <caret line="358" selection-start-line="358" selection-end-line="358" />
+              <caret line="355" selection-start-line="355" selection-end-line="355" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="401">
+              <caret line="64" column="45" lean-forward="true" selection-start-line="64" selection-start-column="45" selection-end-line="64" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/Projects.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="311">
+              <caret line="116" column="30" lean-forward="true" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -75,7 +93,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../oa2/trunk/Newspoa/Apicp/Controller/News/BatchExportArticleReadListController.class.php" />
         <option value="$PROJECT_DIR$/../investingpudong/trunk/Public/Apicp/Controller/Recommender/BannerNewController.class.php" />
         <option value="$PROJECT_DIR$/../investingpudong/trunk/Knowledge/Apicp/Controller/NewsClass/SaveController.class.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/IndexController.php" />
@@ -126,6 +143,7 @@
         <option value="$PROJECT_DIR$/../oa2/trunk/Contact/Common/Service/UserService.class.php" />
         <option value="$PROJECT_DIR$/../oa2/trunk/Contact/Apicp/Controller/Company/DeleteController.class.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php" />
       </list>
     </option>
   </component>
@@ -339,12 +357,12 @@
       <workItem from="1574299851047" duration="10269000" />
       <workItem from="1574340267389" duration="11657000" />
       <workItem from="1574386529936" duration="26485000" />
-      <workItem from="1574433668817" duration="3171000" />
+      <workItem from="1574433668817" duration="4007000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107852000" />
+    <option name="totallyTimeSpent" value="108688000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -376,8 +394,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../oa2/trunk/Companys/Common/Model/CompanysModel.class.php" />
-    <entry file="file://$PROJECT_DIR$/../oa2/trunk/Companys/Common/Service/CompanysService.class.php" />
     <entry file="file://$PROJECT_DIR$/../oa2/trunk/Contact/Common/Model/ContractModel.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -769,7 +785,21 @@
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
-          <caret line="358" selection-start-line="358" selection-end-line="358" />
+          <caret line="355" selection-start-line="355" selection-end-line="355" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/Projects.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="116" column="30" lean-forward="true" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AddressController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="64" column="45" lean-forward="true" selection-start-line="64" selection-start-column="45" selection-end-line="64" selection-end-column="45" />
         </state>
       </provider>
     </entry>

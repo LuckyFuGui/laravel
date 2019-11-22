@@ -11,7 +11,7 @@ class AddressController extends Controller
     /**
      * 修改
      * [save description]
-     * @param  Request $request [description]
+     * @param Request $request [description]
      * @return [type]           [description]
      */
     public function save(Request $request)
@@ -26,7 +26,7 @@ class AddressController extends Controller
     /**
      * 删除
      * [destroy description]
-     * @param  Request $request [description]
+     * @param Request $request [description]
      * @return [type]           [description]
      */
     public function destroy(Request $request)
@@ -39,7 +39,7 @@ class AddressController extends Controller
     /**
      * 列表
      * [index description]
-     * @param  Request $request [description]
+     * @param Request $request [description]
      * @return [type]           [description]
      */
     public function index(Request $request)
@@ -62,14 +62,14 @@ class AddressController extends Controller
      */
     public function onlyIndex(Request $request)
     {
-        $data = Address::find($request->id)->first();
+        $data = Address::query()->where('id',$request->id)->first();
         return $this->success($data);
     }
 
     /**
      * 添加
      * [store description]
-     * @param  Request $request [description]
+     * @param Request $request [description]
      * @return [type]           [description]
      */
     public function store(Request $request)
