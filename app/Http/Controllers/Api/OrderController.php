@@ -478,4 +478,20 @@ class OrderController extends Controller
         unset($data['order_comment']);
         return $this->success($data);
     }
+
+    /**
+     * 取消
+     * @param Request $request
+     */
+    public function cancel(Request $request){
+        Order::where('id', $request->id)->update(['pay_type' => 2]);
+    }
+
+    /**
+     * 成功
+     * @param Request $request
+     */
+    public function succOrder(Request $request){
+        Order::where('id', $request->id)->update(['pay_type' => 4]);
+    }
 }

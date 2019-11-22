@@ -47,7 +47,9 @@ Route::group(['namespace' => 'Api'], function(){
 	    Route::post('index', 'OrderController@index');
 //	    // 删除
 //	    Route::post('destroy', 'OrderController@destroy');
-//	    // 修改
+	    // 修改
+        Route::post('cancel', 'OrderController@cancel');
+        Route::post('succOrder', 'OrderController@succOrder');
 //    	Route::post('save', 'OrderController@save');
     	////////////////////////
     	Route::post('timedate', 'TimedateController@index');

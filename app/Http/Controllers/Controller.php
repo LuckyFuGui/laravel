@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\User;
+use App\Model\Order;
 use App\Model\Admins;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -35,11 +36,20 @@ class Controller extends BaseController
 
     public function __construct(Request $Request)
     {
+        // 后台
         if ($Request->header('token')) {
             $this->adminId = Admins::where('token', $Request->header('token'))->value('id');
         }
+        // 前台
         if ($Request->header('openid')) {
             $this->user = User::where('openid', $Request->header('openid'))->first();
+        }
+        // 清除订单
+        $orderData = Order::where('pay_type', 0)->where('created_at', '<=', date('Y-m-d H:i:s', time() - 1800))->get();
+        if ($orderData) {
+            foreach ($orderData as $key => $value) {
+                Order::where('id', $value['id'])->update(['pay_type' => 3]);
+            }
         }
     }
 
@@ -97,7 +107,7 @@ class Controller extends BaseController
     {
         return !empty($page) ? $page : 1;
     }
-    
+
     /**
      * 条数
      */
