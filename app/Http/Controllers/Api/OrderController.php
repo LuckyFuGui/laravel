@@ -28,6 +28,8 @@ class OrderController extends Controller
      */
     public function store23(Request $request)
     {
+//        $resOrder = $this->orderServer();
+//        if ($resOrder) return $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -37,8 +39,6 @@ class OrderController extends Controller
             'countPrice' => 'required',
             'end_time' => 'required',
         ]);
-        $resOrder = $this->orderServer();
-        if ($resOrder) $this->error('有待支付订单');
         $userNum = $request->num;
         $userNum = !empty($userNum) ? $userNum : 1;
         // 开始日期当天时间戳
@@ -159,7 +159,7 @@ class OrderController extends Controller
     public function store1(Request $request)
     {
         $resOrder = $this->orderServer();
-        if ($resOrder) $this->error('有待支付订单');
+        if ($resOrder) return $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -289,7 +289,7 @@ class OrderController extends Controller
     public function store4(Request $request)
     {
         $resOrder = $this->orderServer();
-        if ($resOrder) $this->error('有待支付订单');
+        if ($resOrder) return $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -402,8 +402,13 @@ class OrderController extends Controller
             ->pluck('id')->toArray();
         // 正在订单的数据
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
-            ->where('start_time', '<=', $end_time)
             ->pluck('sid')->toArray();
+        $oidWorker = [];
+        foreach ($oid as $key => $val){
+            $oidServer = array_filter(explode(',', $val));
+            $oidWorker = array_merge($oidWorker,$oidServer);
+        }
+        $oid = $oidWorker;
         // 请假的数据
         $leave = LeaveLog::with('worker')
             ->whereHas('worker', function ($query) use ($type) {
@@ -510,6 +515,6 @@ class OrderController extends Controller
 
     public function orderServer()
     {
-        return Order::where('uid', $this->user['id'])->where('pay_type', 0)->get();
+        return Order::where('uid', $this->user['id'])->where('pay_type', 0)->get()->toArray();
     }
 }
