@@ -81,7 +81,7 @@ class OrderController extends Controller
         $coupon = 0;
         if ($request->cid) {
             $data['cid'] = $request->cid;
-            $coupon = DiscountUser::where('id',$request->cid)->value('voucher_price');
+            $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
         }
@@ -210,6 +210,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
+            $data['cid'] = $request->cid;
             $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
@@ -324,6 +325,7 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
+            $data['cid'] = $request->cid;
             $coupon = DiscountUser::find($request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
