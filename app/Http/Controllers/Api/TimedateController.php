@@ -23,25 +23,53 @@ class TimedateController extends Controller
         $countUser = $this->countUser($type);
         // 时间计算
         for ($i = 7; $i <= 22; $i++) {
+            // 总人数
+            $userCount = $countUser;
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i, $type);
             // 订单人数
-            $orderUser = $this->orderUser($type);
+            $orderUser = $this->orderUser($day + self::HOUR * $i, $type);
             // 结束订单后
             $suspend = $this->suspend($day + self::HOUR * $i, $type);
+            // 合并去重，算总数
+            if (is_array($orderUser)) {
+                $userCountServer = [];
+                foreach ($userCount as $key => $val) {
+                    if (!in_array($val, $orderUser)) {
+                        $userCountServer[] = $val;
+                    }
+                }
+            } else {
+                $userCountServer = $userCount;
+            }
+            $count = count($userCountServer);
             // 现在剩余人数
-            $date[$i . ":00"] = $countUser - $leaveUser - $orderUser - $suspend;
+            $num = $count - $leaveUser - $suspend;
+            $date[$i . ":00"] = $num > 0 ? $num : 0;
             // *****************
             // *** 半小时处理 ***
             // *****************
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 订单人数
-            $orderUser = $this->orderUser($type);
+            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 结束订单后
             $suspend = $this->suspend($day + self::HOUR * $i + self::MINUTE, $type);
-            // 查询请假人数, $type
-            $date[$i . ":30"] = $countUser - $leaveUser - $orderUser - $suspend;
+            // 合并去重，算总数
+            if (is_array($orderUser)) {
+                $userCountServer = [];
+                foreach ($userCount as $key => $val) {
+                    if (!in_array($val, $orderUser)) {
+                        $userCountServer[] = $val;
+                    }
+                }
+            } else {
+                $userCountServer = $userCount;
+            }
+            $count = count($userCountServer);
+            // 现在剩余人数
+            $num = $count - $leaveUser - $suspend;
+            $date[$i . ":30"] = $num > 0 ? $num : 0;
         }
         array_pop($date);
         return $this->success($date);
@@ -50,7 +78,7 @@ class TimedateController extends Controller
     // 总员工人数
     public function countUser($type)
     {
-        return Workers::where('project_ids', 'like', '%' . $type . '%')->count();
+        return Workers::where('status', self::TYPE)->where('project_ids', 'like', '%' . $type . '%')->pluck('id')->toArray();
     }
 
     // 查询请假人数
@@ -67,17 +95,19 @@ class TimedateController extends Controller
     }
 
     // 查询订单人数
-    public function orderUser($type)
+    public function orderUser($time)
     {
         $data = Order::whereIn('pay_type', [0, 1])
-            ->where('server_type', $type)
+            ->where('start_time', '<=', date('Y-m-d H:i', $time))
+            ->whereOr('end_time', '>=', date('Y-m-d H:i', $time))
             ->get()->toArray();
-        $worker = 0;
-        foreach ($data as $key => $val) {
-            $array = array_filter(explode(',', $val['sid']));
-            $worker += count($array);
+        $array = [];
+        if (is_array($data)) {
+            foreach ($data as $key => $val) {
+                $array = array_filter(explode(',', $val['sid']));
+            }
         }
-        return $worker;
+        return $array;
     }
 
     // 结束后2小时不派单
