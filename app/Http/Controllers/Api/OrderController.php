@@ -28,8 +28,8 @@ class OrderController extends Controller
      */
     public function store23(Request $request)
     {
-        $resOrder = $this->orderServer();
-        if ($resOrder) return $this->error('有待支付订单');
+//        $resOrder = $this->orderServer();
+//        if ($resOrder) return $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
@@ -80,7 +80,8 @@ class OrderController extends Controller
         // 优惠卷
         $coupon = 0;
         if ($request->cid) {
-            $coupon = DiscountUser::find($request->cid)->value('voucher_price');
+            $data['cid'] = $request->cid;
+            $coupon = DiscountUser::where('id',$request->cid)->value('voucher_price');
         } else {
             $data['cid'] = 0;
         }
@@ -127,11 +128,11 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-                    $dis = [
-                        'status' => 1,
-                        'use_at' => date('Y-m-d H:i:s')
-                    ];
-                    DiscountUser::where('id', $request->cid)->update($dis);
+//                    $dis = [
+//                        'status' => 1,
+//                        'use_at' => date('Y-m-d H:i:s')
+//                    ];
+//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
                     return $this->success($price);
                 } else {
@@ -257,11 +258,11 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-                    $dis = [
-                        'status' => 1,
-                        'use_at' => date('Y-m-d H:i:s')
-                    ];
-                    DiscountUser::where('id', $request->cid)->update($dis);
+//                    $dis = [
+//                        'status' => 1,
+//                        'use_at' => date('Y-m-d H:i:s')
+//                    ];
+//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
                     return $this->success();
                 } else {
@@ -364,11 +365,11 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-                    $dis = [
-                        'status' => 1,
-                        'use_at' => date('Y-m-d H:i:s')
-                    ];
-                    DiscountUser::where('id', $request->cid)->update($dis);
+//                    $dis = [
+//                        'status' => 1,
+//                        'use_at' => date('Y-m-d H:i:s')
+//                    ];
+//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
                     return $this->success();
                 } else {
