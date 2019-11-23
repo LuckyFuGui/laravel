@@ -30,7 +30,7 @@ class TimedateController extends Controller
             // 订单人数
             $orderUser = $this->orderUser($day + self::HOUR * $i, $type);
             // 结束订单后
-            $suspend = $this->suspend($day + self::HOUR * $i, $type);
+            $suspend = 0;//$this->suspend($day + self::HOUR * $i, $type);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
@@ -54,7 +54,7 @@ class TimedateController extends Controller
             // 订单人数
             $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 结束订单后
-            $suspend = $this->suspend($day + self::HOUR * $i + self::MINUTE, $type);
+            $suspend = 0;//$this->suspend($day + self::HOUR * $i + self::MINUTE, $type);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
@@ -98,8 +98,10 @@ class TimedateController extends Controller
     public function orderUser($time)
     {
         $data = Order::whereIn('pay_type', [0, 1])
-            ->where('start_time', '<=', date('Y-m-d H:i', $time))
-            ->whereOr('end_time', '>=', date('Y-m-d H:i', $time))
+            // 去的路上2小时
+            ->where('start_time', '<=', date('Y-m-d H:i', $time + self::HOUR * 2))
+            // 回来的路上2小时
+            ->where('end_time', '>=', date('Y-m-d H:i', $time - self::HOUR * 2))
             ->get()->toArray();
         $array = [];
         if (is_array($data)) {
@@ -110,15 +112,15 @@ class TimedateController extends Controller
         return $array;
     }
 
-    // 结束后2小时不派单
-    public function suspend($time, $type)
-    {
-        return Order::with('workerUser')
-            ->whereHas('workerUser', function ($query) use ($type) {
-                $query->where('server_type', $type);
-            })
-            ->where('end_time', '<=', date('Y-m-d H:i', $time))
-            ->where('end_time', '>=', date('Y-m-d H:i', $time - self::HOUR * 2))
-            ->count();
-    }
+//    // 结束后2小时不派单
+//    public function suspend($time, $type)
+//    {
+//        return Order::with('workerUser')
+//            ->whereHas('workerUser', function ($query) use ($type) {
+//                $query->where('server_type', $type);
+//            })
+//            ->where('end_time', '<=', date('Y-m-d H:i', $time))
+//            ->where('end_time', '>=', date('Y-m-d H:i', $time - self::HOUR * 2))
+//            ->count();
+//    }
 }
