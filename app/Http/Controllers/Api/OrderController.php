@@ -487,6 +487,13 @@ class OrderController extends Controller
         } else {
             $data['order_comments'] = 0;
         }
+        $data['voucher_type'] = null;
+        $data['voucher_price'] = null;
+        if ($data['cid'] > 0) {
+            $coupon = DiscountUser::find($data['cid'])->first();
+            $data['voucher_type'] = $coupon['voucher_type'];
+            $data['voucher_price'] = $coupon['voucher_price'];
+        }
         unset($data['order_comment']);
         return $this->success($data);
     }
