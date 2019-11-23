@@ -28,8 +28,8 @@ class OrderController extends Controller
      */
     public function store23(Request $request)
     {
-//        $resOrder = $this->orderServer();
-//        if ($resOrder) return $this->error('有待支付订单');
+        $resOrder = $this->orderServer();
+        if ($resOrder) return $this->error('有待支付订单');
         // 必传参数
         $this->validate($request, [
             'aid' => 'required',
