@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="87" selection-start-line="87" selection-end-line="87" />
+            <state relative-caret-position="244">
+              <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="31" selection-end-column="18" />
               <folding>
                 <element signature="e#44#64#0#PHP" expanded="true" />
                 <element signature="e#451#609#0#PHP" />
@@ -70,7 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.</find>
       <find>end_time</find>
       <find>$url</find>
       <find>$dataCategoryId</find>
@@ -99,6 +97,8 @@
       <find>$this-&gt;error('有待支付订单');</find>
       <find>workerUser</find>
       <find>DiscountUser::where('id', $request-&gt;cid)-&gt;update($dis);</find>
+      <find>$coupon = DiscountUser::find($re</find>
+      <find>$coupon = DiscountUser::</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2</dir>
@@ -393,12 +393,12 @@
       <workItem from="1574433668817" duration="7946000" />
       <workItem from="1574496327892" duration="6710000" />
       <workItem from="1574503581034" duration="263000" />
-      <workItem from="1574517463760" duration="5467000" />
+      <workItem from="1574517463760" duration="6123000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="125067000" />
+    <option name="totallyTimeSpent" value="125723000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -866,8 +866,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        <state relative-caret-position="244">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="31" selection-end-column="18" />
           <folding>
             <element signature="e#44#64#0#PHP" expanded="true" />
             <element signature="e#451#609#0#PHP" />
