@@ -28,9 +28,7 @@ class TimedateController extends Controller
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i, $type);
             // 订单人数
-            $orderUser = $this->orderUser($day + self::HOUR * $i, $type);
-            // 结束订单后
-            $suspend = 0;//$this->suspend($day + self::HOUR * $i, $type);
+            $orderUser = $this->orderUser($day + self::HOUR * $i);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
@@ -44,7 +42,7 @@ class TimedateController extends Controller
             }
             $count = count($userCountServer);
             // 现在剩余人数
-            $num = $count - $leaveUser - $suspend;
+            $num = $count - $leaveUser;
             $date[$i . ":00"] = $num > 0 ? $num : 0;
             // *****************
             // *** 半小时处理 ***
@@ -52,9 +50,7 @@ class TimedateController extends Controller
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 订单人数
-            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE, $type);
-            // 结束订单后
-            $suspend = 0;//$this->suspend($day + self::HOUR * $i + self::MINUTE, $type);
+            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
@@ -68,7 +64,7 @@ class TimedateController extends Controller
             }
             $count = count($userCountServer);
             // 现在剩余人数
-            $num = $count - $leaveUser - $suspend;
+            $num = $count - $leaveUser;
             $date[$i . ":30"] = $num > 0 ? $num : 0;
         }
         array_pop($date);
@@ -111,16 +107,4 @@ class TimedateController extends Controller
         }
         return $array;
     }
-
-//    // 结束后2小时不派单
-//    public function suspend($time, $type)
-//    {
-//        return Order::with('workerUser')
-//            ->whereHas('workerUser', function ($query) use ($type) {
-//                $query->where('server_type', $type);
-//            })
-//            ->where('end_time', '<=', date('Y-m-d H:i', $time))
-//            ->where('end_time', '>=', date('Y-m-d H:i', $time - self::HOUR * 2))
-//            ->count();
-//    }
 }
