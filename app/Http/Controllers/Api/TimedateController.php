@@ -26,7 +26,7 @@ class TimedateController extends Controller
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i, $type);
             // 订单人数
-            $orderUser = $this->orderUser();
+            $orderUser = $this->orderUser($type);
             // 结束订单后
             $suspend = $this->suspend($day + self::HOUR * $i, $type);
             // 现在剩余人数
@@ -37,7 +37,7 @@ class TimedateController extends Controller
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 订单人数
-            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE, $type);
+            $orderUser = $this->orderUser($type);
             // 结束订单后
             $suspend = $this->suspend($day + self::HOUR * $i + self::MINUTE, $type);
             // 查询请假人数, $type
@@ -67,9 +67,10 @@ class TimedateController extends Controller
     }
 
     // 查询订单人数
-    public function orderUser()
+    public function orderUser($type)
     {
         $data = Order::whereIn('pay_type', [0, 1])
+            ->where('server_type', $type)
             ->get()->toArray();
         $worker = 0;
         foreach ($data as $key => $val) {
