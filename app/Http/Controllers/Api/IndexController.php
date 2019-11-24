@@ -12,13 +12,13 @@ class IndexController extends Controller
     // 授权
 //    private $appid = 'wxb2b4c22f8c889787';
 //    private $appsecret = '2930d8eb4c5b70bf372ea4311bfb1704';
-    private $wap = 'http://www.smalllucky.cn/api/index';
-    private $worker = 'http://www.smalllucky.cn/api/worker';
+//    private $wap = 'http://www.smalllucky.cn/api/index';
+//    private $worker = 'http://www.smalllucky.cn/api/worker';
     /*********正式************/
     private $appid = 'wx19d0b3b3eb9ff6cf';
     private $appsecret = 'be79036cf2e36d3fa9124e6570fcbc9e';
-//    private $wap = 'http://cqdaguanjia.com/api/index';
-//    private $worker = 'http://cqdaguanjia.com/api/worker';
+    private $wap = 'http://cqdaguanjia.com/api/index';
+    private $worker = 'http://cqdaguanjia.com/api/worker';
 
     /**
      * 用户授权
