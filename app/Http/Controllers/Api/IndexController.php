@@ -35,7 +35,7 @@ class IndexController extends Controller
             // token换取用户数据
             $data_all = $this->get_user_info($data['access_token'], $data['openid']);
             // 添加或者更新
-            $res = User::firstOrCreate(['openid' => $data_all['openid']], [
+            User::firstOrCreate(['openid' => $data_all['openid']], [
                 'openid' => $data_all['openid'],
                 'nickname' => $data_all['nickname'],
                 'sex' => $data_all['sex'],
@@ -45,9 +45,7 @@ class IndexController extends Controller
                 'country' => $data_all['country'],
                 'headimgurl' => $data_all['headimgurl']
             ]);
-            dd($res);
-            header("Location:http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKWfCV6uKML4q8qtCsPSTljN6xQKgPTamtDMpDnQF92XTWiaTqnqdoPbgVEdnUFUPTJgR1OyTTVU5Q/132");
-//            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
+            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
             return;
         }
     }
