@@ -69,7 +69,7 @@ class IndexController extends Controller
             $userRes = User::where('openid',$data_all['openid'])->first();
             if($userRes) $res = Workers::where('uid',$userRes['id'])->first();
             if(!$res) return $this->error('目前不是员工');
-            header("Location:http://localhost:8080/#/home?openid=" . $data_all['openid']);
+            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
             return;
         }
     }
