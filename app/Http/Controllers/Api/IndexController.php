@@ -17,8 +17,8 @@ class IndexController extends Controller
     /*********正式************/
     private $appid = 'wx19d0b3b3eb9ff6cf';
     private $appsecret = 'be79036cf2e36d3fa9124e6570fcbc9e';
-    private $wap = 'http://cqdaguanjia.com/api/index';
-    private $worker = 'http://cqdaguanjia.com/api/worker';
+//    private $wap = 'http://cqdaguanjia.com/api/index';
+//    private $worker = 'http://cqdaguanjia.com/api/worker';
 
     /**
      * 用户授权
@@ -32,8 +32,6 @@ class IndexController extends Controller
             $code = $_GET['code'];
             // code换取token
             $data = $this->get_access_token($code);
-            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data['openid']);
-            return;
             // token换取用户数据
             $data_all = $this->get_user_info($data['access_token'], $data['openid']);
             // 添加或者更新
