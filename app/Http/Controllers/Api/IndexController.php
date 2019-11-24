@@ -32,6 +32,8 @@ class IndexController extends Controller
             $code = $_GET['code'];
             // code换取token
             $data = $this->get_access_token($code);
+            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data['openid']);
+            return;
             // token换取用户数据
             $data_all = $this->get_user_info($data['access_token'], $data['openid']);
             // 添加或者更新
@@ -65,9 +67,9 @@ class IndexController extends Controller
             // token换取用户数据
             $data_all = $this->get_user_info($data['access_token'], $data['openid']);
             // 查询员工
-            $userRes = User::where('openid',$data_all['openid'])->first();
-            if($userRes) $res = Workers::where('uid',$userRes['id'])->first();
-            if(!$res) return $this->error('目前不是员工');
+            $userRes = User::where('openid', $data_all['openid'])->first();
+            if ($userRes) $res = Workers::where('uid', $userRes['id'])->first();
+            if (!$res) return $this->error('目前不是员工');
             header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
             return;
         }
