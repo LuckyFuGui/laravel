@@ -45,6 +45,7 @@ class IndexController extends Controller
                 'country' => $data_all['country'],
                 'headimgurl' => $data_all['headimgurl']
             ]);
+            dd($res);
             header("Location:http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKWfCV6uKML4q8qtCsPSTljN6xQKgPTamtDMpDnQF92XTWiaTqnqdoPbgVEdnUFUPTJgR1OyTTVU5Q/132");
 //            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
             return;

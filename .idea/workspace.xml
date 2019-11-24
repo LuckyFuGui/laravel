@@ -18,11 +18,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/IndexController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="71" column="95" selection-start-line="71" selection-start-column="95" selection-end-line="71" selection-end-column="95" />
+            <state relative-caret-position="161">
+              <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
               <folding>
                 <element signature="e#634#1620#0#PHP" />
-                <element signature="e#1079#1497#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -353,12 +352,12 @@
       <workItem from="1574496327892" duration="6710000" />
       <workItem from="1574503581034" duration="263000" />
       <workItem from="1574517463760" duration="13307000" />
-      <workItem from="1574572314501" duration="7809000" />
+      <workItem from="1574572314501" duration="7975000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140716000" />
+    <option name="totallyTimeSpent" value="140882000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -841,11 +840,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/IndexController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="71" column="95" selection-start-line="71" selection-start-column="95" selection-end-line="71" selection-end-column="95" />
+        <state relative-caret-position="161">
+          <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
           <folding>
             <element signature="e#634#1620#0#PHP" />
-            <element signature="e#1079#1497#0#PHP" />
           </folding>
         </state>
       </provider>
