@@ -96,7 +96,7 @@ class OrderController extends Controller
         $data['server_type'] = $request->server_type + 1;
         // 匹配数据
         $sid = $this->serverId($request->server_type + 1, $time);
-        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
+        if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
@@ -128,13 +128,8 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-//                    $dis = [
-//                        'status' => 1,
-//                        'use_at' => date('Y-m-d H:i:s')
-//                    ];
-//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
-                    return $this->success($price);
+                    return $this->success($oid['id']);
                 } else {
                     DB::rollBack();
                     return $this->error('修改数据失败:' . $price);
@@ -188,13 +183,12 @@ class OrderController extends Controller
         $info = [];
         $dataProject = json_decode($request->project_ids);
         foreach ($dataProject as $k => $v) {
-            $in[] = $k;
+            $in[] = intval($k);
             $info[$k] = $v;
         }
         $request->project_ids = $info;
         // 项目查询
-        $project = AdditionalServices::where('project_id', 1)
-            ->where('services_status', self::TYPE)
+        $project = AdditionalServices::where('services_status', self::TYPE)
             ->whereIn('id', $in)
             ->get();
         if (!$project) return $this->error();
@@ -226,7 +220,7 @@ class OrderController extends Controller
         $data['server_type'] = 1;
         // 匹配数据
         $sid = $this->serverId(1, $time);
-        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
+        if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
@@ -259,11 +253,6 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-//                    $dis = [
-//                        'status' => 1,
-//                        'use_at' => date('Y-m-d H:i:s')
-//                    ];
-//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
                     return $this->success();
                 } else {
@@ -272,7 +261,7 @@ class OrderController extends Controller
                 }
             } else {
                 DB::rollBack();
-                return $this->error('价格产生差异');
+                return $this->error('价格产生差异:'.$price);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -341,7 +330,7 @@ class OrderController extends Controller
         $data['server_type'] = 4;
         // 匹配数据
         $sid = $this->serverId(4, $time);
-        if (count($sid) <= $userNum) return $this->error('暂无服务人员');
+        if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         for ($i = 0; $i < $userNum; $i++) {
             $sidStr .= $sid[$i] . ',';
