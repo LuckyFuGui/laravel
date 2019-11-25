@@ -30,6 +30,8 @@ Route::group(['namespace' => 'Api'], function(){
 	    Route::post('store', 'AddressController@store');
 	    // 查询
 	    Route::post('index', 'AddressController@index');
+        // 查询单个
+        Route::post('onlyIndex', 'AddressController@onlyIndex');
 	    // 删除
 	    Route::post('destroy', 'AddressController@destroy');
 	    // 修改
