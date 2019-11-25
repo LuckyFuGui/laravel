@@ -13,7 +13,7 @@ class DiscountUser extends Model
   	protected $guarded=[];
 
     protected $fillable = [
-        'uid', 'discount_id', '	voucher_type', 'voucher_price', 'use_at', 'status'
+        'uid', 'discount_id', '	voucher_type', 'voucher_price', 'use_at', 'status','effective_date'
     ];
 
     public function discount()

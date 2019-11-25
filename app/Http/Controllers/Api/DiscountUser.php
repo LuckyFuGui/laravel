@@ -25,12 +25,13 @@ class DiscountUser extends Controller
             return $this->error('获取用户ID失败');
         }
 
-
-        $data = UserDiscount::query()->with('discount')->where('uid',$uid)->where('status',0)->
-            whereHas('discount',function($q) use ($data){
-                $q->where('end_at','>',$data)->where('begin_at','<',$data);
-
-        })->get()->toArray();
+        //优惠券有效期为购买时间延后一年
+        $data = UserDiscount::query()->with('discount')
+            ->where('uid',$uid)
+            ->where('status',0)
+            ->where('effective_date','>',now())
+            ->get()
+            ->toArray();
 
         return $this->success($data);
     }

@@ -32,7 +32,7 @@ class DiscountActivity extends Controller
         }else{
             isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
         }
-	    $query = Discount::query();
+	    $query = Discount::query()->where('begin_at','<',now())->where('end_at','>',now());
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
