@@ -81,7 +81,7 @@ class Controller extends BaseController
     /**
      * 返回异常
      */
-    public function error($data = [], $code = 500, $msg = '失败')
+    public function error($msg = '失败', $data = [], $code = 500)
     {
         return [
             'code' => $code,
