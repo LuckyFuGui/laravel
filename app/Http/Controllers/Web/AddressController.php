@@ -46,7 +46,7 @@ class AddressController extends Controller
     {
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Address::orderby('id', 'DESC')
+        $data = Address::query()->orderby('id', 'DESC')
             ->offset(($page - 1) * $limit)
             ->limit($limit)
             ->get();

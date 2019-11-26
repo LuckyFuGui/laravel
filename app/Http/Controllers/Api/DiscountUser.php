@@ -30,7 +30,10 @@ class DiscountUser extends Controller
             whereHas('discount',function($q) use ($data){
                 $q->where('end_at','>',$data)->where('begin_at','<',$data);
 
-        })->get()->toArray();
+        })
+            ->orderBy('id','desc')
+            ->get()
+            ->toArray();
 
         return $this->success($data);
     }
@@ -52,6 +55,7 @@ class DiscountUser extends Controller
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
+            ->orderBy('id','desc')
             ->get();
 
         return $this->successPage($data,$count);
@@ -77,6 +81,7 @@ class DiscountUser extends Controller
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
+            ->orderBy('id','desc')
             ->get();
 
         $count = $query->count();
