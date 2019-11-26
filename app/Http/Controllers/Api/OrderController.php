@@ -253,7 +253,7 @@ class OrderController extends Controller
                 }
             }
             $priceQuery = DailyCleaning::find($request->sid)->value('price');
-            $price = $price + $priceQuery - $coupon;
+            $price = $price + $priceQuery + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
