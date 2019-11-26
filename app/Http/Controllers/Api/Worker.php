@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\Discount;
 use App\Model\Order;
-use App\Model\User;
 use App\Model\Workers;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\DiscountUser as UserDiscount;
 
 class Worker extends Controller
 {
@@ -44,6 +40,7 @@ class Worker extends Controller
             ->where('sid',$uid)
             ->whereIn('pay_type',[0,1])
             ->where('created_at','>',$date)
+            ->orderBy('id','desc')
             ->get()
             ->toArray();
 

@@ -25,11 +25,13 @@ class OrderController extends Controller
         $whereName = $request->whereName;
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Order::with('order_project')
+        $data = Order::query()->with('order_project')
             ->where($whereName, $where)
             ->offset(($page - 1) * $limit)
             ->limit($limit)
-            ->get()->toArray();
+            ->orderBy('id','desc')
+            ->get()
+            ->toArray();
         $count = Order::where($whereName, $where)->count();
         return $this->successPage($data, $count);
     }

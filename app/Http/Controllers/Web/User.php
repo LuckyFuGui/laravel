@@ -30,6 +30,7 @@ class User extends Controller
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
+            ->orderBy('id','desc')
             ->get();
 
         foreach ($data as $key=>$val){

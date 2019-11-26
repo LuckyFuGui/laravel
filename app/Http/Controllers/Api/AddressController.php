@@ -46,10 +46,11 @@ class AddressController extends Controller
     {
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Address::where('uid', $request->uid)
+        $data = Address::query()->where('uid', $request->uid)
             ->orderby('id', 'DESC')
             ->offset(($page - 1) * $limit)
             ->limit($limit)
+            ->orderBy('id','desc')
             ->get();
         $count = Address::where('uid', $request->uid)->count();
         return $this->successPage($data, $count);

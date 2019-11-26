@@ -18,11 +18,12 @@ class ProjectController extends Controller
     {
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $data = Project::where('type', $request->type)
+        $data = Project::query()->where('type', $request->type)
             ->where('state',1)
         	->orderby('id', 'DESC')
             ->offset(($page - 1) * $limit)
             ->limit($limit)
+            ->orderBy('id','desc')
             ->get();
         $count = Project::where('type', $request->type)->where('state',1)->count();
         return $this->successPage($data, $count);
