@@ -341,16 +341,17 @@ class OrderController extends Controller
         try {
             // 添加获取id
             $oid = Order::create($data);
+            // 总价格
+            $priceQuery = Wasteland::find($request->sid)->first();
+            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum - $data['special'];
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
-            $OrderProject['price'] = self::PRICE_MEM + ($userNum - 1) * 40;
+            $OrderProject['price'] = $priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum;
             $OrderProject['name'] = "新居开荒";
             $OrderProject['num'] = $userNum;
             OrderProject::create($OrderProject);
             // 计算总价格
-            $priceQuery = Wasteland::find($request->sid)->first();
-            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum - $data['special'];
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
