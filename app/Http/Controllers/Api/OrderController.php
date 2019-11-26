@@ -90,10 +90,10 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            if ($times < $request->start_time) {
-                $data['special'] = ceil(ceil(($request->end_time - $request->start_time) / 60) / 30) * self::PRICE;
+            if ($times <= $request->start_time) {
+                $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
             } else {
-                $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
             }
         }
         // 服务类型
@@ -217,10 +217,10 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            if ($times < $request->start_time) {
-                $data['special'] = ceil(ceil(($request->end_time - $request->start_time) / 60) / 30) * self::PRICE;
+            if ($times <= $request->start_time) {
+                $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
             } else {
-                $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
             }
         }
         // 服务类型
@@ -330,10 +330,10 @@ class OrderController extends Controller
         $data['special'] = 0;
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
-            if ($times < $request->start_time) {
-                $data['special'] = ceil(ceil(($request->end_time - $request->start_time) / 60) / 30) * self::PRICE;
+            if ($times <= $request->start_time) {
+                $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
             } else {
-                $data['special'] = ceil(ceil(($request->end_time - $times) / 60) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
             }
         }
         // 服务类型
