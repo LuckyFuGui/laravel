@@ -91,9 +91,9 @@ class OrderController extends Controller
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
             if ($times <= $request->start_time) {
-                $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $request->start_time) / 1800) * self::PRICE;
             } else {
-                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 1800) * self::PRICE;
             }
         }
         // 服务类型
