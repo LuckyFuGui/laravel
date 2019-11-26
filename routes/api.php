@@ -87,5 +87,11 @@ Route::group(['namespace' => 'Api'], function(){
 
     //个人中心
     Route::post('/userCenter', 'DiscountUser@userCenter')->name('projects.userCenter');
+
+    //阿姨中心
+    Route::post('/workerCenter', 'Worker@workerCenter')->name('Worker.workerCenter');
+
+    //获取24小时内待完成订单
+    Route::post('/workerOrders', 'Worker@workerOrders')->name('Worker.workerOrders');
 });
 
