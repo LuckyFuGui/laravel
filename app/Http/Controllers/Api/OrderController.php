@@ -109,7 +109,6 @@ class OrderController extends Controller
             $oid = Order::create($data);
             // 更新价格，加入详情单
             $price = 0;
-            $prices = $data['coupon'];
             foreach ($project as $key => $value) {
                 $OrderProject['pid'] = $value['id'];
                 $OrderProject['oid'] = $oid['id'];
@@ -122,7 +121,7 @@ class OrderController extends Controller
                     $price = $price + $value['price'] * $request->project_ids[$value['id']];
                 }
             }
-            $price = $price - $prices + $data['special'];
+            $price = $price + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
@@ -233,7 +232,6 @@ class OrderController extends Controller
             $oid = Order::create($data);
             // 更新价格，加入详情单
             $price = 0;
-            $prices = $data['special'];
             foreach ($project as $key => $value) {
                 $OrderProject['pid'] = $value['id'];
                 $OrderProject['oid'] = $oid['id'];
@@ -247,7 +245,7 @@ class OrderController extends Controller
                 }
             }
             $priceQuery = DailyCleaning::find($request->sid)->value('price');
-            $price = $price - $prices + $priceQuery;
+            $price = $price + $priceQuery - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
@@ -261,7 +259,7 @@ class OrderController extends Controller
                 }
             } else {
                 DB::rollBack();
-                return $this->error('价格产生差异:'.$price);
+                return $this->error('价格产生差异:' . $price);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -343,11 +341,11 @@ class OrderController extends Controller
             $oid = Order::create($data);
             // 总价格
             $priceQuery = Wasteland::find($request->sid)->first();
-            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum - $data['special'];
+            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
-            $OrderProject['price'] = $priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum;
+            $OrderProject['price'] = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum;
             $OrderProject['name'] = "新居开荒";
             $OrderProject['num'] = $userNum;
             OrderProject::create($OrderProject);
@@ -397,9 +395,9 @@ class OrderController extends Controller
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
             ->pluck('sid')->toArray();
         $oidWorker = [];
-        foreach ($oid as $key => $val){
+        foreach ($oid as $key => $val) {
             $oidServer = array_filter(explode(',', $val));
-            $oidWorker = array_merge($oidWorker,$oidServer);
+            $oidWorker = array_merge($oidWorker, $oidServer);
         }
         $oid = $oidWorker;
         // 请假的数据
