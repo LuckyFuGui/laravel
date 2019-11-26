@@ -19,9 +19,9 @@ class Worker extends Controller
         }
         $worker = Workers::query()->where('uid', $uid)->first(['img','name']);
         $worker->score = \App\Model\Comment::query()->where('worker_id',$uid)->avg('score');
-        $order = Order::query()->where('sid',$uid)->where('pay_type',4);
-        $worker->orderCount = $order->count();
-        $worker->price = $order->sum('payment');
+        $order = Order::query()->where('sid',$uid);
+        $worker->orderCount = $order->where('pay_type',4)->count();
+        $worker->waitOrderCount = $order->whereIn('pay_type',[0,1])->count();
         return $this->success($worker);
     }
 
