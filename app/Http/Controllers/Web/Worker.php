@@ -35,6 +35,7 @@ class Worker extends Controller
         $data = $query->with('worker_details')
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
+            ->orderBy('id','desc')
             ->get();
 
         $count = $query->count();
@@ -331,6 +332,7 @@ class Worker extends Controller
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
+            ->orderBy('id','desc')
             ->get();
 
         $count = $query->count();
