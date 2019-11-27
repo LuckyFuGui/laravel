@@ -182,9 +182,9 @@ class Worker extends Controller
             return $this->error('请上传头像');
         }
 
-        if(!preg_match("/^[\u4e00-\u9fa5]+$/",$request->name)) {
+        /*if(!preg_match("/^[\u4e00-\u9fa5]+$/",$request->name)) {
             return $this->error('请输入中文姓名');
-        }
+        }*/
 
         if(!is_numeric($request->phone) || strlen($request->phone) != 11){
             return $this->error('请输入11位纯数字电话号码');
