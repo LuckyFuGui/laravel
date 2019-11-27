@@ -356,7 +356,7 @@ class OrderController extends Controller
             $oid = Order::create($data);
             // 总价格
             $priceQuery = Wasteland::find($sid)->first();
-            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * $userNum * ceil($newTime / 60) + $data['special'] - $coupon;
+            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * ceil($newTime / 60) + $data['special'] - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
@@ -383,7 +383,6 @@ class OrderController extends Controller
                 }
             } else {
                 DB::rollBack();
-                dd($price, $request->countPrice);
                 return $this->error('价格产生差异');
             }
         } catch (\Exception $e) {
