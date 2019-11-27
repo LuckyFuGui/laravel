@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Model\AdditionalServices;
 use App\Model\DailyCleaning;
 use App\Model\Dictionary;
+use App\Model\Order;
 use App\Model\ProjectImg;
 use App\Model\UserOrders;
 use App\Model\Wasteland;
+use App\Model\Workers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class Projects extends Controller
 {
@@ -118,6 +121,36 @@ class Projects extends Controller
         if(!$orders){
             return $this->error('订单数据不存在');
         }
+
+        return $this->success($orders);
+    }
+
+    /**
+     * 根据订单ID查询订单数据信息
+     */
+    public function getOrders(Request $request)
+    {
+        $id = $request->id;
+        if(!$id){
+            return $this->error('缺失ID');
+        }
+
+
+        $orders = Order::query()
+            ->where('id',$id)
+            ->first(['start_time','end_time','sid'])
+            ->toArray();
+
+        if(!$orders){
+            return $this->error('订单数据不存在');
+        }
+
+        $sid = explode(',',trim($orders['sid'],','));
+
+        if(!$sid){
+            return $this->error('当前订单没有绑定阿姨');
+        }
+        $orders['worker'] = Workers::query()->whereIn('id',$sid)->get(['id','name','img'])->toArray();
 
         return $this->success($orders);
     }
