@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,18 +19,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="360" column="37" lean-forward="true" selection-start-line="360" selection-start-column="37" selection-end-line="360" selection-end-column="37" />
+            <state relative-caret-position="120">
+              <caret line="192" column="12" lean-forward="true" selection-start-line="192" selection-start-column="12" selection-end-line="192" selection-end-column="12" />
               <folding>
                 <element signature="e#44#64#0#PHP" expanded="true" />
                 <element signature="e#451#609#0#PHP" />
-                <element signature="e#614#5251#0#PHP" />
                 <element signature="e#808#1052#0#PHP" />
-                <element signature="e#2976#3319#0#PHP" />
-                <element signature="e#5095#5242#0#PHP" />
-                <element signature="e#5247#9696#0#PHP" />
-                <element signature="e#5440#5643#0#PHP" />
-                <element signature="e#9702#9849#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -65,10 +60,10 @@
       <find>导入</find>
       <find>1</find>
       <find>dd</find>
-      <find>dd(</find>
       <find>$price = $price</find>
       <find>if ($times &lt; $request-&gt;end_time) {</find>
       <find>$price = $price + $</find>
+      <find>dd(</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2</dir>
@@ -252,6 +247,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,7 +296,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -380,18 +375,20 @@
       <workItem from="1574517463760" duration="13307000" />
       <workItem from="1574572314501" duration="10521000" />
       <workItem from="1574645315184" duration="66000" />
-      <workItem from="1574782297359" duration="8022000" />
+      <workItem from="1574782297359" duration="8250000" />
+      <workItem from="1574818140422" duration="22000" />
+      <workItem from="1574859963589" duration="341000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="151516000" />
+    <option name="totallyTimeSpent" value="152107000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25416037" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26172465" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -864,18 +861,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="360" column="37" lean-forward="true" selection-start-line="360" selection-start-column="37" selection-end-line="360" selection-end-column="37" />
+        <state relative-caret-position="120">
+          <caret line="192" column="12" lean-forward="true" selection-start-line="192" selection-start-column="12" selection-end-line="192" selection-end-column="12" />
           <folding>
             <element signature="e#44#64#0#PHP" expanded="true" />
             <element signature="e#451#609#0#PHP" />
-            <element signature="e#614#5251#0#PHP" />
             <element signature="e#808#1052#0#PHP" />
-            <element signature="e#2976#3319#0#PHP" />
-            <element signature="e#5095#5242#0#PHP" />
-            <element signature="e#5247#9696#0#PHP" />
-            <element signature="e#5440#5643#0#PHP" />
-            <element signature="e#9702#9849#0#PHP" />
           </folding>
         </state>
       </provider>
