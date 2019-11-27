@@ -132,7 +132,7 @@ class OrderController extends Controller
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
-                    return $this->success(['orderId'=>$oid['id']]);
+                    return $this->success(['orderId' => $oid['id']]);
                 } else {
                     DB::rollBack();
                     return $this->error('修改数据失败:' . $price);
@@ -260,7 +260,7 @@ class OrderController extends Controller
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
-                    return $this->success(['orderId'=>$oid['id']]);
+                    return $this->success(['orderId' => $oid['id']]);
                 } else {
                     DB::rollBack();
                     return $this->error('修改数据失败');
@@ -376,10 +376,10 @@ class OrderController extends Controller
 //                    ];
 //                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
-                    return $this->success(['orderId'=>$oid['id']]);
+                    return $this->success(['orderId' => $oid['id']]);
                 } else {
                     DB::rollBack();
-                    return $this->error('修改数据失败');
+                    return $this->error('修改数据失败' . $price);
                 }
             } else {
                 DB::rollBack();
