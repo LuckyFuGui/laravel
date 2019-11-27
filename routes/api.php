@@ -80,6 +80,9 @@ Route::group(['namespace' => 'Api'], function(){
     //查询下单数据
     Route::post('/getOrdersInfo', 'Projects@getOrdersInfo')->name('projects.getOrdersInfo');
 
+    //根据openid查询用户信息
+    Route::post('/getUserInfo', 'User@getUserInfo')->name('user.getUserInfo');
+
     //根据订单ID查询阿姨相关
     Route::post('/getOrders', 'Projects@getOrders')->name('projects.getOrders');
 
