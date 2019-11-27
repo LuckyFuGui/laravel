@@ -312,11 +312,11 @@ class OrderController extends Controller
         // 点单号
         $data['order_sn'] = 'wx' . date('YmdHis') . rand(10000, 99999);
         // 开始和结束时间
-        $endtime = $request->end_time % (self::MINUTE / 60);
+        $endtime = $request->end_time % 30;
         if ($endtime) {
             $request->end_time = $request->start_time + (30 - $endtime) * 60;
         } else {
-            $request->end_time = $request->start_time + $request->end_time;
+            $request->end_time = $request->start_time + $request->end_time * 60;
         }
         $data['start_time'] = date('Y-m-d H:i', $request->start_time);
         $data['end_time'] = date('Y-m-d H:i', $request->end_time);
@@ -336,7 +336,7 @@ class OrderController extends Controller
             if ($times <= $request->start_time) {
                 $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
             } else {
-                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 1800) * self::PRICE;
             }
         }
         // 服务类型
@@ -356,7 +356,7 @@ class OrderController extends Controller
             $oid = Order::create($data);
             // 总价格
             $priceQuery = Wasteland::find($sid)->first();
-            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * ceil($newTime / 60) + $data['special'] - $coupon;
+            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * ceil($newTime / 60) + $data['special'] * $userNum - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
@@ -379,11 +379,11 @@ class OrderController extends Controller
                     return $this->success(['orderId' => $oid['id']]);
                 } else {
                     DB::rollBack();
-                    return $this->error('修改数据失败' . $price);
+                    return $this->error('修改数据失败');
                 }
             } else {
                 DB::rollBack();
-                return $this->error('价格产生差异');
+                return $this->error('价格产生差异'.$price);
             }
         } catch (\Exception $e) {
             DB::rollBack();
