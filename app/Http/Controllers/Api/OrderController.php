@@ -298,7 +298,7 @@ class OrderController extends Controller
         $userNum = $request->num;
         $userNum = !empty($userNum) ? $userNum : 1;
         $sid = $request->sid;
-        $sid = !empty($sid) ? $sid : 1;
+        $sidProject = !empty($sid) ? $sid : 1;
         // 开始日期当天时间戳
         $time = strtotime(date('Y-m-d', $request->start_time));
         // 地址
@@ -347,7 +347,7 @@ class OrderController extends Controller
         $sidStr = '';
         $sidServer = [];
         foreach ($sid as $key => $val){
-            if (count($sidServer) <= $userNum){
+            if (count($sidServer) < $userNum){
                 $sidStr .= $sid[$key] . ',';
                 $sidServer[$key] = $val;
             }
@@ -359,8 +359,14 @@ class OrderController extends Controller
             // 添加获取id
             $oid = Order::create($data);
             // 总价格
-            $priceQuery = Wasteland::find($sid)->first();
-            $price = ($priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price']) * ceil($newTime / 60) + $data['special'] * $userNum - $coupon;
+            $priceQuery = Wasteland::find($sidProject)->first();
+            // 所有人1小时
+            $workerAll = $priceQuery['basics_price'] + ($userNum - 1) * $priceQuery['increase_price'];
+            // 全程服务
+            $workerPrice = $workerAll * ceil($newTime / 60);
+            // 特殊服务
+            $workerSpecial = $data['special'] * $userNum;
+            $price = $workerPrice + $workerSpecial - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
