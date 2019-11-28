@@ -32,7 +32,7 @@ class Worker extends Controller
             isset($request->limit) && $request->limit > 20 ? 20 : $request->limit;
         }
 	    $query = Workers::query();
-        $data = $query->with('worker_details')
+        $data = $query->with('worker_details','user')
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
