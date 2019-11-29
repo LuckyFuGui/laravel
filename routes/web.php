@@ -151,7 +151,11 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         // 列表
         Route::post('index', 'Comment@index')->name('comment.index');
     });
-
+    // 订单
+    Route::group(['prefix'=>'order'], function(){
+        // 列表
+        Route::post('index', 'OrderController@index');
+    });
 
 
     Route::get('index', 'IndexController@index');

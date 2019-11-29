@@ -56,6 +56,13 @@ Route::group(['namespace' => 'Api'], function(){
         ////////////////////////
         Route::post('onlyIndex', 'OrderController@onlyIndex');
 	});
+    // 支付、退款
+    Route::group(['prefix'=>'pay'], function(){
+        // 支付
+        Route::post('jsapi', 'PayController@jsapi');
+        // 回调接口
+        Route::post('native', 'PayController@native');
+    });
 
 	// 评论管理
 	Route::group(['prefix'=>'comment'], function(){
