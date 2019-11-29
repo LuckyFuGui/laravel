@@ -390,11 +390,6 @@ class OrderController extends Controller
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
-//                    $dis = [
-//                        'status' => 1,
-//                        'use_at' => date('Y-m-d H:i:s')
-//                    ];
-//                    DiscountUser::where('id', $request->cid)->update($dis);
                     DB::commit();
                     return $this->success(['orderId' => $oid['id']]);
                 } else {
@@ -531,12 +526,19 @@ class OrderController extends Controller
     public function cancel(Request $request)
     {
         if (!$request->id) return $this->error('缺少订单id');
+        $data = [
+            'oid' => $request->id,
+            'content' => $request->info,
+            'type' => $request->type,
+            'uid' => $this->user['id'],
+        ];
         DB::beginTransaction();
-        try{
+        try {
             Order::where('id', $request->id)->update(['pay_type' => 2]);
-            OrderError::create();
+            OrderError::create($data);
+            DB::commit();
             return $this->success();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->error('取消订单失败');
         }
@@ -548,9 +550,21 @@ class OrderController extends Controller
      */
     public function succOrder(Request $request)
     {
-        $res = Order::where('id', $request->id)->update(['pay_type' => 4]);
-        if ($res) return $this->success();
-        return $this->error();
+        DB::beginTransaction();
+        try {
+            Order::where('id', $request->id)->update(['pay_type' => 4]);
+            $cid = Order::where('id', $request->id)->value('cid');
+            $dis = [
+                'status' => 1,
+                'use_at' => date('Y-m-d H:i:s')
+            ];
+            DiscountUser::where('id', $cid)->update($dis);
+            DB::commit();
+            return $this->success();
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $this->error();
+        }
     }
 
     /**

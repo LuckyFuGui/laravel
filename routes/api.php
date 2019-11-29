@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api'], function(){
 	// 用户授权
     Route::get('index', 'IndexController@index');
+    // 阿姨授权
+    Route::get('worker', 'IndexController@worker');
     // 轮播图查询
     Route::post('banner/index', 'BannerController@index');
     // 服务项目查询
