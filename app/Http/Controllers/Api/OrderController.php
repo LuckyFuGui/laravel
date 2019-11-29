@@ -476,11 +476,20 @@ class OrderController extends Controller
         $user = $request->user;
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
-        $count = Order::where($user, $this->user['id']);
+        // 总数量
+        if ($user == 'sid'){
+            $count = Order::where($user,'like', "%".$this->user['id']."%");
+        }else{
+            $count = Order::where($user, $this->user['id']);
+        }
         if ($where) $count = $count->where('pay_type', $where);
         $count = $count->count();
-        $data = Order::with(['order_project', 'order_comment'])
-            ->where($user, $this->user['id']);
+        $data = Order::with(['order_project', 'order_comment']);
+        if ($user == 'sid'){
+            $data = $data->where($user,'like', "%".$this->user['id']."%");
+        }else{
+            $data = $data->where($user, $this->user['id']);
+        }
         if ($where) $data = $data->where('pay_type', $where);
         $data = $data->offset(($page - 1) * $limit)
             ->orderBy('id', 'DESC')
@@ -556,11 +565,30 @@ class OrderController extends Controller
     }
 
     /**
+     * 完成
+     * @param Request $request
+     */
+    public function overOrder(Request $request)
+    {
+        if (!$request->id) return $this->error('缺少订单id');
+        DB::beginTransaction();
+        try {
+            Order::where('id', $request->id)->update(['pay_type' => 4]);
+            DB::commit();
+            return $this->success();
+        }catch (\Exception $e){
+            DB::rollBack();
+            return $this->error();
+        }
+    }
+
+    /**
      * 成功
      * @param Request $request
      */
     public function succOrder(Request $request)
     {
+        if (!$request->id) return $this->error('缺少订单id');
         DB::beginTransaction();
         try {
             Order::where('id', $request->id)->update(['pay_type' => 1]);
