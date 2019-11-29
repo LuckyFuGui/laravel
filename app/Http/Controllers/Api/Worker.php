@@ -51,7 +51,9 @@ class Worker extends Controller
         $date = date('Y-m-d H:i:s',strtotime('-24 hour'));
         $order = Order::query()->with('order_project')
             ->where('sid','like','%'.$uid.'%')
-            ->whereIn('pay_type',[0,1])
+            ->where(function ($q){
+                $q->where('pay_type',0)->orWhere('pay_type',1);
+            })
             ->where('created_at','>',$date)
             ->orderBy('id','desc')
             ->get()
