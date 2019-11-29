@@ -102,8 +102,12 @@ class OrderController extends Controller
         $sid = $this->serverId($request->server_type + 1, $time);
         if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
-        for ($i = 0; $i < $userNum; $i++) {
-            $sidStr .= $sid[$i] . ',';
+        $sidServer = [];
+        foreach ($sid as $key => $val) {
+            if (count($sidServer) < $userNum) {
+                $sidStr .= $sid[$key] . ',';
+                $sidServer[$key] = $val;
+            }
         }
         $data['sid'] = $sidStr;
         // 创建事务
