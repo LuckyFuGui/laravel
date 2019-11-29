@@ -552,7 +552,7 @@ class OrderController extends Controller
     {
         DB::beginTransaction();
         try {
-            Order::where('id', $request->id)->update(['pay_type' => 4]);
+            Order::where('id', $request->id)->update(['pay_type' => 1]);
             $cid = Order::where('id', $request->id)->value('cid');
             $dis = [
                 'status' => 1,
