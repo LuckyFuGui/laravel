@@ -21,7 +21,7 @@ class PayController extends Controller
      */
     public function jsapi(Request $request)
     {
-        $path = app_path() . 'WxPay/example';
+        $path = app_path() . '/WxPay/example/';
         require_once $path . "../lib/WxPay.Api.php";
         require_once $path . "WxPay.JsApiPay.php";
         require_once $path . "WxPay.Config.php";
