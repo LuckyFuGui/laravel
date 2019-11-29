@@ -116,7 +116,14 @@ class OrderController extends Controller
             // 添加获取id
             $oid = Order::create($data);
             // 更新价格，加入详情单
+            $priceQuery = DailyCleaning::where('id', $sidProject)->value('price');
             $price = 0;
+            $OrderProject['pid'] = $sidProject;
+            $OrderProject['oid'] = $oid['id'];
+            $OrderProject['price'] = $priceQuery;
+            $OrderProject['name'] = '日常保洁';
+            $OrderProject['num'] = 1;
+            OrderProject::create($OrderProject);
             foreach ($project as $key => $value) {
                 $OrderProject['pid'] = $value['id'];
                 $OrderProject['oid'] = $oid['id'];
@@ -129,7 +136,6 @@ class OrderController extends Controller
                     $price = $price + $value['services_price'] * $request->project_ids[$value['id']];
                 }
             }
-            $priceQuery = DailyCleaning::where('id', $sidProject)->value('price');
             $price = $price + $priceQuery + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="550" column="47" selection-start-line="550" selection-start-column="47" selection-end-line="550" selection-end-column="47" />
+            <state relative-caret-position="216">
+              <caret line="125" column="48" lean-forward="true" selection-start-line="125" selection-start-column="48" selection-end-line="125" selection-end-column="48" />
               <folding>
                 <element signature="e#44#64#0#PHP" expanded="true" />
                 <element signature="e#5389#5536#0#PHP" />
@@ -40,6 +41,15 @@
                 <element signature="e#19678#19723#0#PHP" />
                 <element signature="e#19887#20023#0#PHP" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="41" column="68" selection-start-line="41" selection-start-column="68" selection-end-line="41" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -156,11 +166,11 @@
         <option value="$PROJECT_DIR$/app/WxPay/lib/WxPay.Config.Interface.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/IndexController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_11_29_214644_create_order_error_table.php" />
         <option value="$PROJECT_DIR$/app/Model/OrderError.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php" />
       </list>
     </option>
   </component>
@@ -293,13 +303,15 @@
               <item name="laravel" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Middleware" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
               <item name="laravel" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Model" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="Web" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -388,12 +400,12 @@
       <workItem from="1574818140422" duration="22000" />
       <workItem from="1574859963589" duration="6599000" />
       <workItem from="1574871817155" duration="6112000" />
-      <workItem from="1574996734940" duration="18921000" />
+      <workItem from="1574996734940" duration="19578000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="183398000" />
+    <option name="totallyTimeSpent" value="184055000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -795,13 +807,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/IndexController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
@@ -860,8 +865,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="550" column="47" selection-start-line="550" selection-start-column="47" selection-end-line="550" selection-end-column="47" />
+        <state relative-caret-position="216">
+          <caret line="125" column="48" lean-forward="true" selection-start-line="125" selection-start-column="48" selection-end-line="125" selection-end-column="48" />
           <folding>
             <element signature="e#44#64#0#PHP" expanded="true" />
             <element signature="e#5389#5536#0#PHP" />
@@ -882,6 +887,13 @@
             <element signature="e#19678#19723#0#PHP" />
             <element signature="e#19887#20023#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="41" column="68" selection-start-line="41" selection-start-column="68" selection-end-line="41" selection-end-column="68" />
         </state>
       </provider>
     </entry>

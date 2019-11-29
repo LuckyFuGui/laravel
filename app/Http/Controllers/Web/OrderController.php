@@ -30,16 +30,16 @@ class OrderController extends Controller
         $limit = $this->newLimit($request->limit);
         $data = Order::query()->with('order_project');
         if (!empty($where)) $data = $data->where($where);
-        if (!empty($start_time)) $data = $data->where('start_time', '<=', $start_time);
-        if (!empty($end_time)) $data = $data->where('end_time', '>=', $end_time);
+        if (!empty($start_time)) $data = $data->where('start_time', '>=', $start_time);
+        if (!empty($end_time)) $data = $data->where('end_time', '<=', $end_time);
         $data = $data->offset(($page - 1) * $limit)
             ->limit($limit)
             ->orderBy('id', 'desc')
             ->get()
             ->toArray();
         $count = new Order();
-        if (!empty($start_time)) $count = $count->where('start_time', '<=', $start_time);
-        if (!empty($end_time)) $count = $count->where('end_time', '>=', $end_time);
+        if (!empty($start_time)) $count = $count->where('start_time', '>=', $start_time);
+        if (!empty($end_time)) $count = $count->where('end_time', '<=', $end_time);
         if (!empty($where)) $count = $count->where($where);
         $count = $count->count();
         return $this->successPage($data, $count);
