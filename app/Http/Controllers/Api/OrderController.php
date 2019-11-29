@@ -8,6 +8,7 @@ use App\Model\Workers;
 use App\Model\Project;
 use App\Model\LeaveLog;
 use App\Model\Wasteland;
+use App\Model\OrderError;
 use App\Model\OrderProject;
 use App\Model\DiscountUser;
 use App\Model\DailyCleaning;
@@ -538,10 +539,14 @@ class OrderController extends Controller
             'type' => $request->type,
             'uid' => $this->user['id'],
         ];
+        $payType = Order::where('id', $request->id)->first();
         DB::beginTransaction();
         try {
             Order::where('id', $request->id)->update(['pay_type' => 2]);
             OrderError::create($data);
+            if ($payType['pay_type'] == 1) {
+                DiscountUser::where('id', $payType['cid'])->update(['status'=>0]);
+            }
             DB::commit();
             return $this->success();
         } catch (\Exception $e) {
