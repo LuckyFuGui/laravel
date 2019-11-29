@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Model\Order;
+use App\Model\Workers;
 use App\Model\OrderProject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,10 @@ class OrderController extends Controller
             ->orderBy('id', 'desc')
             ->get()
             ->toArray();
+        foreach ($data as $key => &$value) {
+            $sid = array_filter(explode(',', $value['sid']));
+            $value['worker'] = Workers::select('name', 'phone')->whereIn('id', $sid)->get()->toArray();
+        }
         $count = new Order();
         if (!empty($start_time)) $count = $count->where('start_time', '>=', $start_time);
         if (!empty($end_time)) $count = $count->where('end_time', '<=', $end_time);
