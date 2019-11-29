@@ -518,7 +518,7 @@ class OrderController extends Controller
     {
         $data = Order::with(['order_project', 'order_comment'])
             ->where('id', $request->id)
-            ->where('uid', $this->user['id'])->first()->toArray();
+            ->first()->toArray();
         if (!empty($data['order_comment']['score'])) {
             $data['order_comments'] = $data['order_comment']['score'];
         } else {

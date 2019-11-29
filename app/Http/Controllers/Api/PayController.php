@@ -21,11 +21,12 @@ class PayController extends Controller
      */
     public function jsapi(Request $request)
     {
-        $path = app_path() . '/WxPay/example/';
-        require_once $path . "../lib/WxPay.Api.php";
-        require_once $path . "WxPay.JsApiPay.php";
-        require_once $path . "WxPay.Config.php";
-        require_once $path . 'log.php';
+        $path = app_path() . '/WxPay/';
+        require_once $path . "lib/WxPay.Api.php";
+        require_once $path . "example/WxPay.JsApiPay.php";
+        dd($path);
+        require_once $path . "example/WxPay.Config.php";
+        require_once $path . 'example/log.php';
         //初始化日志
         $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
