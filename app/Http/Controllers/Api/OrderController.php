@@ -536,7 +536,7 @@ class OrderController extends Controller
         $data = [
             'oid' => $request->id,
             'content' => $request->info,
-            'type' => $request->type,
+            'type' => 1,
             'uid' => $this->user['id'],
         ];
         $payType = Order::where('id', $request->id)->first();
