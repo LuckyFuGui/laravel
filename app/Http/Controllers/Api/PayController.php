@@ -15,4 +15,7 @@ class PayController extends Controller
      * 密钥
      */
     protected $key = 'C4CA4238A0B923820DCC509A6F75849B';
+    public function jsapi(Request $request){
+        return app_path();
+    }
 }
