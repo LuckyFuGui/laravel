@@ -85,31 +85,31 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     // 项目管理-日常保洁/新居开荒
     Route::group(['prefix'=>'projects'], function(){
         // 编辑主服务价格
-        Route::post('mainEdit', 'projects@mainEdit')->name('projects.mainEdit');
+        Route::post('mainEdit', 'Projects@mainEdit')->name('projects.mainEdit');
 
         // 新居开荒基础数据
-        Route::post('wasteland', 'projects@wasteland')->name('projects.wasteland');
+        Route::post('wasteland', 'Projects@wasteland')->name('projects.wasteland');
 
         // 日常保洁基础数据
-        Route::post('daliy', 'projects@daliy')->name('projects.daliy');
+        Route::post('daliy', 'Projects@daliy')->name('projects.daliy');
 
         // 附加项目编辑
-        Route::post('servicesEdit', 'projects@servicesEdit')->name('projects.servicesEdit');
+        Route::post('servicesEdit', 'Projects@servicesEdit')->name('projects.servicesEdit');
 
         // 新增附加服务
-        Route::post('servicesAdd', 'projects@servicesAdd')->name('projects.servicesAdd');
+        Route::post('servicesAdd', 'Projects@servicesAdd')->name('projects.servicesAdd');
 
         // 获取单个项目详情
-        Route::post('getProjectDetails', 'projects@getProjectDetails')->name('projects.getProjectDetails');
+        Route::post('getProjectDetails', 'Projects@getProjectDetails')->name('projects.getProjectDetails');
 
         // 附加服务上下架
-        Route::post('serviceFrames', 'projects@serviceFrames')->name('projects.serviceFrames');
+        Route::post('serviceFrames', 'Projects@serviceFrames')->name('projects.serviceFrames');
 
         // 新增图片
-        Route::post('addImg', 'projects@addImg')->name('projects.addImg');
+        Route::post('addImg', 'Projects@addImg')->name('projects.addImg');
 
         // 删除图片
-        Route::post('delImg', 'projects@delImg')->name('projects.delImg');
+        Route::post('delImg', 'Projects@delImg')->name('projects.delImg');
 
     });
 
