@@ -31,9 +31,8 @@ class Worker extends Controller
 
         $worker->score = $score ?? 5;
 
-        $order = Order::query()->where('sid',$uid);
-        $worker->orderCount = $order->where('pay_type',4)->count();
-        $worker->waitOrderCount = $order->whereIn('pay_type',[0,1])->count();
+        $worker->orderCount = Order::query()->where('sid','like','%'.$uid.'%')->where('pay_type',4)->count();
+        $worker->waitOrderCount = Order::query()->where('sid','like','%'.$uid.'%')->where('pay_type',1)->count();
 
         return $this->success($worker);
     }
@@ -51,9 +50,7 @@ class Worker extends Controller
         $date = date('Y-m-d H:i:s',strtotime('-24 hour'));
         $order = Order::query()->with('order_project')
             ->where('sid','like','%'.$uid.'%')
-            ->where(function ($q){
-                $q->where('pay_type',0)->orWhere('pay_type',1);
-            })
+            ->where('pay_type',1)
             ->where('created_at','>',$date)
             ->orderBy('id','desc')
             ->get()
