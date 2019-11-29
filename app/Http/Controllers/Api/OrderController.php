@@ -169,6 +169,8 @@ class OrderController extends Controller
         ]);
         $userNum = $request->num;
         $userNum = !empty($userNum) ? $userNum : 1;
+        $sid = $request->sid;
+        $sidProject = !empty($sid) ? $sid : 1;
         // 开始日期当天时间戳
         $time = strtotime(date('Y-m-d', $request->start_time));
         // 地址
@@ -200,7 +202,7 @@ class OrderController extends Controller
         if ($endtime) {
             $request->end_time = $request->start_time + (30 - $endtime) * 60;
         } else {
-            $request->end_time = $request->start_time + $request->end_time;
+            $request->end_time = $request->start_time + $request->end_time * 60;
         }
         $data['start_time'] = date('Y-m-d H:i', $request->start_time);
         $data['end_time'] = date('Y-m-d H:i', $request->end_time);
@@ -218,9 +220,9 @@ class OrderController extends Controller
         $times = $time + self::HOUR * 19 + self::MINUTE;
         if ($times < $request->end_time) {
             if ($times <= $request->start_time) {
-                $data['special'] = ceil(($request->end_time - $request->start_time) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $request->start_time) / 1800) * self::PRICE;
             } else {
-                $data['special'] = ceil(($request->end_time - $times) / 30) * self::PRICE;
+                $data['special'] = ceil(($request->end_time - $times) / 1800) * self::PRICE;
             }
         }
         // 服务类型
@@ -252,7 +254,7 @@ class OrderController extends Controller
                     $price = $price + $value['services_price'] * $request->project_ids[$value['id']];
                 }
             }
-            $priceQuery = DailyCleaning::find($request->sid)->value('price');
+            $priceQuery = DailyCleaning::where('id', $sidProject)->value('price');
             $price = $price + $priceQuery + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
@@ -346,8 +348,8 @@ class OrderController extends Controller
         if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         $sidServer = [];
-        foreach ($sid as $key => $val){
-            if (count($sidServer) < $userNum){
+        foreach ($sid as $key => $val) {
+            if (count($sidServer) < $userNum) {
                 $sidStr .= $sid[$key] . ',';
                 $sidServer[$key] = $val;
             }
@@ -393,7 +395,7 @@ class OrderController extends Controller
                 }
             } else {
                 DB::rollBack();
-                return $this->error('价格产生差异'.$price);
+                return $this->error('价格产生差异' . $price);
             }
         } catch (\Exception $e) {
             DB::rollBack();
