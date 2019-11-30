@@ -13,6 +13,7 @@ class CLogFileHandler implements ILogHandler
 	
 	public function __construct($file = '')
 	{
+	    if (!$file) $file = "../logs/" . date('Y-m-d') . '.log';
 		$this->handle = fopen($file,'a');
 	}
 	

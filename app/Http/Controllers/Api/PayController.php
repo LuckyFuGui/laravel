@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use CLogFileHandler;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,12 +25,12 @@ class PayController extends Controller
         $path = app_path() . '/WxPay/';
         require_once $path . "lib/WxPay.Api.php";
         require_once $path . "example/WxPay.JsApiPay.php";
-        dd($path);
         require_once $path . "example/WxPay.Config.php";
         require_once $path . 'example/log.php';
         //初始化日志
         $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
+        dd($log);
 
 //打印输出数组信息
         function printf_info($data)

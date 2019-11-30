@@ -37,7 +37,8 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/WxPay/example/log.php"
         ]
     },
     "autoload-dev": {
