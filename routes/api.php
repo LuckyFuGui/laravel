@@ -51,7 +51,7 @@ Route::group(['namespace' => 'Api'], function(){
 //	    Route::post('destroy', 'OrderController@destroy');
 	    // 修改
         Route::post('cancel', 'OrderController@cancel');
-        Route::post('succOrder', 'OrderController@succOrder');
+        Route::any('succOrder', 'OrderController@succOrder');
         Route::post('overOrder', 'OrderController@overOrder');
 //    	Route::post('save', 'OrderController@save');
     	////////////////////////
