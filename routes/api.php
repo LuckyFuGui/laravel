@@ -62,7 +62,7 @@ Route::group(['namespace' => 'Api'], function(){
     // 支付、退款
     Route::group(['prefix'=>'pay'], function(){
         // 支付
-        Route::post('jsapi', 'PayController@jsapi');
+        Route::any('jsapi', 'PayController@jsapi');
         // 回调接口
         Route::post('native', 'PayController@native');
     });
