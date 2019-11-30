@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/WxPay/example/log.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/WxPay/example/log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,20 +26,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="345">
+              <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+            <state relative-caret-position="120">
+              <caret line="20" column="54" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="54" />
+              <folding>
+                <element signature="e#44#52#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -175,11 +177,11 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/Web/OrderController.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
-        <option value="$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php" />
         <option value="$PROJECT_DIR$/app/WxPay/example/WxPay.JsApiPay.php" />
         <option value="$PROJECT_DIR$/app/WxPay/example/log.php" />
         <option value="$PROJECT_DIR$/storage/logs/laravel-2019-11-30.log" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" />
+        <option value="$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php" />
       </list>
     </option>
   </component>
@@ -441,12 +443,12 @@
       <workItem from="1574859963589" duration="6599000" />
       <workItem from="1574871817155" duration="6112000" />
       <workItem from="1574996734940" duration="27382000" />
-      <workItem from="1575105945560" duration="5688000" />
+      <workItem from="1575105945560" duration="5857000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197547000" />
+    <option name="totallyTimeSpent" value="197716000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -874,13 +876,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/WxPay/example/log.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
@@ -910,8 +905,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+        <state relative-caret-position="120">
+          <caret line="20" column="54" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="54" />
+          <folding>
+            <element signature="e#44#52#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
         </state>
       </provider>
     </entry>
