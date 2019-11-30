@@ -50,7 +50,7 @@ class PayController extends Controller
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             $input->SetGoods_tag("test");
-            $input->SetNotify_url("http://cqdaguanjia.com/api/order/succOrder");
+            $input->SetNotify_url("http://cqdaguanjia.com/api/order/succOrder?id=100");
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($openId);
             $config = new WxPayConfig();
