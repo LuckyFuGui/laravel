@@ -31,6 +31,7 @@ class Comment extends Controller
         if(!$order){
             return $this->error('当前订单不存在');
         }
+        
 
         if(!empty($order->order_comment)){
             return $this->error('当前订单已经评价过了');

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/WxPay/doc/README.doc" beforeDir="false" afterPath="$PROJECT_DIR$/app/WxPay/doc/README.doc" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,32 +16,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
+            <state relative-caret-position="12168">
               <caret line="520" selection-start-line="520" selection-end-line="520" />
-              <folding>
-                <element signature="e#5389#5536#0#PHP" />
-                <element signature="e#603#5747#0#PHP" />
-                <element signature="e#451#609#0#PHP" />
-                <element signature="e#614#5383#0#PHP" />
-                <element signature="e#10381#10528#0#PHP" />
-                <element signature="e#10533#15122#0#PHP" />
-                <element signature="e#15128#15318#0#PHP" />
-                <element signature="e#15323#16714#0#PHP" />
-                <element signature="e#16720#16888#0#PHP" />
-                <element signature="e#16962#18069#0#PHP" />
-                <element signature="e#17964#18109#0#PHP" />
-                <element signature="e#18925#18977#0#PHP" />
-                <element signature="e#19025#19836#0#PHP" />
-                <element signature="e#20169#20221#0#PHP" />
-                <element signature="e#20226#20809#0#PHP" />
-                <element signature="e#20819#20871#0#PHP" />
-                <element signature="e#20876#21459#0#PHP" />
-                <element signature="e#19678#19723#0#PHP" />
-                <element signature="e#19887#20023#0#PHP" />
-              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -49,17 +37,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="53" column="62" lean-forward="true" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
+            <state relative-caret-position="1272">
+              <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="25" column="37" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="37" />
+            <state relative-caret-position="245">
+              <caret line="15" column="7" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -76,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/WxPay/example/jsapi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
+            <state relative-caret-position="1464">
               <caret line="61" selection-start-line="13" selection-end-line="61" />
             </state>
           </provider>
@@ -432,18 +420,19 @@
       <workItem from="1574818140422" duration="22000" />
       <workItem from="1574859963589" duration="6599000" />
       <workItem from="1574871817155" duration="6112000" />
-      <workItem from="1574996734940" duration="27083000" />
+      <workItem from="1574996734940" duration="27382000" />
+      <workItem from="1575105945560" duration="1214000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191560000" />
+    <option name="totallyTimeSpent" value="193073000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2344932" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23827533" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -491,13 +480,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../oa2/trunk/Contact/Common/Sql/structure.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3753">
-          <caret line="109" column="68" lean-forward="true" selection-start-line="109" selection-start-column="68" selection-end-line="109" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../oa2/trunk/ThinkPHP/Library/Com/Service.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -877,24 +859,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12168">
+          <caret line="520" selection-start-line="520" selection-end-line="520" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="53" column="62" lean-forward="true" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/WxPay/example/jsapi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="61" selection-start-line="13" selection-end-line="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="25" column="37" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="37" />
+        <state relative-caret-position="1272">
+          <caret line="53" column="62" selection-start-line="53" selection-start-column="62" selection-end-line="53" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -905,31 +887,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
+    <entry file="file://$PROJECT_DIR$/app/WxPay/example/jsapi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="520" selection-start-line="520" selection-end-line="520" />
-          <folding>
-            <element signature="e#5389#5536#0#PHP" />
-            <element signature="e#603#5747#0#PHP" />
-            <element signature="e#451#609#0#PHP" />
-            <element signature="e#614#5383#0#PHP" />
-            <element signature="e#10381#10528#0#PHP" />
-            <element signature="e#10533#15122#0#PHP" />
-            <element signature="e#15128#15318#0#PHP" />
-            <element signature="e#15323#16714#0#PHP" />
-            <element signature="e#16720#16888#0#PHP" />
-            <element signature="e#16962#18069#0#PHP" />
-            <element signature="e#17964#18109#0#PHP" />
-            <element signature="e#18925#18977#0#PHP" />
-            <element signature="e#19025#19836#0#PHP" />
-            <element signature="e#20169#20221#0#PHP" />
-            <element signature="e#20226#20809#0#PHP" />
-            <element signature="e#20819#20871#0#PHP" />
-            <element signature="e#20876#21459#0#PHP" />
-            <element signature="e#19678#19723#0#PHP" />
-            <element signature="e#19887#20023#0#PHP" />
-          </folding>
+        <state relative-caret-position="1464">
+          <caret line="61" selection-start-line="13" selection-end-line="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="15" column="7" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="32" />
         </state>
       </provider>
     </entry>
