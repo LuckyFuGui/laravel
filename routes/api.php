@@ -103,5 +103,8 @@ Route::group(['namespace' => 'Api'], function(){
 
     //获取24小时内待完成订单
     Route::post('/workerOrders', 'Worker@workerOrders')->name('Worker.workerOrders');
+
+    //购买优惠券
+    Route::post('/buyCoupon', 'DiscountUser@buyCoupon')->name('discount.buyCoupon');
 });
 

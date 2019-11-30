@@ -21,6 +21,8 @@ class CreateDiscountUserTable extends Migration
             $table->decimal('voucher_price',8,2)->comment('优惠卷面值');
             $table->dateTime('use_at')->nullable()->comment('使用时间');
             $table->integer('status')->default(0)->comment('使用状态 0：未使用 1：已使用');
+            $table->integer('pay_status')->default(0)->comment('支付状态 0：待支付 1：支付成功 2：支付失败');
+            $table->string('pay_sn')->default(null)->comment('系统支付单号');
             $table->timestamps();
             $table->softDeletes();
         });
