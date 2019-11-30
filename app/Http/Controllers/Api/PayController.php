@@ -35,15 +35,7 @@ class PayController extends Controller
         //初始化日志
         $logHandler = new CLogFileHandler($path . "logs/" . date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
-//        //打印输出数组信息
-//        function printf_info($data)
-//        {
-//            foreach($data as $key=>$value){
-//                echo "<font color='#00ff55;'>$key</font> :  ".htmlspecialchars($value, ENT_QUOTES)." <br/>";
-//            }
-//        }
-
-//①、获取用户openid
+        //①、获取用户openid
         try {
 
             $tools = new JsApiPay();
@@ -58,7 +50,7 @@ class PayController extends Controller
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             $input->SetGoods_tag("test");
-            $input->SetNotify_url("http://cqdaguanjia.com/api/order/notify");
+            $input->SetNotify_url("http://cqdaguanjia.com/api/order/succOrder");
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($openId);
             $config = new WxPayConfig();
@@ -67,11 +59,11 @@ class PayController extends Controller
             //获取共享收货地址js函数参数
             $editAddress = $tools->GetEditAddressParameters();
             return $this->success($jsApiParameters);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::ERROR(json_encode($e));
             return $this->error();
         }
-//③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
+        //③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
         /**
          * 注意：
          * 1、当你的回调地址不可访问的时候，回调通知会失败，可以通过查询订单来确认支付是否成功
