@@ -588,7 +588,7 @@ class OrderController extends Controller
      */
     public function succOrder(Request $request)
     {
-        info(time(),$request->all());
+        info($_GET);
         if (!$request->id) return $this->error('缺少订单id');
         DB::beginTransaction();
         try {
