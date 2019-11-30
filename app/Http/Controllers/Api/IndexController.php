@@ -45,7 +45,7 @@ class IndexController extends Controller
                 'country' => $data_all['country'],
                 'headimgurl' => $data_all['headimgurl']
             ]);
-            header("Location:http://www.cqdaguanjia.com/#/home?openid=" . $data_all['openid']);
+            header("Location:http://www.cqdaguanjia.com/home?openid=" . $data_all['openid']);
             return;
         }
     }
@@ -68,10 +68,10 @@ class IndexController extends Controller
             $userRes = User::where('openid', $data_all['openid'])->first();
             if ($userRes) $res = Workers::where('uid', $userRes['id'])->first();
             if (!$res) {
-                header("Location:http://www.cqdaguanjia.com/#/noStaff");
+                header("Location:http://www.cqdaguanjia.com/noStaff");
                 return;
             }
-            header("Location:http://www.cqdaguanjia.com/#/staff?openid=" . $data_all['openid']);
+            header("Location:http://www.cqdaguanjia.com/staff?openid=" . $data_all['openid']);
             return;
         }
     }
