@@ -52,6 +52,7 @@ Route::group(['namespace' => 'Api'], function(){
 	    // 修改
         Route::post('cancel', 'OrderController@cancel');
         Route::post('succOrder', 'OrderController@succOrder');
+        Route::post('overOrder', 'OrderController@overOrder');
 //    	Route::post('save', 'OrderController@save');
     	////////////////////////
     	Route::post('timedate', 'TimedateController@index');
