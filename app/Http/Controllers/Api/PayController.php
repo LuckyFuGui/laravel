@@ -39,7 +39,7 @@ class PayController extends Controller
         try {
 
             $tools = new JsApiPay();
-            $openId = $tools->GetOpenid();
+            $openId = 'o7JX-shGaLPJwy2PWSQWFhSk2Ak4';//$request->header('openid');//$tools->GetOpenid();
 
             //②、统一下单
             $input = new WxPayUnifiedOrder();
