@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Log;
 use JsApiPay;
+use WxPayApi;
 use WxPayConfig;
 use CLogFileHandler;
 use WxPayUnifiedOrder;
