@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use Log;
+use JsApiPay;
 use CLogFileHandler;
+use WxPayUnifiedOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,17 +31,8 @@ class PayController extends Controller
         require_once $path . "example/WxPay.Config.php";
         require_once $path . 'example/log.php';
         //初始化日志
-        $logHandler = new CLogFileHandler("../logs/" . date('Y-m-d') . '.log');
+        $logHandler = new CLogFileHandler($path . "logs/" . date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
-        dd($log);
-
-//打印输出数组信息
-        function printf_info($data)
-        {
-            foreach ($data as $key => $value) {
-                echo "<font color='#00ff55;'>$key</font> :  " . htmlspecialchars($value, ENT_QUOTES) . " <br/>";
-            }
-        }
 
 //①、获取用户openid
         try {
