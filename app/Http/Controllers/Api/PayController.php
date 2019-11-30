@@ -35,6 +35,13 @@ class PayController extends Controller
         //初始化日志
         $logHandler = new CLogFileHandler($path . "logs/" . date('Y-m-d') . '.log');
         $log = Log::Init($logHandler, 15);
+//        //打印输出数组信息
+//        function printf_info($data)
+//        {
+//            foreach($data as $key=>$value){
+//                echo "<font color='#00ff55;'>$key</font> :  ".htmlspecialchars($value, ENT_QUOTES)." <br/>";
+//            }
+//        }
 
 //①、获取用户openid
         try {
@@ -59,9 +66,10 @@ class PayController extends Controller
             $jsApiParameters = $tools->GetJsApiParameters($order);
             //获取共享收货地址js函数参数
             $editAddress = $tools->GetEditAddressParameters();
-            dd($jsApiParameters, $editAddress);
+            return $this->success($jsApiParameters);
         } catch (Exception $e) {
             Log::ERROR(json_encode($e));
+            return $this->error();
         }
 //③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
         /**
