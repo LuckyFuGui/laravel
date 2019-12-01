@@ -56,12 +56,14 @@ class DiscountUser extends Controller
 
         $query = Discount::query()->where('end_at','>',date('Y-m-d H:i:s'))
             ->whereIn('status',[0,1]);
-        $count = $query->count();
+
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
+
+        $count = $data->count();
 
         return $this->successPage($data,$count);
     }
