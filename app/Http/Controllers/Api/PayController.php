@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\Order;
 use Log;
 use JsApiPay;
 use WxPayApi;
@@ -27,6 +28,38 @@ class PayController extends Controller
      */
     public function jsapi(Request $request)
     {
+        $id = $request->input('orderId');
+        $type = $request->input('type');
+        if (!$id || !$type) return $this->error('缺少参数');
+        switch ($type){
+            case 1:
+                $data = Order::where('id',$id)->first()->toArray();
+                switch ($data['server_type']){
+                    case 1:
+                        $orderName = '日常保洁';
+                        break;
+                    case 2:
+                        $orderName = '家电清洗';
+                        break;
+                    case 3:
+                        $orderName = '专业除螨';
+                        break;
+                    case 4:
+                        $orderName = '新居开荒';
+                        break;
+                }
+                $orderNum = $data['order_sn'];
+                $orderPrice = $data['payment'] * 100;
+                break;
+            case 2:
+                $data = Order::where('id',$id)->first()->toArray();
+                $orderName = '优惠卷';
+                $orderNum = $data['order_sn'];
+                $orderPrice = $data['payment'] * 100;
+                break;
+            default:
+                return $this->error('类型不存在');
+        }
         $path = app_path() . '/WxPay/';
         require_once $path . "lib/WxPay.Api.php";
         require_once $path . "example/WxPay.JsApiPay.php";
@@ -43,21 +76,21 @@ class PayController extends Controller
 
             //②、统一下单
             $input = new WxPayUnifiedOrder();
-            $input->SetBody("test");
-            $input->SetAttach("test");
-            $input->SetOut_trade_no("sdkphp" . date("YmdHis"));
-            $input->SetTotal_fee("1");
+            $input->SetBody($orderName);
+            $input->SetAttach($orderName);
+            $input->SetOut_trade_no($orderNum);// 订单号
+            $input->SetTotal_fee($orderPrice);//金额
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
-            $input->SetGoods_tag("test");
-            $input->SetNotify_url("http://cqdaguanjia.com/api/order/succOrder?id=100");
-            $input->SetTrade_type("JSAPI");
+            $input->SetGoods_tag($orderName);
+            $input->SetNotify_url("http://cqdaguanjia.com/api/order/succOrder?id=100");//异步回调
+            $input->SetTrade_type("JSAPI");//支付类型
             $input->SetOpenid($openId);
             $config = new WxPayConfig();
             $order = WxPayApi::unifiedOrder($config, $input);
             $jsApiParameters = $tools->GetJsApiParameters($order);
             //获取共享收货地址js函数参数
-            $editAddress = $tools->GetEditAddressParameters();
+            //$editAddress = $tools->GetEditAddressParameters();
             return $this->success($jsApiParameters);
         } catch (\Exception $e) {
             Log::ERROR(json_encode($e));
