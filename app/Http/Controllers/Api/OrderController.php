@@ -627,7 +627,7 @@ class OrderController extends Controller
             ];
             DiscountUser::where('id', $cid)->update($dis);
 //            DB::commit();
-            return $post_data['return_code'];
+            echo $post_data['return_code'];
 //        } catch (\Exception $e) {
 //            DB::rollBack();
 //            info($post_data);
