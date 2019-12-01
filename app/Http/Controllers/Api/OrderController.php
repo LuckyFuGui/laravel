@@ -592,7 +592,10 @@ class OrderController extends Controller
         if ($post == null) {
             $post = file_get_contents("php://input");
         }
-        info($post);
+        libxml_disable_entity_loader(true); //禁止引用外部xml实体
+        $xml = simplexml_load_string($post, 'SimpleXMLElement', LIBXML_NOCDATA);//XML转数组
+        $post_data = (array)$xml;
+        info($post_data);
         if (!$request->id) return $this->error('缺少订单id');
         DB::beginTransaction();
         try {
