@@ -38,7 +38,7 @@ class Worker extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+        $count = $data->count();
         return $this->successPage($data, $count);
     }
 
@@ -336,7 +336,7 @@ class Worker extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+        $count = $data->count();
         return $this->successPage($data, $count);
     }
 
