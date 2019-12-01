@@ -30,7 +30,8 @@ class PayController extends Controller
     {
         $id = $request->input('orderId');
         $type = $request->input('type');
-        if (!$id || !$type) return $this->error('缺少参数');
+//        if (!$id || !$type) return $this->error('缺少参数');
+        $type = 1;
         switch ($type){
             case 1:
                 $data = Order::where('id',$id)->first()->toArray();
