@@ -597,8 +597,7 @@ class OrderController extends Controller
         $xml = simplexml_load_string($post, 'SimpleXMLElement', LIBXML_NOCDATA);//XML转数组
         $post_data = (array)$xml;
 //        if (!$request->id) return $this->error('缺少订单id');
-        info(111);
-        PayLog::create([
+        $pay = PayLog::create([
             'appid' => $post_data['appid'],
             'attach' => $post_data['attach'],
             'bank_type' => $post_data['bank_type'],
@@ -618,15 +617,19 @@ class OrderController extends Controller
             'trade_type' => $post_data['trade_type'],
             'transaction_id' => $post_data['transaction_id'],
         ]);
+        info($pay);
 //        DB::beginTransaction();
 //        try {
-        Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
+        $orderUpdate = Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
+        info($orderUpdate);
         $cid = Order::where('id', $post_data['id'])->value('cid');
+        info($cid);
         $dis = [
             'status' => 1,
             'use_at' => date('Y-m-d H:i:s')
         ];
-        DiscountUser::where('id', $cid)->update($dis);
+        $DiscountUser = DiscountUser::where('id', $cid)->update($dis);
+        info($DiscountUser);
 //            DB::commit();
         $str='<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $str;
