@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Order;
+use App\Model\PayLog;
 use App\Model\Address;
 use App\Model\Workers;
 use App\Model\Project;
@@ -477,17 +478,17 @@ class OrderController extends Controller
         $page = $this->newPage($request->page);
         $limit = $this->newLimit($request->limit);
         // 总数量
-        if ($user == 'sid'){
-            $count = Order::where($user,'like', "%".$this->user['id']."%");
-        }else{
+        if ($user == 'sid') {
+            $count = Order::where($user, 'like', "%" . $this->user['id'] . "%");
+        } else {
             $count = Order::where($user, $this->user['id']);
         }
         if ($where) $count = $count->where('pay_type', $where);
         $count = $count->count();
         $data = Order::with(['order_project', 'order_comment']);
-        if ($user == 'sid'){
-            $data = $data->where($user,'like', "%".$this->user['id']."%");
-        }else{
+        if ($user == 'sid') {
+            $data = $data->where($user, 'like', "%" . $this->user['id'] . "%");
+        } else {
             $data = $data->where($user, $this->user['id']);
         }
         if ($where) $data = $data->where('pay_type', $where);
@@ -554,7 +555,7 @@ class OrderController extends Controller
             Order::where('id', $request->id)->update(['pay_type' => 2]);
             OrderError::create($data);
             if ($payType['pay_type'] == 1) {
-                DiscountUser::where('id', $payType['cid'])->update(['status'=>0]);
+                DiscountUser::where('id', $payType['cid'])->update(['status' => 0]);
             }
             DB::commit();
             return $this->success();
@@ -576,7 +577,7 @@ class OrderController extends Controller
             Order::where('id', $request->id)->update(['pay_type' => 4]);
             DB::commit();
             return $this->success();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->error();
         }
@@ -595,21 +596,41 @@ class OrderController extends Controller
         libxml_disable_entity_loader(true); //禁止引用外部xml实体
         $xml = simplexml_load_string($post, 'SimpleXMLElement', LIBXML_NOCDATA);//XML转数组
         $post_data = (array)$xml;
-        info($post_data);
-        if (!$request->id) return $this->error('缺少订单id');
+//        if (!$request->id) return $this->error('缺少订单id');
+        PayLog::create([
+            'appid' => $post_data['appid'],
+            'attach' => $post_data['attach'],
+            'bank_type' => $post_data['bank_type'],
+            'cash_fee' => $post_data['cash_fee'],
+            'fee_type' => $post_data['fee_type'],
+            'id' => $post_data['id'],
+            'is_subscribe' => $post_data['is_subscribe'],
+            'mch_id' => $post_data['mch_id'],
+            'nonce_str' => $post_data['nonce_str'],
+            'openid' => $post_data['openid'],
+            'out_trade_no' => $post_data['out_trade_no'],
+            'result_code' => $post_data['result_code'],
+            'return_code' => $post_data['return_code'],
+            'sign' => $post_data['sign'],
+            'time_end' => $post_data['time_end'],
+            'total_fee' => $post_data['total_fee'],
+            'trade_type' => $post_data['trade_type'],
+            'transaction_id' => $post_data['transaction_id'],
+        ]);
         DB::beginTransaction();
         try {
-            Order::where('id', $request->id)->update(['pay_type' => 1]);
-            $cid = Order::where('id', $request->id)->value('cid');
+            Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
+            $cid = Order::where('id', $post_data['id'])->value('cid');
             $dis = [
                 'status' => 1,
                 'use_at' => date('Y-m-d H:i:s')
             ];
             DiscountUser::where('id', $cid)->update($dis);
             DB::commit();
-            return $this->success();
-        }catch (\Exception $e){
+            return $post_data['return_code'];
+        } catch (\Exception $e) {
             DB::rollBack();
+            info($post_data);
             return $this->error();
         }
     }
