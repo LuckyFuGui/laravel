@@ -292,6 +292,7 @@ class Worker extends Controller
             if(time() > strtotime($request->begin)){
                 Workers::query()->where('id',$request->id)->update(['is_leave'=>0]);
             }
+            DB::commit();
             return $this->success();
         }catch(\Exception $e){
             DB::rollBack();
