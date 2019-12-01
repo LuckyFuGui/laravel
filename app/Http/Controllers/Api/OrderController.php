@@ -620,22 +620,16 @@ class OrderController extends Controller
         ]);
 //        DB::beginTransaction();
 //        try {
-        info(222);
-            Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
-        info(333);
-            $cid = Order::where('id', $post_data['id'])->value('cid');
-            $dis = [
-                'status' => 1,
-                'use_at' => date('Y-m-d H:i:s')
-            ];
-        info(444);
-            DiscountUser::where('id', $cid)->update($dis);
+        Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
+        $cid = Order::where('id', $post_data['id'])->value('cid');
+        $dis = [
+            'status' => 1,
+            'use_at' => date('Y-m-d H:i:s')
+        ];
+        DiscountUser::where('id', $cid)->update($dis);
 //            DB::commit();
-        info(555);
         $str='<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-        info(666);
         echo $str;
-        info(777);
 //        } catch (\Exception $e) {
 //            DB::rollBack();
 //            info($post_data);
