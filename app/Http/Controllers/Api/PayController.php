@@ -82,7 +82,8 @@ class PayController extends Controller
             $input->SetBody($orderName);
             $input->SetAttach($orderName);
             $input->SetOut_trade_no($orderNum);// 订单号
-            $input->SetTotal_fee($orderPrice);//金额
+//            $input->SetTotal_fee($orderPrice);//金额
+            $input->SetTotal_fee('1');//金额
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             $input->SetGoods_tag($orderName);
