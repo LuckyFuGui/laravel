@@ -28,39 +28,41 @@ class PayController extends Controller
      */
     public function jsapi(Request $request)
     {
-        $id = $request->input('orderId');
-        $type = $request->input('type');
+//        $id = $request->input('orderId');
+//        $type = $request->input('type');
 //        if (!$id || !$type) return $this->error('缺少参数');
-        $type = 1;
-        switch ($type){
-            case 1:
-                $data = Order::where('id',$id)->first()->toArray();
-                switch ($data['server_type']){
-                    case 1:
-                        $orderName = '日常保洁';
-                        break;
-                    case 2:
-                        $orderName = '家电清洗';
-                        break;
-                    case 3:
-                        $orderName = '专业除螨';
-                        break;
-                    case 4:
-                        $orderName = '新居开荒';
-                        break;
-                }
-                $orderNum = $data['order_sn'];
-                $orderPrice = $data['payment'] * 100;
-                break;
-            case 2:
-                $data = Order::where('id',$id)->first()->toArray();
-                $orderName = '优惠卷';
-                $orderNum = $data['order_sn'];
-                $orderPrice = $data['payment'] * 100;
-                break;
-            default:
-                return $this->error('类型不存在');
-        }
+//        switch ($type){
+//            case 1:
+//                $data = Order::where('id',$id)->first()->toArray();
+//                switch ($data['server_type']){
+//                    case 1:
+//                        $orderName = '日常保洁';
+//                        break;
+//                    case 2:
+//                        $orderName = '家电清洗';
+//                        break;
+//                    case 3:
+//                        $orderName = '专业除螨';
+//                        break;
+//                    case 4:
+//                        $orderName = '新居开荒';
+//                        break;
+//                }
+//                $orderNum = $data['order_sn'];
+//                $orderPrice = $data['payment'] * 100;
+//                break;
+//            case 2:
+//                $data = Order::where('id',$id)->first()->toArray();
+//                $orderName = '优惠卷';
+//                $orderNum = $data['order_sn'];
+//                $orderPrice = $data['payment'] * 100;
+//                break;
+//            default:
+//                return $this->error('类型不存在');
+//        }
+        $orderName = '大管家';
+        $orderNum = date('YmdHis');
+        $orderPrice = '1';
         $path = app_path() . '/WxPay/';
         require_once $path . "lib/WxPay.Api.php";
         require_once $path . "example/WxPay.JsApiPay.php";
