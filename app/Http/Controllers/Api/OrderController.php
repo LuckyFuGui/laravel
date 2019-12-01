@@ -617,8 +617,8 @@ class OrderController extends Controller
             'trade_type' => $post_data['trade_type'],
             'transaction_id' => $post_data['transaction_id'],
         ]);
-        DB::beginTransaction();
-        try {
+//        DB::beginTransaction();
+//        try {
             Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
             $cid = Order::where('id', $post_data['id'])->value('cid');
             $dis = [
@@ -626,13 +626,13 @@ class OrderController extends Controller
                 'use_at' => date('Y-m-d H:i:s')
             ];
             DiscountUser::where('id', $cid)->update($dis);
-            DB::commit();
+//            DB::commit();
             return $post_data['return_code'];
-        } catch (\Exception $e) {
-            DB::rollBack();
-            info($post_data);
-            return $this->error();
-        }
+//        } catch (\Exception $e) {
+//            DB::rollBack();
+//            info($post_data);
+//            return $this->error();
+//        }
     }
 
     /**
