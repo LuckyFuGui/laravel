@@ -43,7 +43,7 @@ class Comment extends Controller
 
 
 
-        $count = $query->count();
+        $count = $data->count();
         return $this->successPage($data, $count);
     }
 }
