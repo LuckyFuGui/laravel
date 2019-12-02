@@ -213,10 +213,11 @@ class Projects extends Controller
         $this->unlink($img);
 
         $res = ProjectImg::query()->where(['project_id'=>$project_id,'type_id'=>$type_id,'img'=>$img])->first();
+
         if(!$res){
             return $this->error('文件不存在');
         }
-        ProjectImg::query()->where(['project_id'=>$project_id,'type_id'=>$type_id,'img'=>$img])->update(['deleted_at'=>now()]);
+        ProjectImg::query()->where(['project_id'=>$project_id,'type_id'=>$type_id,'img'=>$img])->delete();
         return $this->success();
 
     }
@@ -240,9 +241,7 @@ class Projects extends Controller
             return $this->error();
         }
 
-
-
-        $request->status == 1 ? $service->services_status = 2 : $service->services_status = 1;
+        $service->services_status = $request->status;
         $service->save();
 
         return $this->success();
