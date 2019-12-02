@@ -43,7 +43,7 @@ class Comment extends Controller
 
 
 
-        $count = $data->count();
+        $count = \App\Model\Comment::query()->with('orders.user')->count();
         return $this->successPage($data, $count);
     }
 }

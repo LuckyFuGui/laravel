@@ -38,7 +38,7 @@ class Worker extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $data->count();
+        $count = Workers::query()->count();
         return $this->successPage($data, $count);
     }
 
@@ -329,14 +329,14 @@ class Worker extends Controller
             $query->where('end_at','<=',$request->end);
         }
 
-
+        $count = $query->count();
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
 
-        $count = $data->count();
+
         return $this->successPage($data, $count);
     }
 
