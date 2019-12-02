@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\DiscountPurchaseRecord;
 use App\Model\Order;
 use Log;
 use JsApiPay;
@@ -52,10 +53,10 @@ class PayController extends Controller
                 $orderPrice = $data['payment'] * 100;
                 break;
             case 2:
-                $data = Order::where('id', $id)->first()->toArray();
+                $data = DiscountPurchaseRecord::where('id', $id)->first()->toArray();
                 $orderName = '优惠卷';
-                $orderNum = $data['order_sn'];
-                $orderPrice = $data['payment'] * 100;
+                $orderNum = $data['pay_sn'];
+                $orderPrice = $data['sale_price'] * 100;
                 break;
             default:
                 return $this->error('类型不存在');

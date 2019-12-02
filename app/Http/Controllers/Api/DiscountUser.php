@@ -150,16 +150,16 @@ class DiscountUser extends Controller
             'voucher_price'=>$discount->voucher_price,
             'voucher_num'=>$discount->voucher_num,
             'sale_price'=>$discount->sale_price,
-            'pay_status'=>1,//todo 先写死
+            'pay_status'=>0,//todo 先写死
             'pay_price'=>$discount->sale_price,//todo 先按照优惠券金额来写
-            'pay_sn'=>'wx' . date('YmdHis') . rand(10000, 99999),
+            'pay_sn'=>'con' . date('YmdHis') . rand(10000, 99999),
         ];
 
 
         DB::beginTransaction();
 
         try{
-            DiscountPurchaseRecord::query()->create($purchase);
+            $recode = DiscountPurchaseRecord::query()->create($purchase);
             for ($i = 0; $i < $discount->voucher_num; $i++) {
                 $dis_user = [
                     'uid'=>$uid,
@@ -167,18 +167,21 @@ class DiscountUser extends Controller
                     'voucher_type'=>$discount->voucher_type,
                     'voucher_price'=>$discount->voucher_price,
                     'pay_sn'=>$purchase['pay_sn'],
-                    'pay_status'=>1,//todo 先写死
+                    'pay_status'=>0,//todo 先写死
                     //todo 购买成功之后按照购买时间重新计算有效期
                     'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year')),
                 ];
                 \App\Model\DiscountUser::query()->create($dis_user);
 
-                $discount->salable_num = $discount->salable_num - 1;
-                $discount->save();
+                //$discount->salable_num = $discount->salable_num - 1;
+                //$discount->save();
             }
 
             DB::commit();
-            return $this->success('目前先写死为支付成功');
+            return $this->success([
+                'orderId'=>$recode->id,
+                'type'=>2
+            ]);
         }catch(\Exception $e){
             DB::rollBack();
             return $this->error('购买失败');
@@ -186,8 +189,7 @@ class DiscountUser extends Controller
 
 
         //todo 这里跳转到微信支付，先创建好记录数据，支付回调成功改支付状态
-        //todo 回调之后修改 两张表的支付状态，并且写入支付时间，修改优惠券有效期,以及支付金额
-
+        //todo 回调之后修改 两张表的支付状态，并且写入支付时间，修改优惠券有效期,以及支付金额,并且修改优惠券数量
 
     }
 
