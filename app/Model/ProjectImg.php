@@ -8,6 +8,9 @@ class ProjectImg extends Model
 {
     // 表名
     protected $table  = 'project_img';
+    protected $revisionEnabled = true;
+    public $timestamps = true;
+
     protected $keepRevisionOf = null;
     // 屏蔽字段
   	protected $guarded=[];

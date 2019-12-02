@@ -155,6 +155,10 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 
 
     Route::get('index', 'IndexController@index');
+    // 后台首页（日数据）
+    Route::get('show', 'IndexController@show');
+    // 月数据
+    Route::get('show_month', 'IndexController@showMonth');
 
 
 });
