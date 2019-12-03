@@ -39,7 +39,7 @@ class User extends Controller
             $val->payment = $order->sum('payment');
             $val->discount = $order->sum('coupon');
         }
-        $count = $query->count();
+        $count = \App\Model\User::query()->count();
         return $this->successPage($data, $count);
     }
 

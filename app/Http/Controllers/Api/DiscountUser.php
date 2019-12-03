@@ -54,14 +54,21 @@ class DiscountUser extends Controller
             isset($request->page) && $request->page < 1 ? 1 : $request->page;
         }
 
-        $query = Discount::query()->where('end_at','>',date('Y-m-d H:i:s'))
+        $query = Discount::query()
+            ->where('end_at','>',date('Y-m-d H:i:s'))
+            ->where('begin_at','<',date('Y-m-d H:i:s'))
+            ->where('salable_num','>',0)
             ->whereIn('status',[0,1]);
+
         $count = $query->count();
+
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
+
+
 
         return $this->successPage($data,$count);
     }
@@ -89,7 +96,7 @@ class DiscountUser extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+        $count = UserDiscount::query()->with('discount')->where('uid',$uid)->count();
         return $this->successPage($data, $count);
 
     }
@@ -131,6 +138,10 @@ class DiscountUser extends Controller
             return $this->error('当前优惠活动不在有效期内');
         }
 
+        if($discount->salable_num <= 0){
+            return $this->error('当前优惠券已售罄');
+        }
+
         //先生成基本数据，订单编号
         $purchase = [
             'uid'=>$uid,
@@ -161,6 +172,9 @@ class DiscountUser extends Controller
                     'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year')),
                 ];
                 \App\Model\DiscountUser::query()->create($dis_user);
+
+                $discount->salable_num = $discount->salable_num - 1;
+                $discount->save();
             }
 
             DB::commit();

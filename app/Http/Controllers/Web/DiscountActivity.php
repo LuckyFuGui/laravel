@@ -39,7 +39,7 @@ class DiscountActivity extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+        $count = Discount::query()->count();
         return $this->successPage($data, $count);
     }
 

@@ -38,7 +38,7 @@ class Worker extends Controller
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+        $count = Workers::query()->count();
         return $this->successPage($data, $count);
     }
 
@@ -292,6 +292,7 @@ class Worker extends Controller
             if(time() > strtotime($request->begin)){
                 Workers::query()->where('id',$request->id)->update(['is_leave'=>0]);
             }
+            DB::commit();
             return $this->success();
         }catch(\Exception $e){
             DB::rollBack();
@@ -328,14 +329,14 @@ class Worker extends Controller
             $query->where('end_at','<=',$request->end);
         }
 
-
+        $count = $query->count();
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
 
-        $count = $query->count();
+
         return $this->successPage($data, $count);
     }
 
