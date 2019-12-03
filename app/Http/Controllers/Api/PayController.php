@@ -53,17 +53,20 @@ class PayController extends Controller
                 $orderPrice = $data['payment'] * 100;
                 break;
             case 2:
-                $data = DiscountPurchaseRecord::where('id', $id)->first()->toArray();
+                $data = DiscountPurchaseRecord::query()->where('id', $id)->first();
+                if(!$data){
+                    return $this->error('当前订单不存在');
+                }
                 $orderName = '优惠卷';
-                $orderNum = $data['pay_sn'];
-                $orderPrice = $data['sale_price'] * 100;
+                $orderNum = $data->pay_sn;
+                $orderPrice = $data->sale_price * 100;
                 break;
             default:
                 return $this->error('类型不存在');
         }
-//        $orderName = '大管家';
-//        $orderNum = date('YmdHis');
-//        $orderPrice = '1';
+        //$orderName = '大管家';
+        //$orderNum = date('YmdHis');
+        //$orderPrice = '1';
         $path = app_path() . '/WxPay/';
         require_once $path . "lib/WxPay.Api.php";
         require_once $path . "example/WxPay.JsApiPay.php";
@@ -83,7 +86,7 @@ class PayController extends Controller
             $input->SetBody($orderName);
             $input->SetAttach($orderName);
             $input->SetOut_trade_no($orderNum);// 订单号
-//            $input->SetTotal_fee($orderPrice);//金额
+            //$input->SetTotal_fee($orderPrice);//金额
             $input->SetTotal_fee('1');//金额
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));

@@ -111,6 +111,9 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         // 删除图片
         Route::post('delImg', 'Projects@delImg')->name('projects.delImg');
 
+        // 项目管理
+        Route::get('index', 'Projects@index')->name('projects.index');
+
     });
 
     // 考勤管理
@@ -160,9 +163,9 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
 
     Route::get('index', 'IndexController@index');
     // 后台首页（日数据）
-    Route::get('show', 'IndexController@show');
+    Route::post('show', 'IndexController@show');
     // 月数据
-    Route::get('show_month', 'IndexController@showMonth');
+    Route::post('show_month', 'IndexController@showMonth');
 
 
 });

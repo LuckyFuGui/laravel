@@ -621,22 +621,20 @@ class OrderController extends Controller
 
         info($pay);
 
-        if(strpos($pay['out_trade_no'],'con') !== false){
+        if(strpos($post_data['out_trade_no'],'con') !== false){
             DB::beginTransaction();
             try{
-                $recode = DiscountPurchaseRecord::query()->where('id',$pay['id'])->first();
+                $recode = DiscountPurchaseRecord::query()->where('id',$post_data['id'])->first();
                 $recode->pay_status = 1;
-                $recode->wx_sn = $pay['transaction_id'];
+                $recode->wx_sn = $post_data['transaction_id'];
                 $recode->pay_at = now();
-                $recode->pay_price = $pay['total_fee']/100;
+                $recode->pay_price = $post_data['total_fee']/100;
                 $recode->save();
 
-                DiscountUser::query()->where('pay_sn',$pay['out_trade_no'])->update(
-                    [
-                        'pay_status'=>1,
-                        'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
-                    ]
-                );
+                DiscountUser::query()->where('pay_sn',$post_data['out_trade_no'])->update([
+                    'pay_status'=>1,
+                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
+                ]);
 
                 $discount = Discount::query()->where('id',$recode->discount_id)->first();
                 $discount->salable_num = $discount->salable_num - 1;
@@ -644,8 +642,8 @@ class OrderController extends Controller
 
                 DB::commit();
             }catch(\Exception $e){
-                //todo 这里需要处理异常 给前端返回 回调数据处理失败
                 DB::rollBack();
+                info('优惠券状态变更失败');
                 info($e->getMessage());
             }
 
