@@ -35,7 +35,7 @@ class IndexController extends Controller
             // token换取用户数据
             $data_all = $this->get_user_info($data['access_token'], $data['openid']);
             // 添加或者更新
-            User::firstOrCreate(['openid' => $data_all['openid']], [
+            $userStatus = User::firstOrCreate(['openid' => $data_all['openid']], [
                 'openid' => $data_all['openid'],
                 'nickname' => $data_all['nickname'],
                 'sex' => $data_all['sex'],
@@ -45,6 +45,7 @@ class IndexController extends Controller
                 'country' => $data_all['country'],
                 'headimgurl' => $data_all['headimgurl']
             ]);
+            if ($userStatus['status'] == 0) return $this->error('账号被封', [], 404);
             header("Location:http://www.cqdaguanjia.com/home?openid=" . $data_all['openid']);
             return;
         }
