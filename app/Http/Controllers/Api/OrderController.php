@@ -636,9 +636,9 @@ class OrderController extends Controller
                     'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
                 ]);
 
-                $discount = Discount::query()->where('id',$recode->discount_id)->first();
-                $discount->salable_num = $discount->salable_num - 1;
-                $discount->save();
+                //$discount = Discount::query()->where('id',$recode->discount_id)->first();
+                //$discount->salable_num = $discount->salable_num - 1;
+                //$discount->save();
 
                 DB::commit();
             }catch(\Exception $e){
