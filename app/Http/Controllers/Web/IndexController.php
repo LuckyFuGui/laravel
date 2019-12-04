@@ -167,7 +167,7 @@ class IndexController extends Controller
         //--------------上月数据---------------
         $last_price1 =  Order::query()
             ->where('created_at','>=',date('Y-m-01 00:00:00',strtotime('-1 month')))
-            ->where('created_at','<',date('Y-m-01 23:59:59',strtotime('-1 day')))
+            ->where('created_at','<',date('Y-m-d 23:59:59', strtotime(date('Y-m-01') . ' -1 day')))
             ->whereIn('pay_type',[1,4])
             ->sum('payment');
 
@@ -180,7 +180,7 @@ class IndexController extends Controller
         //上月购买的优惠券金额
         $last_discount = DiscountPurchaseRecord::query()
             ->where('pay_at','>',date('Y-m-01 00:00:00',strtotime('-1 month')))
-            ->where('pay_at','<',date('Y-m-01 23:59:59',strtotime('-1 day')))
+            ->where('pay_at','<',date('Y-m-d 23:59:59', strtotime(date('Y-m-01') . ' -1 day')))
             ->where('pay_status',1)
             ->sum('pay_price');
 
@@ -190,7 +190,7 @@ class IndexController extends Controller
         //运营消耗金额
         $last_price3 = Order::query()
             ->where('created_at','>=',date('Y-m-01 00:00:00',strtotime('-1 month')))
-            ->where('created_at','<',date('Y-m-01 23:59:59',strtotime('-1 day')))
+            ->where('created_at','<',date('Y-m-d 23:59:59', strtotime(date('Y-m-01') . ' -1 day')))
             ->whereIn('pay_type',[1,4])
             ->sum('coupon');
 
@@ -200,7 +200,7 @@ class IndexController extends Controller
         //成交客户数
         $last_num = Order::query()
             ->where('created_at','>=',date('Y-m-01 00:00:00',strtotime('-1 month')))
-            ->where('created_at','<',date('Y-m-01 23:59:59',strtotime('-1 day')))
+            ->where('created_at','<',date('Y-m-d 23:59:59', strtotime(date('Y-m-01') . ' -1 day')))
             ->where('pay_type',4)
             ->get()
             ->groupBy('uid')
@@ -209,7 +209,7 @@ class IndexController extends Controller
         //新增会员数
         $last_user_num = \App\Model\User::query()
             ->where('created_at','>=',date('Y-m-01 00:00:00',strtotime('-1 month')))
-            ->where('created_at','<',date('Y-m-01 23:59:59',strtotime('-1 day')))
+            ->where('created_at','<',date('Y-m-d 23:59:59', strtotime(date('Y-m-01') . ' -1 day')))
             ->count();
 
         if($last_num == 0){

@@ -34,6 +34,11 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->runInBackground();
 
+        $schedule->command('check_conpon_status')
+            ->everyMinute()
+            ->withoutOverlapping()
+            ->runInBackground();
+
     }
 
     /**
