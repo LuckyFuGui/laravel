@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Model\DiscountPurchaseRecord;
 use App\Model\Order;
+use App\Model\PayLog;
 use Log;
 use JsApiPay;
 use WxPayApi;
+use WxPayRefund;
 use WxPayConfig;
 use CLogFileHandler;
 use WxPayUnifiedOrder;
@@ -25,7 +27,9 @@ class PayController extends Controller
     protected $key = 'C4CA4238A0B923820DCC509A6F75849B';
 
     /**
+     * 支付
      * @param Request $request
+     * @return array
      */
     public function jsapi(Request $request)
     {
@@ -54,7 +58,7 @@ class PayController extends Controller
                 break;
             case 2:
                 $data = DiscountPurchaseRecord::query()->where('id', $id)->first();
-                if(!$data){
+                if (!$data) {
                     return $this->error('当前订单不存在');
                 }
                 $orderName = '优惠卷';
@@ -64,9 +68,6 @@ class PayController extends Controller
             default:
                 return $this->error('类型不存在');
         }
-        //$orderName = '大管家';
-        //$orderNum = date('YmdHis');
-        //$orderPrice = '1';
         $path = app_path() . '/WxPay/';
         require_once $path . "lib/WxPay.Api.php";
         require_once $path . "example/WxPay.JsApiPay.php";
@@ -104,13 +105,55 @@ class PayController extends Controller
             Log::ERROR(json_encode($e));
             return $this->error();
         }
-        //③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
-        /**
-         * 注意：
-         * 1、当你的回调地址不可访问的时候，回调通知会失败，可以通过查询订单来确认支付是否成功
-         * 2、jsapi支付时需要填入用户openid，WxPay.JsApiPay.php中有获取openid流程 （文档可以参考微信公众平台“网页授权接口”，
-         * 参考http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html）
-         */
+    }
 
+    /**
+     * 退款
+     * @param Request $request
+     * transaction_id：微信订单号
+     * out_trade_no：商户订单号
+     * total_fee：订单总金额
+     * refund_fee：退款金额
+     */
+    public function retreat(Request $request)
+    {
+        $id = $request->input('orderId');
+        if (!$id) return $this->error('缺少订单id参数');
+        $pay = PayLog::where('id', $id)->where('attach', '!=', '优惠卷')->first();
+        if ($pay){
+            $info = $pay->toArray();
+            $path = app_path() . '/WxPay/';
+            require_once $path . "lib/WxPay.Api.php";
+            require_once $path . 'example/log.php';
+            require_once $path . "example/WxPay.Config.php";
+            //初始化日志
+            $logHandler = new CLogFileHandler($path . "logs/" . date('Y-m-d') . '.log');
+            $log = Log::Init($logHandler, 15);
+            // 退款
+            if(isset($info["transaction_id"]) && $info["transaction_id"] != ""){
+                try{
+                    $transaction_id = $info["transaction_id"];
+                    $total_fee = $info["total_fee"];
+                    $refund_fee = $info["total_fee"];// $_REQUEST["refund_fee"];
+                    $input = new WxPayRefund();
+                    $input->SetTransaction_id($transaction_id);
+                    $input->SetTotal_fee($total_fee);
+                    $input->SetRefund_fee($refund_fee);
+
+                    $config = new WxPayConfig();
+                    $input->SetOut_refund_no("sdkphp".date("YmdHis"));
+                    $input->SetOp_user_id($config->GetMerchantId());
+                    dd(WxPayApi::refund($config, $input));
+                    printf_info(WxPayApi::refund($config, $input));
+                } catch(Exception $e) {
+                    Log::ERROR(json_encode($e));
+                }
+                exit();
+            }
+            dd(isset($info["transaction_id"]));
+            dd(123456789);
+        }else{
+            return $this->error('数据不真实');
+        }
     }
 }

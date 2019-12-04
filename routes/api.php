@@ -64,7 +64,7 @@ Route::group(['namespace' => 'Api'], function(){
         // 支付
         Route::any('jsapi', 'PayController@jsapi');
         // 回调接口
-        Route::post('native', 'PayController@native');
+        Route::post('retreat', 'PayController@retreat');
     });
 
 	// 评论管理

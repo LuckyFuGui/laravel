@@ -140,7 +140,8 @@ class OrderController extends Controller
                     $price = $price + $value['services_price'] * $request->project_ids[$value['id']];
                 }
             }
-            $price = $price + $priceQuery + $data['special'] - $coupon;
+            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
+            $price = $price + $priceQuery + $data['special'] + $createPrice - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
@@ -273,7 +274,8 @@ class OrderController extends Controller
                     $price = $price + $value['price'] * $request->project_ids[$value['id']];
                 }
             }
-            $price = $price + $data['special'] - $coupon;
+            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
+            $price = $price + $data['special'] + $createPrice - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
                 $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
@@ -386,7 +388,8 @@ class OrderController extends Controller
             $workerPrice = $workerAll * ceil($newTime / 60);
             // 特殊服务
             $workerSpecial = $data['special'] * $userNum;
-            $price = $workerPrice + $workerSpecial - $coupon;
+            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
+            $price = $workerPrice + $workerSpecial + $createPrice - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
@@ -414,6 +417,18 @@ class OrderController extends Controller
             DB::rollBack();
             return $this->error('插入异常');
         }
+    }
+
+    /**
+     * 12小时内下单+钱
+     * @param $createTime
+     * @param $startTime
+     */
+    public function sunPrice($createTime, $startTime)
+    {
+        $time = $startTime - $createTime;
+        if ($time <= 43200) return 10;
+        return 0;
     }
 
     /**
@@ -621,19 +636,19 @@ class OrderController extends Controller
 
         info($pay);
 
-        if(strpos($post_data['out_trade_no'],'con') !== false){
+        if (strpos($post_data['out_trade_no'], 'con') !== false) {
             DB::beginTransaction();
-            try{
-                $recode = DiscountPurchaseRecord::query()->where('id',$post_data['id'])->first();
+            try {
+                $recode = DiscountPurchaseRecord::query()->where('id', $post_data['id'])->first();
                 $recode->pay_status = 1;
                 $recode->wx_sn = $post_data['transaction_id'];
                 $recode->pay_at = now();
-                $recode->pay_price = $post_data['total_fee']/100;
+                $recode->pay_price = $post_data['total_fee'] / 100;
                 $recode->save();
 
-                DiscountUser::query()->where('pay_sn',$post_data['out_trade_no'])->update([
-                    'pay_status'=>1,
-                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
+                DiscountUser::query()->where('pay_sn', $post_data['out_trade_no'])->update([
+                    'pay_status' => 1,
+                    'effective_date' => date('Y-m-d H:i:s', strtotime('+1 year'))
                 ]);
 
                 //$discount = Discount::query()->where('id',$recode->discount_id)->first();
@@ -641,13 +656,13 @@ class OrderController extends Controller
                 //$discount->save();
 
                 DB::commit();
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 DB::rollBack();
                 info('优惠券状态变更失败');
                 info($e->getMessage());
             }
 
-        }else{
+        } else {
             $orderUpdate = Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
             info($orderUpdate);
             $cid = Order::where('id', $post_data['id'])->value('cid');
@@ -660,7 +675,7 @@ class OrderController extends Controller
             info($DiscountUser);
         }
 
-        $str='<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+        $str = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $str;
     }
 
