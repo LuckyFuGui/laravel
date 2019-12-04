@@ -140,11 +140,10 @@ class OrderController extends Controller
                     $price = $price + $value['services_price'] * $request->project_ids[$value['id']];
                 }
             }
-            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
-            $price = $price + $priceQuery + $data['special'] + $createPrice - $coupon;
+            $price = $price + $priceQuery + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price' => 0, 'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
@@ -274,11 +273,10 @@ class OrderController extends Controller
                     $price = $price + $value['price'] * $request->project_ids[$value['id']];
                 }
             }
-            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
-            $price = $price + $data['special'] + $createPrice - $coupon;
+            $price = $price + $data['special'] - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price' => 0, 'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
@@ -388,8 +386,7 @@ class OrderController extends Controller
             $workerPrice = $workerAll * ceil($newTime / 60);
             // 特殊服务
             $workerSpecial = $data['special'] * $userNum;
-            $createPrice = $this->sunPrice($request->create_time, $request->start_time);
-            $price = $workerPrice + $workerSpecial + $createPrice - $coupon;
+            $price = $workerPrice + $workerSpecial - $coupon;
             // 更新加入详情单
             $OrderProject['pid'] = 0;
             $OrderProject['oid'] = $oid['id'];
@@ -400,7 +397,7 @@ class OrderController extends Controller
             // 计算总价格
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price' => 0, 'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();

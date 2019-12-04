@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="150" column="62" lean-forward="true" selection-start-line="150" selection-start-column="62" selection-end-line="150" selection-end-column="62" />
+            <state relative-caret-position="192">
+              <caret line="143" column="49" lean-forward="true" selection-start-line="143" selection-start-column="49" selection-end-line="143" selection-end-column="49" />
               <folding>
                 <element signature="e#44#67#0#PHP" expanded="true" />
                 <element signature="e#561#708#0#PHP" />
@@ -30,7 +28,6 @@
                 <element signature="e#5992#10761#0#PHP" />
                 <element signature="e#10767#10914#0#PHP" />
                 <element signature="e#10919#15275#0#PHP" />
-                <element signature="e#14550#15156#0#PHP" />
                 <element signature="e#14779#15033#0#PHP" />
                 <element signature="e#15167#15269#0#PHP" />
                 <element signature="e#15281#15360#0#PHP" />
@@ -110,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>公司</find>
       <find>all</find>
       <find>for ($i = 0; $i &lt;</find>
       <find>DB::commit();</find>
@@ -140,6 +136,7 @@
       <find>order</find>
       <find>$orderInstall = Order::find($oid['id'])-&gt;upda</find>
       <find>'time_price'=&gt;$createPrice,'pa</find>
+      <find>sunPrice</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2</dir>
@@ -431,12 +428,12 @@
       <workItem from="1574996734940" duration="27382000" />
       <workItem from="1575105945560" duration="16595000" />
       <workItem from="1575197038931" duration="23814000" />
-      <workItem from="1575453659747" duration="11421000" />
+      <workItem from="1575453659747" duration="15209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="243689000" />
+    <option name="totallyTimeSpent" value="247477000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -454,7 +451,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924242" weight="0.39761093" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924242" weight="0.43515357" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49924242" weight="0.32894737" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5007576" side_tool="true" weight="0.32786885" />
       <window_info anchor="bottom" id="Messages" order="12" />
@@ -836,8 +833,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="150" column="62" lean-forward="true" selection-start-line="150" selection-start-column="62" selection-end-line="150" selection-end-column="62" />
+        <state relative-caret-position="192">
+          <caret line="143" column="49" lean-forward="true" selection-start-line="143" selection-start-column="49" selection-end-line="143" selection-end-column="49" />
           <folding>
             <element signature="e#44#67#0#PHP" expanded="true" />
             <element signature="e#561#708#0#PHP" />
@@ -846,7 +843,6 @@
             <element signature="e#5992#10761#0#PHP" />
             <element signature="e#10767#10914#0#PHP" />
             <element signature="e#10919#15275#0#PHP" />
-            <element signature="e#14550#15156#0#PHP" />
             <element signature="e#14779#15033#0#PHP" />
             <element signature="e#15167#15269#0#PHP" />
             <element signature="e#15281#15360#0#PHP" />
