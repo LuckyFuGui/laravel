@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\DiscountPurchaseRecord;
+use App\Model\DiscountUser;
 use App\Model\Order;
 use App\Model\PayLog;
 use Log;
@@ -54,7 +55,7 @@ class PayController extends Controller
                         break;
                 }
                 $orderNum = $data['order_sn'];
-                $orderPrice = $data['payment'] * 100;
+                $orderPrice = 1;// $data['payment'] * 100;
                 break;
             case 2:
                 $data = DiscountPurchaseRecord::query()->where('id', $id)->first();
@@ -122,6 +123,7 @@ class PayController extends Controller
         $pay = PayLog::where('id', $id)->where('attach', '!=', '优惠卷')->first();
         if ($pay) {
             $info = $pay->toArray();
+            $cid = Order::where('id', $id)->value('cid');
             $path = app_path() . '/WxPay/';
             require_once $path . "lib/WxPay.Api.php";
             require_once $path . 'example/log.php';
@@ -147,6 +149,11 @@ class PayController extends Controller
                     if ($payData['return_code'] == 'SUCCESS') {
                         // 修改订单数据
                         $res = Order::where('id', $id)->update(['pay_type' => 2]);
+                        $dis = [
+                            'status' => 0,
+                            'use_at' => date('Y-m-d H:i:s')
+                        ];
+                        if ($cid) DiscountUser::where('id', $cid)->update($dis);
                         if ($res) return $this->success();
                         // 返回数据
                         info('退款成功，订单未修改：' . $info["transaction_id"]);
@@ -158,8 +165,6 @@ class PayController extends Controller
                 }
                 exit();
             }
-            dd(isset($info["transaction_id"]));
-            dd(123456789);
         } else {
             return $this->error('数据不真实');
         }

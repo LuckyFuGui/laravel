@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae982efe-e710-4e7d-b57b-df9f6c1e97a6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,9 +19,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="20" />
+            <state relative-caret-position="318">
+              <caret line="669" column="12" lean-forward="true" selection-start-line="669" selection-start-column="12" selection-end-line="673" selection-end-column="74" />
               <folding>
+                <element signature="e#44#67#0#PHP" expanded="true" />
                 <element signature="e#561#708#0#PHP" />
                 <element signature="e#713#5823#0#PHP" />
                 <element signature="e#906#1109#0#PHP" />
@@ -46,7 +48,6 @@
                 <element signature="e#20703#20755#0#PHP" />
                 <element signature="e#21141#22064#1#PHP" />
                 <element signature="e#23022#23164#0#PHP" />
-                <element signature="e#23201#23658#0#PHP" />
                 <element signature="e#23803#23848#0#PHP" />
                 <element signature="e#23853#23989#0#PHP" />
               </folding>
@@ -87,8 +88,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
+            <state relative-caret-position="98">
+              <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
               <folding>
                 <element signature="e#44#81#0#PHP" expanded="true" />
                 <element signature="e#457#530#0#PHP" />
@@ -96,6 +97,15 @@
                 <element signature="e#3495#3604#0#PHP" />
                 <element signature="e#3616#3763#0#PHP" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="389">
+              <caret line="31" column="71" selection-start-line="31" selection-start-column="71" selection-end-line="31" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -126,7 +136,6 @@
       <find>dd(</find>
       <find>$sidStr = '';</find>
       <find>ceil(($request-&gt;end_time</find>
-      <find>order</find>
       <find>CLogFileHandler</find>
       <find>WxPayConfig</find>
       <find>Wx</find>
@@ -134,6 +143,7 @@
       <find>succOrder</find>
       <find>GetSSLCertPath</find>
       <find>GetMerchantId</find>
+      <find>order</find>
     </findStrings>
     <dirStrings>
       <dir>D:\phpStudy\WWW\oa2</dir>
@@ -157,7 +167,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../oa2/trunk/Company/Common/Conf/config.php" />
         <option value="$PROJECT_DIR$/../oa2/trunk/Company/Apicp/Controller/Companys/AbstractController.class.php" />
         <option value="$PROJECT_DIR$/../oa2/trunk/Companys/Common/Conf/config.php" />
         <option value="$PROJECT_DIR$/../oa2/trunk/Companys/Common/Model/NewsSettingModel.class.php" />
@@ -207,6 +216,7 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/app/WxPay/example/WxPay.Config.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php" />
       </list>
     </option>
@@ -327,52 +337,13 @@
             <path>
               <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
               <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
               <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="WxPay" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="WxPay" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="storage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="laravel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="laravel" type="462c0819:PsiDirectoryNode" />
-              <item name="storage" type="462c0819:PsiDirectoryNode" />
-              <item name="logs" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -464,18 +435,18 @@
       <workItem from="1574996734940" duration="27382000" />
       <workItem from="1575105945560" duration="16595000" />
       <workItem from="1575197038931" duration="23814000" />
-      <workItem from="1575453659747" duration="8977000" />
+      <workItem from="1575453659747" duration="10597000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241245000" />
+    <option name="totallyTimeSpent" value="242865000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24583964" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.3547655" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -501,58 +472,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../oa2/trunk/Contact/Apicp/Controller/Company/ListController.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../oa2/trunk/ThinkPHP/Library/Com/Model.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4455">
-          <caret line="102" column="25" selection-start-line="102" selection-start-column="25" selection-end-line="102" selection-end-column="25" />
-          <folding>
-            <element signature="e#5608#5749#0#PHP" />
-            <element signature="e#5754#6340#0#PHP" />
-            <element signature="e#6346#6486#0#PHP" />
-            <element signature="e#6491#7235#0#PHP" />
-            <element signature="e#7241#7455#0#PHP" />
-            <element signature="e#7460#8377#0#PHP" />
-            <element signature="e#8383#8507#0#PHP" />
-            <element signature="e#8512#9322#0#PHP" />
-            <element signature="e#9328#9423#0#PHP" />
-            <element signature="e#9428#10253#0#PHP" />
-            <element signature="e#10259#10411#0#PHP" />
-            <element signature="e#10416#10987#0#PHP" />
-            <element signature="e#10993#11175#0#PHP" />
-            <element signature="e#11180#11415#0#PHP" />
-            <element signature="e#11421#11627#0#PHP" />
-            <element signature="e#11632#11924#0#PHP" />
-            <element signature="e#11944#12026#0#PHP" />
-            <element signature="e#12042#12119#0#PHP" />
-            <element signature="e#12135#12208#0#PHP" />
-            <element signature="e#12214#12397#0#PHP" />
-            <element signature="e#12402#13217#0#PHP" />
-            <element signature="e#13223#13320#0#PHP" />
-            <element signature="e#13325#13560#0#PHP" />
-            <element signature="e#13566#13743#0#PHP" />
-            <element signature="e#13748#14314#0#PHP" />
-            <element signature="e#14320#14414#0#PHP" />
-            <element signature="e#14419#14605#0#PHP" />
-            <element signature="e#14611#14740#0#PHP" />
-            <element signature="e#14745#15408#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../investingpudong/trunk/Contact/Common/Service/AbstractService.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="38" column="7" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../oa2/trunk/Contact/Apicp/Controller/Company/SaveController.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="446">
@@ -892,11 +811,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2019-12-04.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2019_11_03_120612_create_order_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="31" column="71" selection-start-line="31" selection-start-column="71" selection-end-line="31" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/OrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" selection-end-column="20" />
+        <state relative-caret-position="318">
+          <caret line="669" column="12" lean-forward="true" selection-start-line="669" selection-start-column="12" selection-end-line="673" selection-end-column="74" />
           <folding>
+            <element signature="e#44#67#0#PHP" expanded="true" />
             <element signature="e#561#708#0#PHP" />
             <element signature="e#713#5823#0#PHP" />
             <element signature="e#906#1109#0#PHP" />
@@ -922,17 +852,23 @@
             <element signature="e#20703#20755#0#PHP" />
             <element signature="e#21141#22064#1#PHP" />
             <element signature="e#23022#23164#0#PHP" />
-            <element signature="e#23201#23658#0#PHP" />
             <element signature="e#23803#23848#0#PHP" />
             <element signature="e#23853#23989#0#PHP" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Model/DiscountUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/PayController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
+        <state relative-caret-position="98">
+          <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
           <folding>
             <element signature="e#44#81#0#PHP" expanded="true" />
             <element signature="e#457#530#0#PHP" />
