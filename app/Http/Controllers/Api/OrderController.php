@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\Discount;
+use App\Model\DiscountPurchaseRecord;
 use App\Model\Order;
 use App\Model\PayLog;
 use App\Model\Address;
@@ -616,17 +618,48 @@ class OrderController extends Controller
             'trade_type' => $post_data['trade_type'],
             'transaction_id' => $post_data['transaction_id'],
         ]);
+
         info($pay);
-        $orderUpdate = Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
-        info($orderUpdate);
-        $cid = Order::where('id', $post_data['id'])->value('cid');
-        info($cid);
-        $dis = [
-            'status' => 1,
-            'use_at' => date('Y-m-d H:i:s')
-        ];
-        $DiscountUser = DiscountUser::where('id', $cid)->update($dis);
-        info($DiscountUser);
+
+        if(strpos($post_data['out_trade_no'],'con') !== false){
+            DB::beginTransaction();
+            try{
+                $recode = DiscountPurchaseRecord::query()->where('id',$post_data['id'])->first();
+                $recode->pay_status = 1;
+                $recode->wx_sn = $post_data['transaction_id'];
+                $recode->pay_at = now();
+                $recode->pay_price = $post_data['total_fee']/100;
+                $recode->save();
+
+                DiscountUser::query()->where('pay_sn',$post_data['out_trade_no'])->update([
+                    'pay_status'=>1,
+                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
+                ]);
+
+                $discount = Discount::query()->where('id',$recode->discount_id)->first();
+                $discount->salable_num = $discount->salable_num - 1;
+                $discount->save();
+
+                DB::commit();
+            }catch(\Exception $e){
+                DB::rollBack();
+                info('优惠券状态变更失败');
+                info($e->getMessage());
+            }
+
+        }else{
+            $orderUpdate = Order::where('id', $post_data['id'])->update(['pay_type' => 1]);
+            info($orderUpdate);
+            $cid = Order::where('id', $post_data['id'])->value('cid');
+            info($cid);
+            $dis = [
+                'status' => 1,
+                'use_at' => date('Y-m-d H:i:s')
+            ];
+            $DiscountUser = DiscountUser::where('id', $cid)->update($dis);
+            info($DiscountUser);
+        }
+
         $str='<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $str;
     }

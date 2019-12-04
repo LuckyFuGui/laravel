@@ -81,10 +81,10 @@ class Projects extends Controller
 
         DB::beginTransaction();
         try{
-            DailyCleaning::query()->updateOrCreate(['hour'=>2],['price'=>$two]);
-            DailyCleaning::query()->updateOrCreate(['hour'=>3],['price'=>$threeHour]);
-            DailyCleaning::query()->updateOrCreate(['hour'=>4],['price'=>$fourHour]);
-            DailyCleaning::query()->updateOrCreate(['hour'=>5],['price'=>$fiveHour]);
+            DailyCleaning::query()->updateOrCreate(['hour'=>120],['price'=>$two]);
+            DailyCleaning::query()->updateOrCreate(['hour'=>180],['price'=>$threeHour]);
+            DailyCleaning::query()->updateOrCreate(['hour'=>240],['price'=>$fourHour]);
+            DailyCleaning::query()->updateOrCreate(['hour'=>300],['price'=>$fiveHour]);
             DB::commit();
             return $this->success();
         }catch(\Exception $e){
