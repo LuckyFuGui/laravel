@@ -148,7 +148,7 @@ class PayController extends Controller
                     $payData = WxPayApi::refund($config, $input);
                     if ($payData['return_code'] == 'SUCCESS') {
                         // 修改订单数据
-                        $res = Order::where('id', $id)->update(['pay_type' => 2]);
+                        $res = Order::where('id', $id)->update(['pay_type' => 2, 'retreat' => $info["total_fee"]]);
                         $dis = [
                             'status' => 0,
                             'use_at' => date('Y-m-d H:i:s')

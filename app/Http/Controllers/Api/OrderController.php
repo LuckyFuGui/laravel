@@ -144,7 +144,7 @@ class OrderController extends Controller
             $price = $price + $priceQuery + $data['special'] + $createPrice - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
@@ -278,7 +278,7 @@ class OrderController extends Controller
             $price = $price + $data['special'] + $createPrice - $coupon;
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
@@ -400,7 +400,7 @@ class OrderController extends Controller
             // 计算总价格
             if ($price == $request->countPrice) {
                 // 修改订单表
-                $orderInstall = Order::find($oid['id'])->update(['payment' => $price, 'pay_type' => self::NOTYPE,]);
+                $orderInstall = Order::find($oid['id'])->update(['time_price'=>$createPrice,'payment' => $price, 'pay_type' => self::NOTYPE,]);
                 // 是否添加成功，成功返回数据
                 if ($orderInstall) {
                     DB::commit();
