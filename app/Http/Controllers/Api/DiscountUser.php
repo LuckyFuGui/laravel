@@ -89,14 +89,20 @@ class DiscountUser extends Controller
             return $this->error('获取用户ID失败');
         }
 
-        $query = UserDiscount::query()->with('discount')->where('uid',$uid);
+        $query = UserDiscount::query()->with('discount')
+            ->where('uid',$uid)
+            ->where('status',0)
+            ->where('pay_status',1);
         $data = $query
             ->offset(($request->page - 1) * $request->limit)
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
 
-        $count = UserDiscount::query()->with('discount')->where('uid',$uid)->count();
+        $count = UserDiscount::query()->with('discount')
+            ->where('uid',$uid)
+            ->where('status',0)
+            ->where('pay_status',1)->count();
         return $this->successPage($data, $count);
 
     }
@@ -173,8 +179,10 @@ class DiscountUser extends Controller
                 ];
                 \App\Model\DiscountUser::query()->create($dis_user);
 
-                //$discount->salable_num = $discount->salable_num - 1;
-                //$discount->save();
+
+                $discount->salable_num = $discount->salable_num - 1;
+                $discount->sold_num = $discount->sold_num + 1;
+                $discount->save();
             }
 
             DB::commit();
