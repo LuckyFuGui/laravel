@@ -17,7 +17,7 @@ class CreateOrderTable extends Migration
             $table->bigIncrements('id');
             $table->string('order_sn')->comment('订单编号');
             $table->integer('uid')->comment('用户id');
-            $table->integer('sid')->default(0)->comment('服务id');
+            $table->string('sid')->default(0)->comment('服务id');
             $table->string('name')->default('')->comment('名称');
             $table->string('phone')->default('')->comment('手机');
             $table->string('address')->default('')->comment('目标地址');
