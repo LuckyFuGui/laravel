@@ -63,7 +63,7 @@ class PayController extends Controller
                 }
                 $orderName = '优惠卷';
                 $orderNum = $data->pay_sn;
-                $orderPrice = $data->sale_price * 100;
+                $orderPrice = 1;// $data->sale_price * 100;
                 break;
             default:
                 return $this->error('类型不存在');
@@ -87,8 +87,8 @@ class PayController extends Controller
             $input->SetBody($orderName);
             $input->SetAttach($orderName);
             $input->SetOut_trade_no($orderNum);// 订单号
-            //$input->SetTotal_fee($orderPrice);//金额
-            $input->SetTotal_fee('1');//金额
+            $input->SetTotal_fee($orderPrice);//金额
+//            $input->SetTotal_fee('1');//金额
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             $input->SetGoods_tag($orderName);
@@ -120,7 +120,7 @@ class PayController extends Controller
         $id = $request->input('orderId');
         if (!$id) return $this->error('缺少订单id参数');
         $pay = PayLog::where('id', $id)->where('attach', '!=', '优惠卷')->first();
-        if ($pay){
+        if ($pay) {
             $info = $pay->toArray();
             $path = app_path() . '/WxPay/';
             require_once $path . "lib/WxPay.Api.php";
@@ -130,8 +130,8 @@ class PayController extends Controller
             $logHandler = new CLogFileHandler($path . "logs/" . date('Y-m-d') . '.log');
             $log = Log::Init($logHandler, 15);
             // 退款
-            if(isset($info["transaction_id"]) && $info["transaction_id"] != ""){
-                try{
+            if (isset($info["transaction_id"]) && $info["transaction_id"] != "") {
+                try {
                     $transaction_id = $info["transaction_id"];
                     $total_fee = $info["total_fee"];
                     $refund_fee = $info["total_fee"];// $_REQUEST["refund_fee"];
@@ -141,18 +141,26 @@ class PayController extends Controller
                     $input->SetRefund_fee($refund_fee);
 
                     $config = new WxPayConfig();
-                    $input->SetOut_refund_no("sdkphp".date("YmdHis"));
+                    $input->SetOut_refund_no("sdkphp" . date("YmdHis"));
                     $input->SetOp_user_id($config->GetMerchantId());
-                    dd(WxPayApi::refund($config, $input));
-                    printf_info(WxPayApi::refund($config, $input));
-                } catch(Exception $e) {
+                    $payData = WxPayApi::refund($config, $input);
+                    if ($payData['return_code'] == 'SUCCESS') {
+                        // 修改订单数据
+                        $res = Order::where('id', $id)->update(['pay_type' => 2]);
+                        if ($res) return $this->success();
+                        // 返回数据
+                        info('退款成功，订单未修改：' . $info["transaction_id"]);
+                        return $this->success();
+                    }
+                } catch (\Exception $e) {
+                    info('退款失败：' . $info["transaction_id"]);
                     Log::ERROR(json_encode($e));
                 }
                 exit();
             }
             dd(isset($info["transaction_id"]));
             dd(123456789);
-        }else{
+        } else {
             return $this->error('数据不真实');
         }
     }
