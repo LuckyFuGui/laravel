@@ -6,7 +6,7 @@
  * 请勿直接直接使用样例对外提供服务
  *
  **/
-require_once __DIR__ . "/../lib/WxPay.Config.Interface.php";
+require_once "../lib/WxPay.Config.Interface.php";
 
 /**
  *
@@ -116,8 +116,7 @@ class WxPayConfig extends WxPayConfigInterface
      */
     public function GetSSLCertPath(&$sslCertPath, &$sslKeyPath)
     {
-        $path = app_path() . '/WxPay/';
-        $sslCertPath = $path . 'cert/apiclient_cert.pem';
-        $sslKeyPath = $path . 'cert/apiclient_key.pem';
+        $sslCertPath = '../cert/apiclient_cert.pem';
+        $sslKeyPath = '../cert/apiclient_key.pem';
     }
 }
