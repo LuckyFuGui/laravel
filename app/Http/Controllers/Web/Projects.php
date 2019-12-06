@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Api\Order;
 use App\Model\AdditionalServices;
 use App\Model\DailyCleaning;
 use App\Model\ProjectImg;
@@ -17,6 +18,117 @@ use PhpMyAdmin\MoTranslator\ReaderException;
 
 class Projects extends Controller
 {
+
+    /**
+     * 项目首页管理
+     */
+    public function index(Request $request)
+    {
+        $type_id = $request->type_id ?? 1;
+        if(!in_array($type_id,[1,2,3,4])){
+            return $this->error('type_id 参数错误');
+        }
+
+        $month = date('Y-m-01 00:00:00');
+        //本月收款金额
+        $price1 = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where('created_at','>',$month)
+            ->whereIn('pay_type',[1,4])
+            ->sum('payment');
+
+        //累计收款金额
+        $price2 = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->whereIn('pay_type',[1,4])
+            ->sum('payment');
+
+
+        //本月优惠券金额
+        $coupon1 = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where('created_at','>',$month)
+            ->whereIn('pay_type',[1,4])
+            ->sum('coupon');
+
+
+
+        //本月订单金额
+        $price3 = $price1+$coupon1;
+
+        //累计优惠券金额
+        $coupon2= \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->whereIn('pay_type',[1,4])
+            ->sum('coupon');
+
+        //累计订单金额
+        $price4 = $price2+$coupon2;
+
+        //本月退款金额
+        $price5 = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where('updated_at','>',$month)
+            ->where('pay_type',2)
+            ->sum('retreat');
+
+        //累计退款金额
+        $price6 = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where('pay_type',2)
+            ->sum('retreat');
+
+
+
+        //本月运营消耗金额
+        $price7 = $coupon1;
+
+        //累计运营消耗金额
+        $price8 = $coupon2;
+
+        //下单客户总数
+        $count= \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where(function($q){
+                $q->where('pay_type',1)
+                    ->orWhere('pay_type',4);
+            })
+            ->groupBy('uid')
+            ->count();
+
+        //下单总人数
+        $all = \App\Model\Order::query()
+            ->where('server_type',$type_id)
+            ->where(function($q){
+                $q->where('pay_type',1)
+                    ->orWhere('pay_type',4);
+            })
+            ->count();
+
+
+        //客单价
+        if($all == 0){
+            $price9 = 0;
+        }else{
+            $price9 = number_format($price2 / $all,2);
+        }
+
+
+        return $this->success([
+            'price1'=>$price1,
+            'price2'=>$price2,
+            'price3'=>$price3,
+            'price4'=>$price4,
+            'price5'=>$price5,
+            'price6'=>$price6,
+            'price7'=>$price7,
+            'price8'=>$price8,
+            'count'=>$count,
+            'price9'=>$price9,
+
+        ]);
+    }
+
     /**
      * 日常保洁 基础数据
      */
@@ -35,6 +147,13 @@ class Projects extends Controller
     public function wasteland()
     {
         $services = Wasteland::query()->first();
+        if(!$services){
+            $services = Wasteland::query()->create([
+                'basics_price'=>80,
+                'increase_price'=>30
+            ]);
+        }
+
         return $this->success($services);
     }
 
@@ -91,6 +210,33 @@ class Projects extends Controller
             DB::rollBack();
             return $this->error();
         }
+
+    }
+
+    /*
+     * 新居开荒价格编辑
+     */
+    public function wastelandEdit(Request $request)
+    {
+        $basics_price = $request->basics_price;
+        $increase_price = $request->increase_price;
+
+        if(!$basics_price || !$increase_price){
+            return $this->error('缺失参数');
+        }
+
+        if(!is_numeric($basics_price) || !is_numeric($increase_price)){
+            return $this->error('价格参数有误');
+        }
+
+        if($basics_price < 0 || $increase_price < 0){
+            return $this->error('价格不能小于0');
+        }
+
+        Wasteland::query()->forceDelete();
+        Wasteland::query()->create(['basics_price'=>$basics_price,'increase_price'=>$increase_price]);
+
+        return $this->success();
 
     }
 

@@ -633,7 +633,7 @@ class OrderController extends Controller
 
                 DiscountUser::query()->where('pay_sn',$post_data['out_trade_no'])->update([
                     'pay_status'=>1,
-                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
+                    //'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year'))
                 ]);
 
                 //$discount = Discount::query()->where('id',$recode->discount_id)->first();
