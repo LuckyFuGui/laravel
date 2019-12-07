@@ -25,6 +25,7 @@ class CreateUserTable extends Migration
             $table->integer('status')->default(1)->comment('用户状态 1：正常；0：禁用');
             $table->integer('is_recommend')->default(0)->comment('是否推荐 0：否；1：是');
             $table->integer('integral')->default(0)->comment('积分');
+            $table->integer('volume')->default(0)->comment('首次优惠卷：0没领取，1领取');
             $table->string('language', 16)->comment('语言');
             $table->string('headimgurl', 256)->comment('图片');
             $table->timestamps();
