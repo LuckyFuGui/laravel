@@ -54,6 +54,8 @@ class DiscountActivity extends Controller
         $sale_price = $request->sale_price;
         $salable_num = $request->salable_num;
         $begin_at = $request->begin_at;
+        $effective_at = $request->effective_at;
+        $invalid_at = $request->invalid_at;
         $end_at = $request->end_at;
         $admin_id = $this->adminId;
 
@@ -89,6 +91,19 @@ class DiscountActivity extends Controller
             return $this->error('开始时间不能大于结束时间');
         }
 
+
+        if(date('Y-m-d H:i:s',strtotime($effective_at)) != $effective_at){
+            return $this->error('有效期开始时间设置有误');
+        }
+
+        if(date('Y-m-d H:i:s',strtotime($invalid_at)) != $invalid_at){
+            return $this->error('有效期结束时间设置有误');
+        }
+
+        if(strtotime($effective_at) >= strtotime($invalid_at)){
+            return $this->error('有效期开始时间不能大于等于结束时间');
+        }
+
         if(time() < strtotime($begin_at)){
             $status = 0;
         }elseif(time() > strtotime($begin_at) && time() < strtotime($end_at)){
@@ -103,6 +118,8 @@ class DiscountActivity extends Controller
             'admin_id'=>$admin_id,
             'begin_at'=>$begin_at,
             'end_at'=>$end_at,
+            'effective_at'=>$effective_at,
+            'invalid_at'=>$invalid_at,
             'voucher_type'=>$voucher_type,
             'voucher_price'=>$voucher_price,
             'voucher_num'=>$voucher_num,
@@ -138,6 +155,9 @@ class DiscountActivity extends Controller
         $begin_at = $request->begin_at;
         $end_at = $request->end_at;
 
+        $invalid_at = $request->invalid_at;
+        $effective_at = $request->effective_at;
+
         if(!in_array($voucher_type,[1,2,3,4,5])){
             return $this->error('代金劵类型不存在');
         }
@@ -170,6 +190,18 @@ class DiscountActivity extends Controller
             return $this->error('开始时间不能大于结束时间');
         }
 
+        if(date('Y-m-d H:i:s',strtotime($effective_at)) != $effective_at){
+            return $this->error('有效期开始时间设置有误');
+        }
+
+        if(date('Y-m-d H:i:s',strtotime($invalid_at)) != $invalid_at){
+            return $this->error('有效期结束时间设置有误');
+        }
+
+        if(strtotime($effective_at) >= strtotime($invalid_at)){
+            return $this->error('开始时间不能大于等于结束时间');
+        }
+
         if(time() < strtotime($begin_at)){
             $status = 0;
         }elseif(time() > strtotime($begin_at) && time() < strtotime($end_at)){
@@ -186,6 +218,9 @@ class DiscountActivity extends Controller
         $discount->status = $status;
         $discount->begin_at  = $begin_at;
         $discount->end_at  = $end_at;
+
+        $discount->effective_at  = $effective_at;
+        $discount->invalid_at  = $invalid_at;
         $discount->save();
 
         return $this->success();

@@ -87,8 +87,14 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         // 编辑主服务价格
         Route::post('mainEdit', 'Projects@mainEdit')->name('projects.mainEdit');
 
+        //项目管理
+        Route::post('index', 'Projects@index')->name('projects.index');
+
         // 新居开荒基础数据
         Route::post('wasteland', 'Projects@wasteland')->name('projects.wasteland');
+
+        // 新居开荒数据编辑
+        Route::post('wastelandEdit', 'Projects@wastelandEdit')->name('projects.wastelandEdit');
 
         // 日常保洁基础数据
         Route::post('daliy', 'Projects@daliy')->name('projects.daliy');

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class DiscountUser extends Controller
 {
 	/**
-	 * 获取当前用户可用优惠券列表
+	 * 获取当前用户可用优惠券列表,有效期内的，为订单选择使用
 	 */
     public function getDiscountByUser(Request $request)
     {
@@ -34,7 +34,7 @@ class DiscountUser extends Controller
             ->where('status',0)
             ->where('pay_status',1)
             ->whereHas('discount',function($q) use ($data){
-                $q->where('end_at','>',$data)->where('begin_at','<',$data);
+                $q->where('invalid_at','>',$data)->where('effective_at','<',$data);
             })
             ->orderBy('id','desc')
             ->get()
@@ -174,8 +174,8 @@ class DiscountUser extends Controller
                     'voucher_price'=>$discount->voucher_price,
                     'pay_sn'=>$purchase['pay_sn'],
                     'pay_status'=>0,//todo 先写死
-                    //todo 购买成功之后按照购买时间重新计算有效期
-                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+1 year')),
+                    'effective_at'=>$discount->effective_at,
+                    'invalid_at'=>$discount->invalid_at,
                 ];
                 \App\Model\DiscountUser::query()->create($dis_user);
 

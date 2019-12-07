@@ -13,7 +13,7 @@ class Discount extends Model
   	protected $guarded=[];
 
     protected $fillable = [
-        'status', 'type', 'admin_id', 'begin_at', 'end_at', 'voucher_type','voucher_price',
+        'status', 'type', 'admin_id', 'begin_at', 'end_at', 'effective_at', 'invalid_at', 'voucher_type','voucher_price',
         'voucher_num','	sale_price','salable_num','sold_num'
     ];
 }

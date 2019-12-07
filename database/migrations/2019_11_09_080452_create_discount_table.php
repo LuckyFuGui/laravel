@@ -20,6 +20,8 @@ class CreateDiscountTable extends Migration
             $table->integer('admin_id')->comment('管理员ID');
             $table->dateTime('begin_at')->nullable()->comment('开始时间');
             $table->dateTime('end_at')->nullable()->comment('结束时间');
+            $table->dateTime('effective_at')->nullable()->comment('有效开始时间');
+            $table->dateTime('invalid_at')->nullable()->comment('有效结束时间');
             $table->integer('voucher_type')->comment('代金劵类型 1：全场保洁劵 2：日常保洁劵 3：新居开荒劵 4：电器清洁劵 5：全家除螨劵');
             $table->decimal('voucher_price',8,2)->comment('每张代金劵面值');
             $table->integer('voucher_num')->comment('每组代金劵数量');

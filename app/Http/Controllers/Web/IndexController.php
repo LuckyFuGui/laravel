@@ -72,7 +72,7 @@ class IndexController extends Controller
         if($last_num == 0){
             $res = 0;
         }else{
-            $res = $last_price2 / $last_num;
+            $res = number_format($last_price2 / $last_num,2);
         }
         $last_price4 = $last_price2 + $res;
 
@@ -130,7 +130,7 @@ class IndexController extends Controller
         if($num == 0){
             $res = 0;
         }else{
-            $res = $price2 / $num;
+            $res = number_format($price2 / $num,2);
         }
         $price4 = $price1 + $res;
 
@@ -215,7 +215,7 @@ class IndexController extends Controller
         if($last_num == 0){
             $res = 0;
         }else{
-            $res = $last_price2 / $last_num;
+            $res = number_format($last_price2 / $last_num,2);
         }
         $last_price4 = $last_price2 + $res;
 
@@ -268,7 +268,7 @@ class IndexController extends Controller
         if($num == 0){
             $res = 0;
         }else{
-            $res = $price2 / $num;
+            $res = number_format($price2 / $num,2);
         }
         $price4 = $price1 + $res;
 
