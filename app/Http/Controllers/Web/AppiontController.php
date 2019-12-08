@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Model\Order;
+use App\Model\Workers;
+use App\Model\LeaveLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +13,7 @@ class AppiontController extends Controller
     /**
      * 找没有订单数据
      */
-    public function serverId(Request $request)
+    public function index(Request $request)
     {
     	$time = $request->time;
     	$end_time = $request->end_time;
