@@ -82,6 +82,14 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('leave', 'Worker@leave')->name('worker.leave');
     });
 
+    // 员工排单
+    Route::group(['prefix'=>'appiont'], function(){
+        // 未排班列表
+        Route::post('index', 'AppiontController@index');
+        // 排班
+        Route::post('workerOrder', 'AppiontController@workerOrder');
+    });
+
     // 项目管理-日常保洁/新居开荒
     Route::group(['prefix'=>'projects'], function(){
         // 编辑主服务价格

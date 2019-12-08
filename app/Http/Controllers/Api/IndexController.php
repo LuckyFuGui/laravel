@@ -120,4 +120,90 @@ class IndexController extends Controller
         $data = json_decode(json_encode($user), true);
         return $data;
     }
+
+    /**
+     * 分享
+     */
+    public function share(Request $request)
+    {
+        $url = $request->all();
+        $durl = $url['url'];
+        $durl = urldecode($durl);
+        $jsapiTicket = $this->getJsApiTicket();
+        dd($jsapiTicket);
+        $timestamp = time();
+        $nonceStr = $this->createNonceStr();
+
+        // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+
+        $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$durl";
+
+        $signature = sha1($string);
+        $signPackage = [
+
+            "appId" => $this->appId,
+
+            "nonceStr" => $nonceStr,
+
+            "timestamp" => $timestamp,
+
+            "url" => $url,
+
+            "signature" => $signature,
+
+            "rawString" => $string
+
+        ];
+
+//        var_dump($signPackage);die;
+
+        throw new SuccessMessage(['msg' => $signPackage]);
+    }
+    private function getJsApiTicket()
+
+    {
+
+        // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
+
+        $data = json_decode(file_get_contents("jssdk/jsapi_ticket.json"));
+
+        if ($data->expire_time < time()) {
+
+            $accessToken = $this->getAccessToken();
+
+            //定义传递的参数数组
+
+            $params['type'] = 'jsapi';
+
+            $params['access_token'] = $accessToken;
+
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" . $params['access_token'] . "&type=" . $params['type'] . "";
+
+            $res = json_decode(curl_get($url, $params));
+
+            $ticket = isset($res->ticket) ? $res->ticket : NULL;
+
+            if ($ticket) {
+
+                $res->expire_time = time() + 7000;
+
+                $res->jsapi_ticket = $ticket;
+
+                $fp = fopen("jssdk/jsapi_ticket.json", "w");
+
+                fwrite($fp, json_encode($res));
+
+                fclose($fp);
+
+            }
+
+        } else {
+
+            $ticket = $data->jsapi_ticket;
+
+        }
+
+        return $ticket;
+
+    }
 }

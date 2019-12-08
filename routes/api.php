@@ -22,6 +22,8 @@ Route::group(['namespace' => 'Api'], function(){
     Route::get('index', 'IndexController@index');
     // 阿姨授权
     Route::get('worker', 'IndexController@worker');
+    // 分享
+    Route::get('share', 'IndexController@share');
     // 轮播图查询
     Route::post('banner/index', 'BannerController@index');
     // 服务项目查询
