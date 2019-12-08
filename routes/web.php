@@ -88,6 +88,10 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
         Route::post('index', 'AppiontController@index');
         // 排班
         Route::post('workerOrder', 'AppiontController@workerOrder');
+        // 修改
+        Route::post('save', 'AppiontController@save');
+        // 确认订单
+        Route::post('save2', 'AppiontController@save2');
     });
 
     // 项目管理-日常保洁/新居开荒

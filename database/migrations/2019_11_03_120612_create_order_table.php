@@ -32,6 +32,7 @@ class CreateOrderTable extends Migration
             $table->decimal('retreat', 8, 2)->default(0)->comment('退款金额');
             $table->integer('pay_type')->default(0)->comment('状态:0已下单，1已付款，2客人已取消，3到期自动废弃，4已完成');
             $table->integer('pl')->default(0)->comment('是否评论');
+            $table->integer('ok')->default(0)->comment('确认订单');
             $table->integer('server_type')->comment('服务类型');
             $table->timestamps();
         });

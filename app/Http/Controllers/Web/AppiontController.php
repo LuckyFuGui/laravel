@@ -6,6 +6,7 @@ use App\Model\Order;
 use App\Model\Workers;
 use App\Model\LeaveLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class AppiontController extends Controller
@@ -24,6 +25,7 @@ class AppiontController extends Controller
         $wid = Workers::where('status', 1)
             ->pluck('id')->toArray();
         // 正在订单的数据
+        // $oid = Order::whereIn('pay_type', [0,1,2,3])
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
         	->where('start_time','>=',$time)
         	->where('end_time','<=',$end_time)
@@ -43,8 +45,8 @@ class AppiontController extends Controller
             ->pluck('worker_id')->toArray();
         $all = array_unique(array_merge($leave, $oid));
         // 等待中的员工数据
-        $workerIds = array_diff($wid, $all);
-        $workerInfo = Workers::whereIn('id', $workerIds)->toArray();
+        $workerIds = array_values(array_diff($wid, $all));
+        $workerInfo = Workers::whereIn('id', $workerIds)->get()->toArray();
         return $this->success($workerInfo);
     }
     /**
@@ -57,7 +59,11 @@ class AppiontController extends Controller
     {
     	$time = $request->time;
     	$end_time = $request->end_time;
+    	// 时间转换
+        $time = date('Y-m-d', $time);
+        $end_time = date('Y-m-d', $end_time);
     	// 正在订单的数据
+    	// $oid = Order::whereIn('pay_type', [0,1,2,3])
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
             ->where('start_time','>=',$time)
         	->where('end_time','<=',$end_time)
@@ -70,17 +76,66 @@ class AppiontController extends Controller
         $oids = array_unique($oidWorker);
         $workerOrderList = [];
         foreach ($oids as $key => $value) {
-	        $workerOrder = Order::whereIn('pay_type', self::ORDERTYPE)
+        	$workerUserInfo = Workers::where('id', $value)->first();
+        	// $workerUserInfo['orderList'] = Order::whereIn('pay_type', [0,1,2,3])
+	        $workerUserInfo['orderList'] = Order::whereIn('pay_type', self::ORDERTYPE)
 	            ->where('start_time','>=',$time)
 	        	->where('end_time','<=',$end_time)
-	        	->where(function ($query)
+	        	->where(function ($query) use ($value)
 	        	{
 	        		$query->where('sid', 'like', '%' . $value . ',%');
 	        		$query->whereOr('sid', 'like', '%,' . $value . ',%');
 	        	})
-	            ->toArray();
-	        $workerOrderList[] = $workerOrder;
+	            ->get()->toArray();
+	        $workerOrderList[] = $workerUserInfo;
         }
         return $this->success($workerOrderList);
+    }
+    /**
+     * 修改订单员工
+     */
+    public function save(Request $request)
+    {
+    	// 订单id
+    	$orderid = $request->orderId;
+    	// 当前员工的id
+    	$sid = $request->sid;
+    	// 替换后的员工id
+    	$exchangeId = $request->exchangeId;
+    	// 订单
+    	$order = Order::where('id',$orderid)->first()->toArray();
+    	// 切换后员工的能力
+    	$worker1 = Workers::where('id',$exchangeId)->where('project_ids','like','%'.$order['server_type'].'%')->first();
+    	if (!$worker1) {
+    		// return $this->error('该员工没有这个服务');
+    	}
+    	$sid = array_filter(explode(',',$order['sid']));
+    	//重新定义
+    	$str = '';
+    	foreach ($sid as $key => $val) {
+    		if ($val == $sid) {
+    			$str .= $exchangeId.',';
+    		}else{
+    			$str .= $val.',';
+    		}
+    	}
+    	if ($str) {
+    		$res = Order::where('id',$orderid)->update(['sid'=>$str]);
+    		if ($res) return $this->success();
+    	}
+    	return $this->error('修改失败');
+    }
+    /**
+     * 确认订单
+     * [save2 description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function save2(Request $request)
+    {
+    	$orderid = $request->orderId;
+		$res = Order::where('id',$orderid)->update(['ok'=>1]);
+		if ($res) return $this->success();
+    	return $this->error('修改失败');
     }
 }
