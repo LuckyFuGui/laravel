@@ -25,24 +25,25 @@ class TimedateController extends Controller
         for ($i = 7; $i <= 22; $i++) {
             // 总人数
             $userCount = $countUser;
+            $userCountNum = count($userCount);
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i, $type);
             // 订单人数
-            $orderUser = $this->orderUser($day + self::HOUR * $i);
+            $orderUser = $this->orderUser($day + self::HOUR * $i, $i);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
                 foreach ($userCount as $key => $val) {
-                    if (!in_array($val, $orderUser)) {
+                    if (in_array($val, $orderUser)) {
                         $userCountServer[] = $val;
                     }
                 }
             } else {
-                $userCountServer = $userCount;
+                $userCountServer = [];
             }
             $count = count($userCountServer);
             // 现在剩余人数
-            $num = $count - $leaveUser;
+            $num = $userCountNum - $count - $leaveUser;
             $date[$i . ":00"] = $num > 0 ? $num : 0;
             // *****************
             // *** 半小时处理 ***
@@ -50,21 +51,21 @@ class TimedateController extends Controller
             // 查询请假人数
             $leaveUser = $this->leaveUser($day + self::HOUR * $i + self::MINUTE, $type);
             // 订单人数
-            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE);
+            $orderUser = $this->orderUser($day + self::HOUR * $i + self::MINUTE, $i);
             // 合并去重，算总数
             if (is_array($orderUser)) {
                 $userCountServer = [];
                 foreach ($userCount as $key => $val) {
-                    if (!in_array($val, $orderUser)) {
+                    if (in_array($val, $orderUser)) {
                         $userCountServer[] = $val;
                     }
                 }
             } else {
-                $userCountServer = $userCount;
+                $userCountServer = [];
             }
             $count = count($userCountServer);
             // 现在剩余人数
-            $num = $count - $leaveUser;
+            $num = $userCountNum - $count - $leaveUser;
             $date[$i . ":30"] = $num > 0 ? $num : 0;
         }
         array_pop($date);
@@ -91,18 +92,26 @@ class TimedateController extends Controller
     }
 
     // 查询订单人数
-    public function orderUser($time)
+    public function orderUser($time, $i)
     {
+        $hour = self::HOUR;
+        if ($i >= 9) {
+            $hour = self::HOUR * 2;
+        }
         $data = Order::whereIn('pay_type', [0, 1])
-            // 去的路上2小时
-            ->where('start_time', '<=', date('Y-m-d H:i', $time + self::HOUR * 2))
-            // 回来的路上2小时
-            ->where('end_time', '>=', date('Y-m-d H:i', $time - self::HOUR * 2))
+            ->where(function ($query) use ($time,$hour)
+            {
+                // 去的路上2小时
+                $query->where('start_time', '<=', date('Y-m-d H:i', $time + $hour));
+                // 回来的路上2小时
+                $query->where('end_time', '>=', date('Y-m-d H:i', $time - $hour));
+            })
             ->get()->toArray();
         $array = [];
         if (is_array($data)) {
             foreach ($data as $key => $val) {
-                $array = array_filter(explode(',', $val['sid']));
+                $arr = array_filter(explode(',', $val['sid']));
+                $array = array_merge($array,$arr);
             }
         }
         return $array;
