@@ -187,5 +187,8 @@ Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     // 月数据
     Route::post('show_month', 'IndexController@showMonth');
 
+    // 导出
+    Route::post('export/index', 'Exports@index');
+
 
 });
