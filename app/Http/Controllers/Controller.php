@@ -51,6 +51,13 @@ class Controller extends BaseController
                 Order::where('id', $value['id'])->update(['pay_type' => 3]);
             }
         }
+        // 确认订单
+        $orderDataOk = Order::where('start_time', '<=', date('Y-m-d H:i:s', time() + 7200))->get();
+        if ($orderDataOk) {
+            foreach ($orderDataOk as $key => $value) {
+                Order::where('id', $value['id'])->update(['ok' => 1]);
+            }
+        }
     }
 
     /**

@@ -138,4 +138,8 @@ class AppiontController extends Controller
 		if ($res) return $this->success();
     	return $this->error('修改失败');
     }
+    public function linuxTime(Request $request)
+    {
+        return $this->success(time());
+    }
 }

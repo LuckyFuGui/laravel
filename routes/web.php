@@ -19,6 +19,8 @@ Route::any('/',function (){
  * 后台接口
  */
 Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
+    // 服务器时间
+    Route::any('linuxTime', 'AppiontController@linuxTime');
 	// 登陆
 	Route::group(['prefix'=>'admin'], function (){
 		// 注册
