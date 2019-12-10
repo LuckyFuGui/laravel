@@ -225,7 +225,7 @@ class Worker extends Controller
             return $this->error('员工信息不存在');
         }
 
-        $request->status == 1 ? $worker->status = 2 : $worker->status = 1;
+        $worker->status = $request->status;
         $worker->save();
 
         return $this->success();
@@ -335,6 +335,7 @@ class Worker extends Controller
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
+
 
 
         return $this->successPage($data, $count);
