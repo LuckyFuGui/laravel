@@ -38,34 +38,34 @@ class OrderExports extends Controller
         self::export($data);
     }
 
-    static function export($items)
-    {
-        $data = [];
-        foreach ($items as $item) {
-            $data[] = [
-                '订单类型' => '服务订单',
-                '订单状态' => '待服务',
-                '订单号' => '订单号',
-                '下单项目' => '下单项目',
-                '联系人' => '联系人',
-                '联系电话' => '联系电话',
-                '支付方式' => '支付方式',
-                '订单价格' => 111,
-                '支付现金' => 100,
-                '退款金额' => 0,
-                '工作人员姓名' => 'ceshi',
-                '工作人员手机' => 18855556666,
-            ];
-        }
-
-        $filename = time();
-        $storePath = public_path() . '/orders/' . date('Ymd');
-        Excel::create($filename, function (LaravelExcelWriter $excel) use ($data) {
-            $excel->sheet('导出数据', function (LaravelExcelWorksheet $sheet) use ($data) {
-                $sheet->fromArray($data);
-            });
-        })->store('xlsx', $storePath, true);
-    }
+//    static function export($items)
+//    {
+//        $data = [];
+//        foreach ($items as $item) {
+//            $data[] = [
+//                '订单类型' => '服务订单',
+//                '订单状态' => '待服务',
+//                '订单号' => '订单号',
+//                '下单项目' => '下单项目',
+//                '联系人' => '联系人',
+//                '联系电话' => '联系电话',
+//                '支付方式' => '支付方式',
+//                '订单价格' => 111,
+//                '支付现金' => 100,
+//                '退款金额' => 0,
+//                '工作人员姓名' => 'ceshi',
+//                '工作人员手机' => 18855556666,
+//            ];
+//        }
+//
+//        $filename = time();
+//        $storePath = public_path() . '/orders/' . date('Ymd');
+//        Excel::create($filename, function (LaravelExcelWriter $excel) use ($data) {
+//            $excel->sheet('导出数据', function (LaravelExcelWorksheet $sheet) use ($data) {
+//                $sheet->fromArray($data);
+//            });
+//        })->store('xlsx', $storePath, true);
+//    }
 
 
 }
