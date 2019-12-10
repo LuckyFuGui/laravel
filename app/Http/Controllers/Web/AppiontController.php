@@ -27,8 +27,13 @@ class AppiontController extends Controller
         // 正在订单的数据
         // $oid = Order::whereIn('pay_type', [0,1,2,3])
         $oid = Order::whereIn('pay_type', self::ORDERTYPE)
-        	->where('start_time','>=',$time)
-        	->where('end_time','<=',$end_time)
+            ->where(function ($query) use ($time,$end_time)
+            {
+                // 去的路上2小时
+                $query->where('start_time', '>=', $time);
+                // 回来的路上2小时
+                $query->whereOr('end_time', '<=', $end_time);
+            })
             ->pluck('sid')->toArray();
         $oidWorker = [];
         foreach ($oid as $key => $val) {
