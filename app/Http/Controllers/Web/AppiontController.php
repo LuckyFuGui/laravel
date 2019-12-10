@@ -19,8 +19,8 @@ class AppiontController extends Controller
     	$time = $request->time;
     	$end_time = $request->end_time;
         // 时间转换
-        $time = date('Y-m-d', $time);
-        $end_time = date('Y-m-d', $end_time);
+        $time = date('Y-m-d H:i:s', $time);
+        $end_time = date('Y-m-d H:i:s', $end_time);
         // 符合的数据
         $wid = Workers::where('status', 1)
             ->pluck('id')->toArray();
@@ -32,7 +32,7 @@ class AppiontController extends Controller
                 // 去的路上2小时
                 $query->where('start_time', '>=', $time);
                 // 回来的路上2小时
-                $query->whereOr('end_time', '<=', $end_time);
+                $query->where('end_time', '<=', $end_time);
             })
             ->pluck('sid')->toArray();
         $oidWorker = [];
