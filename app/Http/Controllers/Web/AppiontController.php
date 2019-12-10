@@ -99,7 +99,7 @@ class AppiontController extends Controller
     	// 订单id
     	$orderid = $request->orderId;
     	// 当前员工的id
-    	$sid = $request->sid;
+    	$sids = $request->sid;
     	// 替换后的员工id
     	$exchangeId = $request->exchangeId;
     	// 订单
@@ -110,15 +110,15 @@ class AppiontController extends Controller
     		// return $this->error('该员工没有这个服务');
     	}
     	$sid = array_filter(explode(',',$order['sid']));
-    	//重新定义
-    	$str = '';
-    	foreach ($sid as $key => $val) {
-    		if ($val == $sid) {
-    			$str .= $exchangeId.',';
-    		}else{
-    			$str .= $val.',';
-    		}
-    	}
+        //重新定义
+        $str = '';
+        foreach ($sid as $key => $val) {
+            if ($val == $sids) {
+                $str .= $exchangeId.',';
+            }else{
+                $str .= $val.',';
+            }
+        }
     	if ($str) {
     		$res = Order::where('id',$orderid)->update(['sid'=>$str]);
     		if ($res) return $this->success();
