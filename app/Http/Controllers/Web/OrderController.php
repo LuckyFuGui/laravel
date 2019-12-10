@@ -6,6 +6,7 @@ use App\Model\Order;
 use App\Model\Workers;
 use App\Model\OrderProject;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
@@ -47,6 +48,13 @@ class OrderController extends Controller
         if (!empty($end_time)) $count = $count->where('end_time', '<=', $end_time);
         if (!empty($where)) $count = $count->where($where);
         $count = $count->count();
+
+
+        $data['export'] = [
+            'where'=>$where ?? [],
+            'export_id'=>'order_export'
+        ];
+
         return $this->successPage($data, $count);
     }
 }

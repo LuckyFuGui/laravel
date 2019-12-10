@@ -50,7 +50,8 @@ class Worker extends Controller
         $date = date('Y-m-d H:i:s',strtotime('-24 hour'));
         $order = Order::query()->with('order_project')
             ->where('sid','like','%'.$uid.'%')
-            ->where('pay_type',1)
+            //->where('pay_type',1)
+            ->where('ok',1)
             ->where('created_at','>',$date)
             ->orderBy('id','desc')
             ->get()
