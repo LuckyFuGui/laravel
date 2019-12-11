@@ -72,6 +72,9 @@ class IndexController extends Controller
                 header("Location:http://www.cqdaguanjia.com/noStaff");
                 return;
             }
+            if($res->status == 2){
+                return $this->error('暂时没有权限', [], 404);
+            }
             header("Location:http://www.cqdaguanjia.com/staff?openid=" . $data_all['openid']);
             return;
         }

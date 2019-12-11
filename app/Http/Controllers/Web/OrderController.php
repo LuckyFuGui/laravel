@@ -49,12 +49,6 @@ class OrderController extends Controller
         if (!empty($where)) $count = $count->where($where);
         $count = $count->count();
 
-
-        $data['export'] = [
-            'where'=>$where ?? [],
-            'export_id'=>'order_export'
-        ];
-
         return $this->successPage($data, $count);
     }
 }

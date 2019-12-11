@@ -225,7 +225,7 @@ class Worker extends Controller
             return $this->error('员工信息不存在');
         }
 
-        $request->status == 1 ? $worker->status = 2 : $worker->status = 1;
+        $worker->status = $request->status;
         $worker->save();
 
         return $this->success();
@@ -249,9 +249,9 @@ class Worker extends Controller
             return $this->error('时间格式错误');
         }
 
-        if(strtotime($request->begin) < time()){
+        /*if(strtotime($request->begin) < time()){
             return $this->error('开始时间不能小于当前时间');
-        }
+        }*/
 
         if(strtotime($request->begin) > strtotime($request->end)){
             return $this->error('开始时间不能大于结束时间');
@@ -335,6 +335,7 @@ class Worker extends Controller
             ->limit($request->limit)
             ->orderBy('id','desc')
             ->get();
+
 
 
         return $this->successPage($data, $count);
