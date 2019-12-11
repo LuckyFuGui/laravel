@@ -15,6 +15,7 @@ class OrderExports extends Controller
     static function order_export($request)
     {
 
+        $request = json_decode($request,true);
         if($request){
             if (isset($request['pay_type'])) $where['pay_type'] = $request['pay_type'];
             if (isset($request['server_type'])) $where['server_type'] = $request['server_type'];

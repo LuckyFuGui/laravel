@@ -10,14 +10,16 @@ class Exports extends Controller
 
     public function index(Request $request)
     {
-
         if(!$request->export_id){
             return $this->error('请选择导出类型');
         }
 
         switch ($request->export_id){
             case 'order_export':
-                OrderExports::order_export($request->where);
+                if(is_null(json_decode($request->json))){
+                    return $this->error('json数据格式不正确');
+                }
+                OrderExports::order_export($request->json);
         }
 
 
