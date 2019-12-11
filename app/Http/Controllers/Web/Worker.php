@@ -249,9 +249,9 @@ class Worker extends Controller
             return $this->error('时间格式错误');
         }
 
-        if(strtotime($request->begin) < time()){
+        /*if(strtotime($request->begin) < time()){
             return $this->error('开始时间不能小于当前时间');
-        }
+        }*/
 
         if(strtotime($request->begin) > strtotime($request->end)){
             return $this->error('开始时间不能大于结束时间');
