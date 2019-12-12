@@ -103,7 +103,7 @@ class OrderController extends Controller
         // 服务类型
         $data['server_type'] = 1;
         // 匹配数据
-        $sid = $this->serverId(1, $time);
+        $sid = $this->serverId(1, $request->start_time, $request->end_time);
         if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         $sidServer = [];
@@ -243,7 +243,7 @@ class OrderController extends Controller
         // 服务类型
         $data['server_type'] = $request->server_type + 1;
         // 匹配数据
-        $sid = $this->serverId($request->server_type + 1, $time);
+        $sid = $this->serverId($request->server_type + 1, $request->start_time, $request->end_time);
         if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         $sidServer = [];
@@ -362,7 +362,7 @@ class OrderController extends Controller
         // 服务类型
         $data['server_type'] = 4;
         // 匹配数据
-        $sid = $this->serverId(4, $time);
+        $sid = $this->serverId(4, $request->start_time, $request->end_time);
         if (count($sid) < $userNum) return $this->error('暂无服务人员');
         $sidStr = '';
         $sidServer = [];
@@ -435,16 +435,25 @@ class OrderController extends Controller
      * @param  [type] $end_time [description]
      * @return [type]           [description]
      */
-    public function serverId($type, $end_time)
+    public function serverId($type, $start_time, $end_time)
     {
         // 时间转换
-        $end_time = date('Y-m-d', $end_time);
+        $time = date('Y-m-d', $start_time);
+        $end_time = date('Y-m-d', $end_time+3600*2);
+        $start_time = date('Y-m-d', $start_time+3600*2);
         // 符合的数据
         $wid = Workers::where('project_ids', 'like', '%' . $type . '%')
             ->where('status', 1)
             ->pluck('id')->toArray();
         // 正在订单的数据
-        $oid = Order::whereIn('pay_type', self::ORDERTYPE)
+        $oid = Order::where(function ($query) use ($start_time, $end_time)
+            {
+                // 去的路上2小时
+                $query->where('start_time', '<=', date('Y-m-d H:i', $start_time));
+                // 回来的路上2小时
+                $query->where('end_time', '>=', date('Y-m-d H:i', $end_time));
+            })
+            ->whereIn('pay_type', self::ORDERTYPE)
             ->pluck('sid')->toArray();
         $oidWorker = [];
         foreach ($oid as $key => $val) {
@@ -457,8 +466,8 @@ class OrderController extends Controller
             ->whereHas('worker', function ($query) use ($type) {
                 $query->where('project_ids', 'like', "%$type%");
             })
-            ->where('begin_at', '<=', $end_time)
-            ->where('end_at', '>=', $end_time)
+            ->where('begin_at', '>=', $time)
+            ->where('end_at', '<=', $time+24*3600)
             ->whereIn('status', self::ORDERTYPE)
             ->pluck('worker_id')->toArray();
         // 准备过滤的数据
