@@ -15,13 +15,13 @@ class OrderExports extends Controller
     static function order_export($request)
     {
 
-        $request = json_decode($request,true);
         if($request){
-            if (isset($request['pay_type'])) $where['pay_type'] = $request['pay_type'];
-            if (isset($request['server_type'])) $where['server_type'] = $request['server_type'];
-            if (isset($request['phone'])) $where['phone'] = $request['phone'];
-            if (isset($request['start_time'])) $start_time = $request['start_time'];
-            if (isset($request['end_time'])) $end_time = $request['end_time'];
+
+            if (!empty($request->pay_type)) $where['pay_type'] = $request->pay_type;
+            if (!empty($request->server_type)) $where['server_type'] = $request->server_type;
+            if (!empty($request->phone)) $where['phone'] = $request->phone;
+            if (!empty($request->start_time)) $start_time = $request->start_time;
+            if (!empty($request->end_time)) $end_time = $request->end_time;
         }
         $data = \App\Model\Order::query()->with('order_project');
         if (!empty($where)) $data = $data->where($where);
