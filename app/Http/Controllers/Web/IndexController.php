@@ -72,7 +72,7 @@ class IndexController extends Controller
         if($last_num == 0){
             $res = 0;
         }else{
-            $res = number_format($last_price2 / $last_num,2);
+            $res = $last_price2 / $last_num;
         }
         $last_price4 = $last_price2 + $res;
 
@@ -130,7 +130,7 @@ class IndexController extends Controller
         if($num == 0){
             $res = 0;
         }else{
-            $res = number_format($price2 / $num,2);
+            $res = $price2 / $num;
         }
         $price4 = $price1 + $res;
 
@@ -177,6 +177,7 @@ class IndexController extends Controller
         //服务收款金额
         $last_price1 = $last_price1 + $last_return_fee;
 
+
         //上月购买的优惠券金额
         $last_discount = DiscountPurchaseRecord::query()
             ->where('pay_at','>',date('Y-m-01 00:00:00',strtotime('-1 month')))
@@ -197,6 +198,7 @@ class IndexController extends Controller
         //todo 退款金额
         $last_return = 0;
 
+
         //成交客户数
         $last_num = Order::query()
             ->where('created_at','>=',date('Y-m-01 00:00:00',strtotime('-1 month')))
@@ -215,7 +217,7 @@ class IndexController extends Controller
         if($last_num == 0){
             $res = 0;
         }else{
-            $res = number_format($last_price2 / $last_num,2);
+            $res = $last_price2 / $last_num;
         }
         $last_price4 = $last_price2 + $res;
 
@@ -268,13 +270,11 @@ class IndexController extends Controller
         if($num == 0){
             $res = 0;
         }else{
-            $res = number_format($price2 / $num,2);
+            $res = $price2 / $num;
         }
         $price4 = $price1 + $res;
 
         //--------------本月数据-----------------------
-
-
         $data = [
             'last_price1' => $last_price1,
             'last_price2' => $last_price2,
