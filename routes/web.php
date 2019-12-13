@@ -12,7 +12,7 @@
 */
 
 Route::any('/',function (){
-    return view('welcome');
+    return json_encode(['code'=>200,'data'=>[time()],'msg'=>'成功']);
 });
 /**
  * 分组
@@ -20,7 +20,7 @@ Route::any('/',function (){
  */
 Route::group(['namespace' => 'Web', 'prefix' => 'web'], function(){
     // 服务器时间
-    Route::any('linuxTime', 'AppiontController@linuxTime');
+    Route::post('linuxsTime', 'AppiontController@linuxTime');
 	// 登陆
 	Route::group(['prefix'=>'admin'], function (){
 		// 注册

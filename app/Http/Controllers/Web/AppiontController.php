@@ -149,8 +149,9 @@ class AppiontController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function linuxTime(Request $request)
+    public function linuxTime()
     {
-        return $this->success(time());
+    	$data['time'] = time();
+        return $this->success($data);
     }
 }
