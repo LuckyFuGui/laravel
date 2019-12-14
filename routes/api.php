@@ -118,5 +118,11 @@ Route::group(['namespace' => 'Api'], function(){
 
     //购买优惠券
     Route::post('/buyCoupon', 'DiscountUser@buyCoupon')->name('discount.buyCoupon');
+
+    //首次登陆免费领取优惠券
+    Route::post('/receivedFreeCoupon', 'DiscountUser@receivedFreeCoupon')->name('discount.receivedFreeCoupon');
+
+    //判断首次登陆是否已经领取过
+    Route::post('/isReceived', 'DiscountUser@isReceived')->name('discount.isReceived');
 });
 

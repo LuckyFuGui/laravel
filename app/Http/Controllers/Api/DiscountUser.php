@@ -202,6 +202,81 @@ class DiscountUser extends Controller
     }
 
 
+    /**
+     * 首次登陆免费领取优惠券
+     * @param Request $request
+     * @return array
+     */
+    public function receivedFreeCoupon(Request $request)
+    {
+        $uid = $this->user->id ?? '';
+        if(!$uid){
+            return $this->error('获取用户ID失败');
+        }
+
+        $user = User::query()->where('id',$uid)->first();
+
+
+        if(!$user){
+            return $this->error('当前用户不存在');
+        }
+
+        if($user->is_received == 1){
+            return $this->error('当前用户已经领取过');
+        }
+
+        $voucher_type = [2,3,4,5];
+
+        DB::beginTransaction();
+        try{
+            foreach ($voucher_type as $k=>$v){
+                UserDiscount::query()->create([
+                    'uid'=>$uid,
+                    'discount_id'=>0,//领取免费的优惠券 不做数据关联
+                    'voucher_type'=>$v,
+                    'voucher_price'=>20,
+                    'pay_status'=>1,
+                    'effective_date'=>date('Y-m-d H:i:s',strtotime('+3 month'))
+                ]);
+            }
+
+            $user->is_received = 1;
+            $user->save();
+            DB::commit();
+            return $this->success('领取成功');
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $this->error('领取失败');
+        }
+
+    }
+
+
+    /**
+     * 查询首次登陆是否已经领取
+     */
+    public function isReceived()
+    {
+        $uid = $this->user->id ?? '';
+        if(!$uid){
+            return $this->error('获取用户ID失败');
+        }
+
+        $user = User::query()->where('id',$uid)->first();
+
+
+        if(!$user){
+            return $this->error('当前用户不存在');
+        }
+
+        $is = 0;
+        if($user->is_received == 1){
+            $is = 1;
+        }
+        return $this->success($is);
+    }
+
+
 
 
 
